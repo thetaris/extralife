@@ -106,6 +106,10 @@ barPlotMort <- function(birthYear, sex, name) {
   names(yvec) <- c("0","20%","40%","60%","80%","100%")
   axis(2,  at = yvec, labels=names(yvec), las = 1, cex.axis = 0.7,
        yaxs ="i", tcl = -0.2, col.ticks=4, hadj = 0.5)
+  textLabels <- paste("50% prob. survive in", xIndex[2]+2013) 
+  text(n-nchar(textLabels), 0.8,
+         labels=textLabels,
+         cex=0.8)
   
 }
 
@@ -117,7 +121,7 @@ plotFamilyMort <- function(dataid) {
   birthYears <- dataid$birthYear
   sexes <- dataid$sex
   for (i in 1:nr) {
-     par(mar = c(1.8,2,1.5,1), bg = "gray95")
+     par(mar = c(1.8,2,1.5,1))
       barPlotMort(birthYears[i], sexes[i], names[i])
   }
   
