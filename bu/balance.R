@@ -242,14 +242,14 @@ getCashFlowTS <- function(dataFrame, NumMonths = 36){
   
 }
 
-getItemsStructure <- function()
+getItemsStructure <- function(url)
 {
-  fromJSON(file='http://thetava.com/shiny-data/vertrag?sid=xFbqlawDGnkrQq08TDeLh48Zx9Y2TnExTsJ_j9kjOLw')
+  fromJSON(file=url)
 }
 
 
 # get data from JSON service
-CashStr = getItemsStructure()
+CashStr = getItemsStructure('http://thetava.com/shiny-data/vertrag?sid=xFbqlawDGnkrQq08TDeLh48Zx9Y2TnExTsJ_j9kjOLw')
 
 # convert data to data.frame
 CashItm = getItemsDataFrameFromStructure(CashStr)
@@ -259,6 +259,5 @@ CashTS = getCashFlowTS(CashItm, 36)
 
 #IncomeBalanceStackedBarPlot(CashTS)
 
-IncomeBalanceLinePlot(CashTS)
 
 

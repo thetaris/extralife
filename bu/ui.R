@@ -40,7 +40,7 @@ shinyUI(pageWithSidebar(
     sliderInput("bu_annuity", 
                   "Beitrag zur Berufsunfähighkeitsversicherung (in EUR)", 
                   min = 0,
-                  max = 5000, 
+                  max = 500, 
                   value = 0)
       ),
       tabPanel("Annahmen")  
@@ -51,9 +51,9 @@ shinyUI(pageWithSidebar(
   mainPanel(
 #    plotOutput("distPlot")
      tabsetPanel(
-       tabPanel("in den nächsten Jahren", plotOutput("distPlot"))
-       ,tabPanel("zur Altersrente")
-#     ,tabPanel("mit 65 Jahren", plotOutput("distPlot"))
+       tabPanel("Übersicht", plotOutput("overview"))
+       ,tabPanel("Details in 3 Jahren", plotOutput("detailsInThree"))
+       ,tabPanel("Details Altersrente", plotOutput("detailsRetired"))
        )
   )
   

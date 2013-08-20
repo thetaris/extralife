@@ -9,6 +9,7 @@
 dial.plot <- function(label = "UseR!", value = 78, dial.radius = 1
           , value.cex = 3, value.color = "black"
           , label.cex = 3, label.color = "black"
+          , value.text = as.character(value)
           , gage.bg.color = "white"
           , yellowFrom = 75, yellowTo = 90, yellow.slice.color = "#FF9900"
           , redFrom = 90, redTo = 100, red.slice.color = "#DC3912"
@@ -107,7 +108,8 @@ dial.plot <- function(label = "UseR!", value = 78, dial.radius = 1
   
   
   # Add dial lables
-  text(0, (dial.radius * -0.65), value, cex=value.cex, col=value.color)
+  #text(0, (dial.radius * -0.65), value, cex=value.cex, col=value.color)
+  text(0, (dial.radius * -0.8/0.7), value.text, cex=value.cex, col=value.color)
   # add label of variable
   text(0, (dial.radius * 0.43), label, cex=label.cex, col=label.color)
   
@@ -138,39 +140,39 @@ dial.plot <- function(label = "UseR!", value = 78, dial.radius = 1
   points(0, 0, col=needle.center.color, pch=20, cex=needle.center.cex)
   # add values 0 and 100
 }
-
-
-par(mar=c(0.2,0.2,0.2,0.2), bg="black", mfrow=c(2,2))
-
-dial.plot ()
-dial.plot (label = "Working", value = 25, dial.radius = 1
-      , value.cex = 3.3, value.color = "white"
-      , label.cex = 2.7, label.color = "white"
-      , gage.bg.color = "black"
-      , yellowFrom = 73, yellowTo = 95, yellow.slice.color = "gold"
-      , redFrom = 95, redTo = 100, red.slice.color = "red"
-      , needle.color = "red", needle.center.color = "white", needle.center.cex = 1
-      , dial.digets.color = "white"
-      , heavy.border.color = "white", thin.border.color = "black", minor.ticks.color = "white", major.ticks.color = "white")
-  
-
-dial.plot (label = "caffeine", value = 63, dial.radius = .7
-           , value.cex = 2.3, value.color = "white"
-           , label.cex = 1.7, label.color = "white"
-           , gage.bg.color = "black"
-           , yellowFrom = 80, yellowTo = 93, yellow.slice.color = "gold"
-           , redFrom = 93, redTo = 100, red.slice.color = "red"
-           , needle.color = "red", needle.center.color = "white", needle.center.cex = 1
-           , dial.digets.color = "white"
-           , heavy.border.color = "black", thin.border.color = "lightsteelblue4", minor.ticks.color = "orange", major.ticks.color = "tan")
-
-
-dial.plot (label = "Fun", value = 83, dial.radius = .7
-           , value.cex = 2.3, value.color = "white"
-           , label.cex = 1.7, label.color = "white"
-           , gage.bg.color = "black"
-           , yellowFrom = 20, yellowTo = 75, yellow.slice.color = "olivedrab"
-           , redFrom = 75, redTo = 100, red.slice.color = "green"
-           , needle.color = "red", needle.center.color = "white", needle.center.cex = 1
-           , dial.digets.color = "white"
-           , heavy.border.color = "black", thin.border.color = "lightsteelblue4", minor.ticks.color = "orange", major.ticks.color = "tan")
+# 
+# 
+# par(mar=c(0.2,0.2,0.2,0.2), bg="black", mfrow=c(2,2))
+# 
+# dial.plot ()
+# dial.plot (label = "Working", value = 25, dial.radius = 1
+#       , value.cex = 3.3, value.color = "white"
+#       , label.cex = 2.7, label.color = "white"
+#       , gage.bg.color = "black"
+#       , yellowFrom = 73, yellowTo = 95, yellow.slice.color = "gold"
+#       , redFrom = 95, redTo = 100, red.slice.color = "red"
+#       , needle.color = "red", needle.center.color = "white", needle.center.cex = 1
+#       , dial.digets.color = "white"
+#       , heavy.border.color = "white", thin.border.color = "black", minor.ticks.color = "white", major.ticks.color = "white")
+#   
+# 
+# dial.plot (label = "caffeine", value = 63, dial.radius = .7
+#            , value.cex = 2.3, value.color = "white"
+#            , label.cex = 1.7, label.color = "white"
+#            , gage.bg.color = "black"
+#            , yellowFrom = 80, yellowTo = 93, yellow.slice.color = "gold"
+#            , redFrom = 93, redTo = 100, red.slice.color = "red"
+#            , needle.color = "red", needle.center.color = "white", needle.center.cex = 1
+#            , dial.digets.color = "white"
+#            , heavy.border.color = "black", thin.border.color = "lightsteelblue4", minor.ticks.color = "orange", major.ticks.color = "tan")
+# 
+# 
+# dial.plot (label = "Fun", value = 83, dial.radius = .7
+#            , value.cex = 2.3, value.color = "white"
+#            , label.cex = 1.7, label.color = "white"
+#            , gage.bg.color = "black"
+#            , yellowFrom = 20, yellowTo = 75, yellow.slice.color = "olivedrab"
+#            , redFrom = 75, redTo = 100, red.slice.color = "green"
+#            , needle.color = "red", needle.center.color = "white", needle.center.cex = 1
+#            , dial.digets.color = "white"
+#            , heavy.border.color = "black", thin.border.color = "lightsteelblue4", minor.ticks.color = "orange", major.ticks.color = "tan")

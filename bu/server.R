@@ -1,5 +1,10 @@
 library(shiny)
 
+source('balance.R')
+source('CashFlowAndBalanceSheetStackBarPlot.R')
+source('CashFlowAndBalanceSheetLinePlot1.R')
+source('gauge.R')
+
 # Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output, session) {
   
@@ -11,44 +16,58 @@ shinyServer(function(input, output, session) {
   #  2) Its output type is a plot 
   #
   
-  data <- reactive({  
-    dist <- switch(input$cause,
-                   norm = rnorm,
-                   unif = runif,
-                   lnorm = rlnorm,
-                   exp = rexp,
-                   rnorm)
+  
+  # get data from JSON service
+  url ='http://thetava.com/shiny-data/vertrag?sid=5WJC8LCCHDBPghdOAgCgqmnV-3GgaxvdsIP_rL4rbjM'
+  CashStr = getItemsStructure(url)
+  
+  # convert data to data.frame
+  CashItm = getItemsDataFrameFromStructure(CashStr)
+  
+  # compute time series from data.frame
+  CashTS = getCashFlowTS(CashItm)
+  
+  
+  output$overview <- renderPlot({
     
-    dist(input$bu_annuity)
+    
+    
+    dist <- input$dist
+    n <- input$bu_annuity
+    
+    
+    par(mar = c(4,1,4,1), bg="white", mfcol=c(1,2))
+    
+    dialtext = paste(as.character(300 - n), ' EUR p.M.')
+    
+    dial.plot (label = "Sparen", value = 63-n/100, dial.radius = 0.7
+               , value.text = dialtext
+               , value.cex = 1.7
+               , label.cex = 1.7
+               , yellowFrom = 0, yellowTo = 50, yellow.slice.color = "red"
+               , redFrom = 60, redTo = 100, red.slice.color = "olivedrab"
+               , needle.color = "red", needle.center.color = "black", needle.center.cex = 1
+    )
+    
+    title(main="Sparanteil in\n2016", cex.main = 2)
+    
+    
+    dial.plot (label = "Sparen", value = 33, dial.radius = 0.7
+               , value.text = "500 EUR p.M."
+               , value.cex = 1.7
+               , label.cex = 1.7
+               , yellowFrom = 0, yellowTo = 50, yellow.slice.color = "red"
+               , redFrom = 60, redTo = 100, red.slice.color = "olivedrab"
+               , needle.color = "red", needle.center.color = "black", needle.center.cex = 1
+    )
+    
+    title(main="Sparen bei Renteneintritt\n2048", cex.main = 2)
+    
+    
   })
   
-  # Store in a convenience variable
-  cdata <- session$clientData
-  myData <- rnorm(1)
-  
-  # Values from cdata returned as text
-  output$clientdataText <- renderText({
-    cnames <- names(cdata)
-    
-    allvalues <- lapply(cnames, function(name) {
-      paste(name, cdata[[name]], sep=" = ")
-    })
-    paste(allvalues, collapse = "\n")
-    #paste(paste(allvalues, collapse = "\n"), as.character(myData),  collapse = "\n")    
-  })
-  
-  output$distPlot <- renderPlot({
-    
-    # get data from JSON service
-    url ='http://thetava.com/shiny-data/vertrag?sid=5WJC8LCCHDBPghdOAgCgqmnV-3GgaxvdsIP_rL4rbjM'
-    CashStr = getItemsStructure(url)
-    
-    # convert data to data.frame
-    CashItm = getItemsDataFrameFromStructure(newStr)
-    
-    # compute time series from data.frame
-    CashTS = getCashFlowTS(newItm)
-    
+  output$detailsInThree <- renderPlot({
+        
     
     dist <- input$dist
     n <- input$bu_annuity
@@ -63,8 +82,8 @@ shinyServer(function(input, output, session) {
     par(mar = c(1,2.8,1.5,1), bg="white", lwd =0.8)
     
     
-    #IncomeBalanceStackedBarPlot(CashTS)
-    IncomeBalanceLinePlot(CashTS)
+    IncomeBalanceStackedBarPlot(CashTS)
+    #IncomeBalanceLinePlot(CashTS)
     
     plot.new()
     
@@ -77,9 +96,11 @@ shinyServer(function(input, output, session) {
     
     par(mar = c(1,1,1.5,1), bg="white")
     
-    dial.plot (label = "Sparen", value = 63, dial.radius = 1
+    dial.plot (label = "Sparen", value = 63, dial.radius = 0.7
+               , value.text = "300 EUR p.M."
+               , value.cex = 1.7
                , label.cex = 1.7
-               , yellowFrom = 0, yellowTo = 40, yellow.slice.color = "red"
+               , yellowFrom = 0, yellowTo = 50, yellow.slice.color = "red"
                , redFrom = 60, redTo = 100, red.slice.color = "olivedrab"
                , needle.color = "red", needle.center.color = "black", needle.center.cex = 1
     )
@@ -87,9 +108,11 @@ shinyServer(function(input, output, session) {
     title(main="2016")
     
     
-    dial.plot (label = "Sparen", value = 33, dial.radius = 1
+    dial.plot (label = "Sparen", value = 33, dial.radius = 0.7
+               , value.text = "500 EUR p.M."
+               , value.cex = 1.7
                , label.cex = 1.7
-               , yellowFrom = 0, yellowTo = 40, yellow.slice.color = "red"
+               , yellowFrom = 0, yellowTo = 50, yellow.slice.color = "red"
                , redFrom = 60, redTo = 100, red.slice.color = "olivedrab"
                , needle.color = "red", needle.center.color = "black", needle.center.cex = 1
     )
