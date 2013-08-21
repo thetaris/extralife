@@ -10,12 +10,7 @@ shinyUI(pageWithSidebar(
   sidebarPanel(
     
     tabsetPanel(
-      tabPanel("Szenario",
-#    sliderInput("obs", 
-#                "Number of observations:", 
-#                min = 1,
-#                max = 1000, 
-#                value = 500),    
+      tabPanel("Szenario",  
         
       radioButtons("cause", "Was passiert?",
                    list("Ich kann weiter voll arbeiten." = "healthy",
@@ -53,7 +48,7 @@ shinyUI(pageWithSidebar(
      tabsetPanel(
        tabPanel("Übersicht", plotOutput("overview"))
        ,tabPanel("Details in 3 Jahren", plotOutput("detailsInThree"))
-       ,tabPanel("Details Altersrente", plotOutput("detailsRetired"))
+       ,tabPanel("Bedarfsermittler", verbatimTextOutput("detailsInThreeTable"))
        )
   )
   

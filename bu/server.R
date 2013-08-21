@@ -8,14 +8,7 @@ source('gauge.R')
 # Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output, session) {
   
-  # Expression that generates a plot of the distribution. The expression
-  # is wrapped in a call to renderPlot to indicate that:
-  #
-  #  1) It is "reactive" and therefore should be automatically 
-  #     re-executed when inputs change
-  #  2) Its output type is a plot 
-  #
-  
+  # The following is done once per session:
   
   # get data from JSON service
   url ='http://thetava.com/shiny-data/vertrag?sid=5WJC8LCCHDBPghdOAgCgqmnV-3GgaxvdsIP_rL4rbjM'
@@ -28,9 +21,8 @@ shinyServer(function(input, output, session) {
   CashTS = getCashFlowTS(CashItm)
   
   
-  output$overview <- renderPlot({
-    
-    
+  # The following is done on change of input
+  output$overview <- renderPlot({    
     
     dist <- input$dist
     n <- input$bu_annuity
@@ -66,8 +58,40 @@ shinyServer(function(input, output, session) {
     
   })
   
+  output$detailsInThreeTable <- renderPrint({
+    txt = "Einkommensbedarf pro Monat\n"
+    txt = sprintf("%s\n",txt)
+    txt = sprintf("%sLebensunterhalt                                        %8.2f EUR\n",txt, 500)
+    txt = sprintf("%sVersicherungen                                         %8.2f EUR\n",txt, 200)
+    txt = sprintf("%sAltersvorsorge                                         %8.2f EUR\n",txt, 50)
+    txt = sprintf("%sAusbildung der Kinder                                  %8.2f EUR\n",txt, 500)
+    txt = sprintf("%sWohnen                                                 %8.2f EUR\n",txt, 750)
+    txt = sprintf("%s\n",txt)
+    txt = sprintf("%sSumme (Ausgaben)                                       %8.2f EUR\n",txt, 2000)
+    txt = sprintf("%s\n",txt)
+    txt = sprintf("%s\n",txt)
+    txt = sprintf("%s\n",txt)
+    txt = sprintf("%s\n",txt)
+    txt = sprintf("%sEinnahmen pro Monat\n",txt)
+    txt = sprintf("%s\n",txt)
+    txt = sprintf("%sErwerbsminderungsrente                                 %8.2f EUR\n",txt, 910)
+    txt = sprintf("%sBerufsgenossenschaft                                   %8.2f EUR\n",txt, 0)
+    txt = sprintf("%sBeamtenpension                                         %8.2f EUR\n",txt, 0)
+    txt = sprintf("%sbetriebliche Altersvorsorge                            %8.2f EUR\n",txt, 0)
+    txt = sprintf("%sArbeitseinkommen                                       %8.2f EUR\n",txt, 0)
+    txt = sprintf("%sArbeitseinkommen Partner                               %8.2f EUR\n",txt, 1100)
+    txt = sprintf("%ssonst. Einnahmen                                       %8.2f EUR\n",txt, 0)
+    txt = sprintf("%sprivate Berufsunfaehigkeitsversicherung                %8.2f EUR\n",txt, 0)
+    txt = sprintf("%sprivate Unfallversicherung (%10.2f EUR) entspricht %8.2f EUR\n",txt, 100000, 100000*0.005)
+    txt = sprintf("%sverwertbares Vermoegen     (%10.2f EUR) entspricht %8.2f EUR\n",txt, 12000, 12000*0.005)
+    txt = sprintf("%sErbe                       (%10.2f EUR) entspricht %8.2f EUR\n",txt, 0, 0*0.005)
+    txt = sprintf("%s\n",txt)
+    txt = sprintf("%sSumme (Einnahmen)                                      %8.2f EUR\n",txt, 2570)
+    cat(txt) 
+  })
+  
   output$detailsInThree <- renderPlot({
-        
+    
     
     dist <- input$dist
     n <- input$bu_annuity
@@ -105,7 +129,7 @@ shinyServer(function(input, output, session) {
                , needle.color = "red", needle.center.color = "black", needle.center.cex = 1
     )
     
-    title(main="2016")
+    title(main="2016", cex.main = 2)
     
     
     dial.plot (label = "Sparen", value = 33, dial.radius = 0.7
@@ -117,9 +141,9 @@ shinyServer(function(input, output, session) {
                , needle.color = "red", needle.center.color = "black", needle.center.cex = 1
     )
     
-    title(main="2048")
+    title(main="2048", cex.main = 2)
     
-
+    
   })
   
 })
