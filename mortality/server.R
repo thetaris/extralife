@@ -1,5 +1,5 @@
 library(shiny)
-library(RJSONIO)
+library(rjson)
 source('plotMort.R')
 
 # Define server logic required to generate and plot a random distribution
@@ -19,9 +19,7 @@ shinyServer(function(input, output, session) {
     
     #load data
     dataurl <- paste("http://thetava.com/shiny-data/people?sid=",sid,sep='')
-    data <- data.frame(
-      fromJSON(
-          readChar(dataurl, 10000)))
+    data <- data.frame(fromJSON(file=dataurl))
     #print(data)
     
     # plot mortality report
