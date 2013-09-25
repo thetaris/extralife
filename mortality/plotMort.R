@@ -91,7 +91,7 @@ barPlotMort <- function(birthYear, sex, name) {
   title(main = name, col.main = barBorderColor(sex), font.main = 4)
   box(col="dodgerblue")
   lines(x=seq(0,n-1),plotData, yaxs ="i", xaxs ="i",xlim=c(0,n-1), xaxt="n",
-      col = lineColSet(sex), lty = "dashed", lwd = 2)
+      col = sex, lty = "dashed", lwd = 2)
 
  
   vlinePos <- c(xIndex)

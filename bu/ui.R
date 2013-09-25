@@ -10,12 +10,7 @@ shinyUI(pageWithSidebar(
   sidebarPanel(
     
     tabsetPanel(
-      tabPanel("Szenario",
-#    sliderInput("obs", 
-#                "Number of observations:", 
-#                min = 1,
-#                max = 1000, 
-#                value = 500),    
+      tabPanel("Szenario",  
         
       radioButtons("cause", "Was passiert?",
                    list("Ich kann weiter voll arbeiten." = "healthy",
@@ -40,7 +35,7 @@ shinyUI(pageWithSidebar(
     sliderInput("bu_annuity", 
                   "Beitrag zur Berufsunfähighkeitsversicherung (in EUR)", 
                   min = 0,
-                  max = 5000, 
+                  max = 500, 
                   value = 0)
       ),
       tabPanel("Annahmen")  
@@ -51,9 +46,9 @@ shinyUI(pageWithSidebar(
   mainPanel(
 #    plotOutput("distPlot")
      tabsetPanel(
-       tabPanel("in den nächsten Jahren", plotOutput("distPlot"))
-       ,tabPanel("zur Altersrente")
-#     ,tabPanel("mit 65 Jahren", plotOutput("distPlot"))
+       tabPanel("Übersicht", plotOutput("overview"))
+       ,tabPanel("Details in 3 Jahren", plotOutput("detailsInThree"))
+       ,tabPanel("Bedarfsermittler", verbatimTextOutput("detailsInThreeTable"))
        )
   )
   
