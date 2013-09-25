@@ -49,16 +49,16 @@ DisabilityBarGraph <- function(age, gender, group){
   yAxisLabel <- c("0%", "25%", "50%", "75%", "100%")
   #bar colors 
   colorSet <- function(gender){
-    if(gender=="f") "green"
+    if(gender=="f") "lightgreen"
     else{
-      if(gender=="m") "blue"
+      if(gender=="m") "deepskyblue" 
     }
   }
   #bar border colors  
   borderColorSet <- function(gender){
-      if(gender=="f") "green3"
+      if(gender=="f") "green2"
       else{
-        if(gender=="m") "blue3"
+        if(gender=="m") "darkslategray2"
       }
     }
 
@@ -75,20 +75,21 @@ DisabilityBarGraph <- function(age, gender, group){
       lines(maleDisabilityData[,group][age-15+1:length(ageData)-(age-15)],
             type="l", col="yellow",lwd=1.5)
       title(main = mainTitle1, col.main = "blue4", 
-          cex.main = 1, font.main=4)
+          cex.main = 0.8, font.main=4)
         
-      yProbsm <- format(c(maleDisabilityData[,group][50-15+1],
+      yProbsm <- round(c(maleDisabilityData[,group][50-15+1],
                           maleDisabilityData[,group][60-15+1],
-                          maleDisabilityData[,group][64-15+1])*100, digits=4)
+                          maleDisabilityData[,group][64-15+1])*100, 
+                          digits=0)
       vlinePos <- c(50,60,64)-15+1
         
       abline(v=vlinePos, col = "slateblue3", lwd=1)
         
-      text(vlinePos-1.8,c(0.25,0.45,0.78),
+      text(c(vlinePos[1:2]-2.8,vlinePos[3]-2),c(0.38,0.6,0.8),
            c(paste(yProbsm[1], "% \n probability \n of disability \n at age 50"),
              paste(yProbsm[2], "% \n probability \n of disability \n at age 60"),
              paste(yProbsm[3], "% \n probability \n of disability \n at age 64")), 
-             col = c("black","black","black"), cex=0.6)
+             col = c("black","black","black"), cex=0.5)
      
       xAxisTicksm <- c(seq(age-15+1,length(ageData), by=5), length(ageData))
       xAxisLabelm <- c(seq(ageData[age-15+1],ageData[length(ageData)], by=5), 
@@ -115,23 +116,24 @@ else{ #female bar plot
             border=borderColorSet(gender)
         )
     lines(femaleDisabilityData[,group][age-15+1:length(ageData)-(age-15)],
-          type="l", col="purple",lwd=1.5)
+          type="l", col="hotpink",lwd=1.5)
     
-    yProbsf <- format(c(femaleDisabilityData[,group][50-15+1],
+    yProbsf <- round(c(femaleDisabilityData[,group][50-15+1],
                 femaleDisabilityData[,group][60-15+1],
-                femaleDisabilityData[,group][64-15+1])*100, digits=4)
+                femaleDisabilityData[,group][64-15+1])*100, 
+                digits=0)
     vlinePos <- c(50,60,64)-15+1
     
     abline(v=vlinePos, col = "forestgreen", lwd=1)
     
-    text(vlinePos-1.5,c(0.25,0.35,0.65),
+    text(c(vlinePos[1:2]-2.8,vlinePos[3]-2),c(0.3,0.5,0.8),
          c(paste(yProbsf[1], "% \n probability \n of disability \n at age 50"),
            paste(yProbsf[2], "% \n probability \n of disability \n at age 60"),
            paste(yProbsf[3], "% \n probability \n of disability \n at age 64")), 
-         col = c("black","black","black"), cex=0.6)
+         col = c("black","black","black"), cex=0.5)
     
     title(main = mainTitle2, col.main = "blue4", 
-          cex.main = 1, font.main = 4)
+          cex.main = 0.8, font.main = 4)
     xAxisTicksf <- c(seq(age-15+1,length(ageData), by=5), length(ageData))
     xAxisLabelf <- c(seq(ageData[age-15+1],ageData[length(ageData)], by=5), 
                     ageData[length(ageData)])
@@ -150,19 +152,19 @@ else{ #female bar plot
 }
 
 PlotDisabilityBarGraph<-function(age,gender,profession_group){
-  layout(matrix(2:1, ncol=1))
+  layout(matrix(length(gender):1, ncol=1))
   
   par(mar = c(2,2.5,1.5,1))
   
-  for (i in 1:2){
+  for (i in 1:length(gender)){
     DisabilityBarGraph(age[i],gender[i],profession_group[i])  
   }
   
 }
 
 
-age = c(25, 30)
+age = c(35, 20)
 gender = c("m", "f")
-profession_group = c(2,1)
+profession_group = c(3,2)
 
 PlotDisabilityBarGraph(age,gender,profession_group)
