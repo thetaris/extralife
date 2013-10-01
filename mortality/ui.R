@@ -5,6 +5,10 @@ shinyUI(bootstrapPage(
   
   # Show a plot of the generated distribution
   mainPanel(
-    plotOutput("mortalityPlot")
+    tabsetPanel(
+      tabPanel("Übersicht der Lebensphasen", showOutput("myChart", "nvd3"))
+      ,tabPanel("Details", plotOutput("mortalityPlot"))
+    )
+    
   )
 ))
