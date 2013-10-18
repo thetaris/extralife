@@ -4,7 +4,7 @@ library(shiny)
 shinyUI(pageWithSidebar(
   
   # Application title
-  headerPanel("Szenario: Ich kann nicht mehr arbeiten kann."),
+  headerPanel("Risiko: Invalidität"),
   
   # Sidebar with a slider input for number of observations
   sidebarPanel(
@@ -46,7 +46,7 @@ shinyUI(pageWithSidebar(
   mainPanel(
 #    plotOutput("distPlot")
      tabsetPanel(
-       tabPanel("Übersicht", plotOutput("overview"))
+       tabPanel("Übersicht", chartOutput("myChart","nvd3"))
        ,tabPanel("Details in 3 Jahren", plotOutput("detailsInThree"))
        ,tabPanel("Bedarfsermittler", verbatimTextOutput("detailsInThreeTable"))
        )
