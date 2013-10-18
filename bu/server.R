@@ -11,7 +11,7 @@ shinyServer(function(input, output, session) {
   # The following is done once per session:
   
   # get data from JSON service
-  url ='http://thetava.com/shiny-data/vertrag?sid=5WJC8LCCHDBPghdOAgCgqmnV-3GgaxvdsIP_rL4rbjM'
+  url ='http://thetava.com/shiny-data/vertrag?sid=v69Sp5Cs25vJfwLOGbuW5y52nz0WukTMxUPSko4qPvA'
   CashStr = getItemsStructure(url)
   
   # convert data to data.frame
@@ -61,13 +61,13 @@ shinyServer(function(input, output, session) {
   output$detailsInThreeTable <- renderPrint({
     txt = "Einkommensbedarf pro Monat\n"
     txt = sprintf("%s\n",txt)
-    txt = sprintf("%sLebensunterhalt                                        %8.2f EUR\n",txt, 500)
+    txt = sprintf("%sLebensunterhalt                                        %8.2f EUR\n",txt, 1500)
     txt = sprintf("%sVersicherungen                                         %8.2f EUR\n",txt, 200)
     txt = sprintf("%sAltersvorsorge                                         %8.2f EUR\n",txt, 50)
     txt = sprintf("%sAusbildung der Kinder                                  %8.2f EUR\n",txt, 500)
     txt = sprintf("%sWohnen                                                 %8.2f EUR\n",txt, 750)
     txt = sprintf("%s\n",txt)
-    txt = sprintf("%sSumme (Ausgaben)                                       %8.2f EUR\n",txt, 2000)
+    txt = sprintf("%sSumme (Ausgaben)                                       %8.2f EUR\n",txt, 3000)
     txt = sprintf("%s\n",txt)
     txt = sprintf("%s\n",txt)
     txt = sprintf("%s\n",txt)
@@ -79,15 +79,78 @@ shinyServer(function(input, output, session) {
     txt = sprintf("%sBeamtenpension                                         %8.2f EUR\n",txt, 0)
     txt = sprintf("%sbetriebliche Altersvorsorge                            %8.2f EUR\n",txt, 0)
     txt = sprintf("%sArbeitseinkommen                                       %8.2f EUR\n",txt, 0)
-    txt = sprintf("%sArbeitseinkommen Partner                               %8.2f EUR\n",txt, 1100)
+    txt = sprintf("%sArbeitseinkommen Partner                               %8.2f EUR\n",txt, 0)
     txt = sprintf("%ssonst. Einnahmen                                       %8.2f EUR\n",txt, 0)
     txt = sprintf("%sprivate Berufsunfaehigkeitsversicherung                %8.2f EUR\n",txt, 0)
     txt = sprintf("%sprivate Unfallversicherung (%10.2f EUR) entspricht %8.2f EUR\n",txt, 100000, 100000*0.005)
     txt = sprintf("%sverwertbares Vermoegen     (%10.2f EUR) entspricht %8.2f EUR\n",txt, 12000, 12000*0.005)
     txt = sprintf("%sErbe                       (%10.2f EUR) entspricht %8.2f EUR\n",txt, 0, 0*0.005)
     txt = sprintf("%s\n",txt)
-    txt = sprintf("%sSumme (Einnahmen)                                      %8.2f EUR\n",txt, 2570)
+    txt = sprintf("%sSumme (Einnahmen)                                      %8.2f EUR\n",txt, 1470)
+    txt = sprintf("%s\n",txt)
+    txt = sprintf("%s\n",txt)
+    txt = sprintf("%sBedarf: BU Rente                                       %8.2f EUR\n",txt, 1670)
     cat(txt) 
+  })
+  
+  output$myChart <- renderChart2({
+    
+    Name_frame = c(character())
+    Einkommen_frame= c(character())
+    Wert_frame= c(numeric())
+    
+    Names = c(character())
+    Names[1] = 'gesund'
+    Names[2] = 'berufsunfaehig'
+    
+    
+    Arbeitsvertrag = c(3000, 3000, 0)
+    Erwerbsminderungsrente = c(915, 915)
+    
+    
+    
+    for(i in 1:length(Names)){
+      
+      if (i==1){
+        Name_frame[(i-1)*3+1] = Names[i]
+        Einkommen_frame[(i-1)*3+1] = "Arbeitsvertrag"
+        Wert_frame[(i-1)*3+1] = Arbeitsvertrag[i] * 12 * 34
+        
+        Name_frame[(i-1)*3+2] = Names[i]
+        Einkommen_frame[(i-1)*3+2] = "Krankentagegeld"
+        Wert_frame[(i-1)*3+2] = 0
+        
+        Name_frame[(i-1)*3+3] = Names[i]
+        Einkommen_frame[(i-1)*3+3] = "Erwerbsminderungsrente"
+        Wert_frame[(i-1)*3+3] = 0
+        
+      } else {
+        Name_frame[(i-1)*3+1] = Names[i]
+        Einkommen_frame[(i-1)*3+1] = "Arbeitsvertrag"
+        Wert_frame[(i-1)*3+1] = 0
+        
+        Name_frame[(i-1)*3+2] = Names[i]
+        Einkommen_frame[(i-1)*3+2] = "Krankentagegeld"
+        Wert_frame[(i-1)*3+2] = Arbeitsvertrag[i] * 0.8 * 1.5 * 12
+        
+        Name_frame[(i-1)*3+3] = Names[i]
+        Einkommen_frame[(i-1)*3+3] = "Erwerbsminderungsrente"
+        Wert_frame[(i-1)*3+3] = Erwerbsminderungsrente[i] * 31 * 12
+      }
+    }
+    
+    
+    
+    phase = data.frame(Name_frame, Einkommen_frame, Wert_frame)
+    colnames(phase) = c('Name', 'Lebensabschnitt', 'Dauer')
+    
+    n1 <- nPlot(Dauer ~ Name, data = phase, group = 'Lebensabschnitt', type = 'multiBarChart')
+    n1$yAxis(tickFormat = "#!function(d) {return (d/1000000).toFixed(2) + ' Mio';}!#")
+    n1$chart(width = 450)
+    return(n1)
+    
+    ##################################################################################################
+    
   })
   
   output$detailsInThree <- renderPlot({
