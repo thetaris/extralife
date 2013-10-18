@@ -168,6 +168,9 @@ getCashFlowTS <- function(dataFrame, NumMonths = 36){
       
       if (is.na(element$zahlungsbetrag))
         element$zahlungsbetrag = 0
+
+      if (is.na(element$befristung))
+        element$befristung = 0      
       
       if (element$befristung == 0){
         firstIndex= 1
@@ -248,8 +251,9 @@ getItemsStructure <- function(url)
 }
 
 
-# get data from JSON service
-CashStr = getItemsStructure('http://thetava.com/shiny-data/vertrag?sid=xFbqlawDGnkrQq08TDeLh48Zx9Y2TnExTsJ_j9kjOLw')
+# get data from JSON service 
+# Note: Set "sid" to a valid session ID for testing
+CashStr = getItemsStructure('http://cloud.thetaris.com/shiny-data/vertrag?sid=EsOILW7UJcLDc_B_s2-OQeVgiACf3H0SqFswZZqPbm4')
 
 # convert data to data.frame
 CashItm = getItemsDataFrameFromStructure(CashStr)
