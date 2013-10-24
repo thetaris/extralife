@@ -223,4 +223,4 @@ plotDisability_rCharts <- function(disabilityID){
   
   }
 
-PlotDisabilityBarGraph_rCharts(disabilityID)
+plotDisability_rCharts(disabilityID)
