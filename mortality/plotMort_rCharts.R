@@ -339,7 +339,11 @@ plotMortality_rCharts <- function(familyID){
   np$xAxis(staggerLabels = FALSE, showMaxMin=TRUE)
   
   
+<<<<<<< HEAD
   return(np)
+=======
+  
+>>>>>>> 5799601d895c3844e1aa129f15f4708d8baf288c
   
   }
 
