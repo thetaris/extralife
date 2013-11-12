@@ -3,7 +3,7 @@ library(rjson)
 
 library(rCharts)
 
-source('plotMort.R')
+#source('plotMort.R')
 source('mortality_rCharts.R')
 
 # Define server logic required to generate and plot a random distribution
@@ -20,11 +20,28 @@ shinyServer(function(input, output, session) {
   data <- data.frame(fromJSON(file=dataurl))    
   
   
-  output$mortalityPlot <- renderPlot({
-
-    
+  output$mortalityPlot <- renderPlot({    
     # plot mortality report
     plotFamilyMort(data)
+  })
+  
+  output$mortalityPlotRCharts<- renderChart({
+    n2 = plotMortality_rCharts(input$dataName)
+    n2$addParams(dom = 'mortalityPlotRCharts')      
+    
+    
+#    hair_eye_male <- subset(as.data.frame(HairEyeColor), Sex == "Male")
+#    n2 <- nPlot(Freq ~ Hair, group = "Eye", data = hair_eye_male, type = "multiBarChart", transitionDuration = "0")
+    
+    # link with HTML page
+    n2$addParams(dom = 'mortalityPlotRCharts')      
+    
+    
+    return(n2)      
+  })
+  
+  output$dataNames <-renderUI({
+    selectInput("dataName", "Person", data[,1])
   })
   
   output$demographyPlot <- renderChart({
