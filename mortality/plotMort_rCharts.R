@@ -18,11 +18,10 @@ plotMortality_rCharts <- function(familyID){
   #get current working directory
   wd <- getwd()
   #file name
-  fileName <- "mortality/data/DEU_1D_InsMort_prob_ERGO_Zielbild_Leben.dat"
+  fileName <- "data/DEU_1D_InsMort_prob_ERGO_Zielbild_Leben.dat"
   readName <- paste(wd, fileName, sep = "/")
   #read data file
   dataSet <- read.csv(readName, sep = "\t")
-  n = nrow(dataSet)
   
   
   #if sex=0, use dataNA
@@ -340,7 +339,7 @@ plotMortality_rCharts <- function(familyID){
   np$xAxis(staggerLabels = FALSE, showMaxMin=TRUE)
   
   
-  np
+  return(np)
   
   }
 
