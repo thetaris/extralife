@@ -3,8 +3,8 @@ library(rjson)
 
 library(rCharts)
 
-source('~/R/extralife/mortality/plotMort.R')
-source('~/R/extralife/mortality/mortality_rCharts.R')
+source('plotMort.R')
+source('mortality_rCharts.R')
 
 # Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output, session) {
