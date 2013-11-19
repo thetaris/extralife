@@ -4,54 +4,70 @@ library(rjson)
 library(rCharts)
 
 source('plotMort.R')
+source('plotMort_rCharts.R')
 source('mortality_rCharts.R')
 
 # Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output, session) {
   
-  # Expression that generates a plot of the distribution. The expression
-  # is wrapped in a call to renderPlot to indicate that:
-  #
-  #  1) It is "reactive" and therefore should be automatically 
-  #     re-executed when inputs change
-  #  2) Its output type is a plot 
-  #
-  
-  
 
+
+  sid <- isolate(sub('^.*sid=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE))
+  
+  #load data
+  #dataurl <- paste("http://thetava.com/shiny-data/people?sid=",sid,sep='') 
+  dataurl <- paste("http://cloud.thetaris.com/shiny-data/people?sid=cpl0siilKeGZysYCrIxKa-ZZA6fdWNfjlgK1yoTX_hs",sep="")
+  
+  data <- data.frame(fromJSON(file=dataurl))    
   
   
-  output$mortalityPlot <- renderPlot({
-
-    #print(data)
-
-    # read data and hold in session
-    
-    # grab the sessionId
-    sid <- sub('^.*sid=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
-    
-    #load data
-    dataurl <- paste("http://thetava.com/shiny-data/people?sid=",sid,sep='')  
-    #dataurl <- "http://thetava.com/shiny-data/people?sid=7dB4QjojQsbp4lyilWxa0vXSk6C2U2cf_sTIbFDuaoY"
-    
-    data <- data.frame(fromJSON(file=dataurl))    
-    
+  output$mortalityPlot <- renderPlot({    
     # plot mortality report
     plotFamilyMort(data)
   })
   
+  output$mortalityPlotRCharts<- renderChart({
+    familyID <-data.frame(
+      name = c("Smino","Katie","Anette","David","EmptyID"),
+      birthYear = c(1920,1976,1984,2012,0),
+      # 1 for male, 2 for female, 0 for na
+      sex = c(1,2,2,1,0)
+    )
+    
+        
+    n2 = plotMortality_rCharts(data[data$name==input$dataName,])
+    #n2 = plotMortality_rCharts(familyID[familyID$name=="Anette",])
+    
+    # link with HTML page
+    n2$addParams(dom = 'mortalityPlotRCharts')      
+    
+    
+    return(n2)      
+  })
+  
+  output$dataNames <-renderUI({
+    selectInput("dataName", "Person", data[,1])
+  })
+  
+  output$demographyPlot <- renderChart({
+    # create fake plot as a placeholder    
+    hair_eye_male <- subset(as.data.frame(HairEyeColor), Sex == "Male")
+    n1 <- nPlot(Freq ~ Hair, group = "Eye", data = hair_eye_male, type = "multiBarChart", transitionDuration = "0")
+    
+    # link with to HTML page
+    n1$addParams(dom = 'demographyPlot')      
+    
+    # show how to use input
+    n1$yAxis(tickFormat =  sprintf("#!function(d) {return (d/1000000).toFixed(2) + ' Mio (%i)';}!#",input$year))
+    
+    
+    
+    return(n1)
+  })
+  
   output$myChart <- renderChart({
     
-    # read data and hold in session
-    
-    # grab the sessionId
-    sid <- sub('^.*sid=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
-    
-    #load data
-    dataurl <- paste("http://thetava.com/shiny-data/people?sid=",sid,sep='')  
-    #dataurl <- "http://thetava.com/shiny-data/people?sid=7dB4QjojQsbp4lyilWxa0vXSk6C2U2cf_sTIbFDuaoY"
-    
-    data <- data.frame(fromJSON(file=dataurl))
+
     ############################################################
     n1 <- lebensphasenChart(data)
 
