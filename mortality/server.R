@@ -6,19 +6,31 @@ library(rCharts)
 source('plotMort.R')
 source('plotMort_rCharts.R')
 source('mortality_rCharts.R')
+source('populationForecastrChartsPlot.R')
+source('../common/readDGSData.R')
 
 # Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output, session) {
   
-
-
   sid <- isolate(sub('^.*sid=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE))
   
-  #load data
-  #dataurl <- paste("http://thetava.com/shiny-data/people?sid=",sid,sep='') 
-  dataurl <- paste("http://cloud.thetaris.com/shiny-data/people?sid=cpl0siilKeGZysYCrIxKa-ZZA6fdWNfjlgK1yoTX_hs",sep="")
   
-  data <- data.frame(fromJSON(file=dataurl))    
+  data <- readDGSData(file = "../test/testdata.json", requestedFields = c("title","person.geburtsdatum", "person.geschlecht"))
+  
+  # select only people with birthday
+  data <- data.frame(data[!sapply(data[,2], is.null),])
+  
+  # convert data to fit other algorithms
+  name = unlist(data$title)
+  birthYear = sapply(data$person.geburtsdatum, function(x) as.numeric(format(as.Date(x), "%Y")))
+  sex = c(numeric(length(data)))
+  sex[data$person.geschlecht == "mann"] <- 1
+  sex[data$person.geschlecht == "frau"] <- 2
+  sex[is.na(data$person.geschlecht)] <- 0
+  data = data.frame(name, birthYear, sex)
+
+  # read data for population forecast
+  PopulationForecastDE<-read.delim(file = "../mortality/data/PopulationForecastDE.txt", header = FALSE, )
   
   
   output$mortalityPlot <- renderPlot({    
@@ -26,17 +38,11 @@ shinyServer(function(input, output, session) {
     plotFamilyMort(data)
   })
   
-  output$mortalityPlotRCharts<- renderChart({
-    familyID <-data.frame(
-      name = c("Smino","Katie","Anette","David","EmptyID"),
-      birthYear = c(1920,1976,1984,2012,0),
-      # 1 for male, 2 for female, 0 for na
-      sex = c(1,2,2,1,0)
-    )
-    
+  
+  
+  output$mortalityPlotRCharts<- renderChart({  
         
     n2 = plotMortality_rCharts(data[data$name==input$dataName,])
-    #n2 = plotMortality_rCharts(familyID[familyID$name=="Anette",])
     
     # link with HTML page
     n2$addParams(dom = 'mortalityPlotRCharts')      
@@ -50,15 +56,16 @@ shinyServer(function(input, output, session) {
   })
   
   output$demographyPlot <- renderChart({
-    # create fake plot as a placeholder    
-    hair_eye_male <- subset(as.data.frame(HairEyeColor), Sex == "Male")
-    n1 <- nPlot(Freq ~ Hair, group = "Eye", data = hair_eye_male, type = "multiBarChart", transitionDuration = "0")
+    tmp_sex <- sex;
+    tmp_sex[tmp_sex==1] <-"m"  
+    tmp_sex[tmp_sex==2] <-"w"  
     
+    n1 <- plotPopulationForecast_rCharts(input$year,name[1:2], birthYear[1:2], tmp_sex[1:2])
     # link with to HTML page
     n1$addParams(dom = 'demographyPlot')      
     
     # show how to use input
-    n1$yAxis(tickFormat =  sprintf("#!function(d) {return (d/1000000).toFixed(2) + ' Mio (%i)';}!#",input$year))
+    #n1$yAxis(tickFormat =  sprintf("#!function(d) {return (d/1000000).toFixed(2) + ' Mio (%i)';}!#",input$year))
     
     
     
