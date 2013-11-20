@@ -1,40 +1,44 @@
 
 require(rCharts)
 
-dfDataSet <- data.frame(PopulationForecastDE)
 
-nr = nrow(dfDataSet)
-nc = ncol(dfDataSet)
-
-data <- matrix((nr-1)*(nc-2),nrow=(nr-1),ncol=(nc-2))
-for(i in 1:(nr-1)){
-  for(j in 1:(nc-2)){
-    data[i,j] <- as.numeric(as.character(gsub(" ","",dfDataSet[i+1,j+2]),
-                                         na.rm=TRUE))
-  }
-}
-ageGroups <- dfDataSet[1,3:nc]
-ageGroups <- as.vector(t(ageGroups))
-
-genderGroups <- dfDataSet[2:nr,2]
-genderGroups <- as.vector(t(genderGroups))
-
-years <- dfDataSet[2:nr,1]
-years <- as.vector(t(years))
-
-findAgeGroupIndex <- function(age,ageGroups){
-  ageGroupSplit<-strsplit(ageGroups," ")
-  for(i in 1:length(ageGroups)){
-    lower = as.numeric(ageGroupSplit[[i]][1])
-    upper = as.numeric(ageGroupSplit[[i]][3])
-    if((age>=lower) && (age<upper)){
-      return (i)
-    }
-  }
-}
 
 
 plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
+
+  
+  dfDataSet <- data.frame(PopulationForecastDE)
+  
+  nr = nrow(dfDataSet)
+  nc = ncol(dfDataSet)
+  
+  populationdata <- matrix((nr-1)*(nc-2),nrow=(nr-1),ncol=(nc-2))
+  for(i in 1:(nr-1)){
+    for(j in 1:(nc-2)){
+      populationdata[i,j] <- as.numeric(as.character(gsub(" ","",dfDataSet[i+1,j+2]),
+                                           na.rm=TRUE))
+    }
+  }
+  ageGroups <- dfDataSet[1,3:nc]
+  ageGroups <- as.vector(t(ageGroups))
+  
+  genderGroups <- dfDataSet[2:nr,2]
+  genderGroups <- as.vector(t(genderGroups))
+  
+  years <- dfDataSet[2:nr,1]
+  years <- as.vector(t(years))
+  
+  findAgeGroupIndex <- function(age,ageGroups){
+    ageGroupSplit<-strsplit(ageGroups," ")
+    for(i in 1:length(ageGroups)){
+      lower = as.numeric(ageGroupSplit[[i]][1])
+      upper = as.numeric(ageGroupSplit[[i]][3])
+      if((age>=lower) && (age<upper)){
+        return (i)
+      }
+    }
+  }
+  
   
   namesData = NULL
   plotData = NULL
@@ -63,27 +67,27 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
   for (i in seq(1,(nr-1),2)){
     if(yearID==years[i]){ 
       
-      dataEducationM <- c(-data[i,1:5], rep(0,(nc-7)))
+      dataEducationM <- c(-populationdata[i,1:5], rep(0,(nc-7)))
       namesEducationM<-c(rep("Ausbildung", (nc-2)))
       ageGroupEducationM <- c(ageGroups)
       
-      dataWorkingM <- c(rep(0,5),-data[i,6:13], rep(0,(nc-15)))
+      dataWorkingM <- c(rep(0,5),-populationdata[i,6:13], rep(0,(nc-15)))
       namesWorkingM<-c(rep("Arbeit", (nc-2)))
       ageGroupWorkingM <- c(ageGroups)
       
-      dataRetiredM <- c(rep(0,13),-data[i,14:(nc-2)])
+      dataRetiredM <- c(rep(0,13),-populationdata[i,14:(nc-2)])
       namesRetiredM<-c(rep("Rente", (nc-2)))
       ageGroupRetiredM <- c(ageGroups)
       
-      dataEducationW <- c(data[i+1,1:5], rep(0,(nc-7)))
+      dataEducationW <- c(populationdata[i+1,1:5], rep(0,(nc-7)))
       namesEducationW<-c(rep("Ausbildung", (nc-2)))
       ageGroupEducationW <- c(ageGroups)
       
-      dataWorkingW <- c(rep(0,5),data[i+1,6:13], rep(0,(nc-15)))
+      dataWorkingW <- c(rep(0,5),populationdata[i+1,6:13], rep(0,(nc-15)))
       namesWorkingW<-c(rep("Arbeit", (nc-2)))
       ageGroupWorkingW <- c(ageGroups)
       
-      dataRetiredW <- c(rep(0,13),data[i+1,14:(nc-2)])
+      dataRetiredW <- c(rep(0,13),populationdata[i+1,14:(nc-2)])
       namesRetiredW<-c(rep("Rente", (nc-2)))
       ageGroupRetiredW <- c(ageGroups)
       
@@ -103,7 +107,7 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
         if(genderID[j]=="m"){
           namesNameM<-rep(nameID[j],(nc-2))
           ageGroupNameM<-ageGroups
-          dataNameM<-c(rep(0,(ageIndex-1)),-data[i,ageIndex], 
+          dataNameM<-c(rep(0,(ageIndex-1)),-populationdata[i,ageIndex], 
                        rep(0,(nc-ageIndex-2)))
           
           #dataNameMan<-c(dataNameM)
@@ -115,7 +119,7 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
           if(genderID[j]=="w"){
             namesNameW<-rep(nameID[j],(nc-2))
             ageGroupNameW<-ageGroups
-            dataNameW<-c(rep(0,(ageIndex-1)),data[i+1,ageIndex], 
+            dataNameW<-c(rep(0,(ageIndex-1)),populationdata[i+1,ageIndex], 
                          rep(0,(nc-ageIndex-2)))
             
             #dataNameWoman<-c(dataNameW)
@@ -133,7 +137,7 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
           
           namesNameMan<-c(rep(nameID[j],(nc-2)))
           ageGroupNameMan<-c(ageGroups)
-          dataNameMan <- c(rep(0,(ageIndex-1)),-data[i,ageIndex], 
+          dataNameMan <- c(rep(0,(ageIndex-1)),-populationdata[i,ageIndex], 
                            rep(0,(nc-ageIndex-2)))
           
           #           dataNameWoman0<-rep(0,(nc-2))
@@ -145,14 +149,14 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
               if(birthID[j]==birthID[k]){  
                 if((ageIndex>=1) && (ageIndex<=5)){
                   if((ageIndex>1) && (ageIndex<5))
-                    dataEducationM <-c(-data[i,1:(ageIndex-1)], 0, 
-                                       -data[i,(ageIndex+1):5], rep(0,(nc-7)))
+                    dataEducationM <-c(-populationdata[i,1:(ageIndex-1)], 0, 
+                                       -populationdata[i,(ageIndex+1):5], rep(0,(nc-7)))
                   else{
                     if(ageIndex==1)
-                      dataEducationM <-c(0, -data[i,(ageIndex+1):5], rep(0,(nc-7)))
+                      dataEducationM <-c(0, -populationdata[i,(ageIndex+1):5], rep(0,(nc-7)))
                     else{
                       if(ageIndex==5)
-                        dataEducationM <-c(-data[i,1:4],0, rep(0,(nc-7)))
+                        dataEducationM <-c(-populationdata[i,1:4],0, rep(0,(nc-7)))
                     }
                   }
                   
@@ -171,18 +175,18 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                   if((ageIndex>=6) && (ageIndex<=13)){
                     if((ageIndex>6) && (ageIndex<13))
                       dataWorkingM <- c(rep(0,5),
-                                        -data[i,6:(ageIndex-1)], 0,
-                                        -data[i,(ageIndex+1):13], 
+                                        -populationdata[i,6:(ageIndex-1)], 0,
+                                        -populationdata[i,(ageIndex+1):13], 
                                         rep(0,(nc-15)))
                     else{
                       if(ageIndex==6) 
                         dataWorkingM <- c(rep(0,5),
-                                          0, -data[i,(ageIndex+1):13], 
+                                          0, -populationdata[i,(ageIndex+1):13], 
                                           rep(0,(nc-15)))
                       else{
                         if(ageIndex==13) 
                           dataWorkingM <- c(rep(0,5),
-                                            -data[i,6:(ageIndex-1)], 0,  
+                                            -populationdata[i,6:(ageIndex-1)], 0,  
                                             rep(0,(nc-15)))
                       }
                     }
@@ -202,16 +206,16 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                       
                       if((ageIndex>14) && (ageIndex<(nc-2)))
                         dataRetiredM <-c(rep(0,13),
-                                         -data[i,14:(ageIndex-1)], 0,
-                                         -data[i,(ageIndex+1):(nc-2)])
+                                         -populationdata[i,14:(ageIndex-1)], 0,
+                                         -populationdata[i,(ageIndex+1):(nc-2)])
                       else{
                         if(ageIndex==14)
                           dataRetiredM <-c(rep(0,13),
-                                           0, -data[i,(ageIndex+1):(nc-2)])
+                                           0, -populationdata[i,(ageIndex+1):(nc-2)])
                         else{
                           if(ageIndex==(nc-2))
                             dataRetiredM <-c(rep(0,13),
-                                             -data[i,14:(ageIndex-1)], 0)
+                                             -populationdata[i,14:(ageIndex-1)], 0)
                         }
                       }
                       dataRetiredM<-c(dataRetiredM,dataNameMan,dataNameWoman0)
@@ -232,14 +236,14 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                 if(birthID[j]!=birthID[k]){  
                   if((ageIndex>=1) && (ageIndex<=5)){
                     if((ageIndex>1) && (ageIndex<5))
-                      dataEducationM <-c(-data[i,1:(ageIndex-1)], 0, 
-                                         -data[i,(ageIndex+1):5], rep(0,(nc-7)))
+                      dataEducationM <-c(-populationdata[i,1:(ageIndex-1)], 0, 
+                                         -populationdata[i,(ageIndex+1):5], rep(0,(nc-7)))
                     else{
                       if(ageIndex==1)
-                        dataEducationM <-c(0, -data[i,(ageIndex+1):5], rep(0,(nc-7)))
+                        dataEducationM <-c(0, -populationdata[i,(ageIndex+1):5], rep(0,(nc-7)))
                       else{
                         if(ageIndex==5)
-                          dataEducationM <-c(-data[i,1:4],0, rep(0,(nc-7)))
+                          dataEducationM <-c(-populationdata[i,1:4],0, rep(0,(nc-7)))
                       }
                     }
                     dataEducationM<-c(dataEducationM,dataNameMan,dataNameWoman0)
@@ -255,18 +259,18 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                     if((ageIndex>=6) && (ageIndex<=13)){
                       if((ageIndex>6) && (ageIndex<13))
                         dataWorkingM <- c(rep(0,5),
-                                          -data[i,6:(ageIndex-1)], 0,
-                                          -data[i,(ageIndex+1):13], 
+                                          -populationdata[i,6:(ageIndex-1)], 0,
+                                          -populationdata[i,(ageIndex+1):13], 
                                           rep(0,(nc-15)))
                       else{
                         if(ageIndex==6) 
                           dataWorkingM <- c(rep(0,5),
-                                            0, -data[i,(ageIndex+1):13], 
+                                            0, -populationdata[i,(ageIndex+1):13], 
                                             rep(0,(nc-15)))
                         else{
                           if(ageIndex==13) 
                             dataWorkingM <- c(rep(0,5),
-                                              -data[i,6:(ageIndex-1)], 0,  
+                                              -populationdata[i,6:(ageIndex-1)], 0,  
                                               rep(0,(nc-15)))
                         }
                       }
@@ -284,16 +288,16 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                         
                         if((ageIndex>14) && (ageIndex<(nc-2)))
                           dataRetiredM <-c(rep(0,13),
-                                           -data[i,14:(ageIndex-1)], 0,
-                                           -data[i,(ageIndex+1):(nc-2)])
+                                           -populationdata[i,14:(ageIndex-1)], 0,
+                                           -populationdata[i,(ageIndex+1):(nc-2)])
                         else{
                           if(ageIndex==14)
                             dataRetiredM <-c(rep(0,13),
-                                             0, -data[i,(ageIndex+1):(nc-2)])
+                                             0, -populationdata[i,(ageIndex+1):(nc-2)])
                           else{
                             if(ageIndex==(nc-2))
                               dataRetiredM <-c(rep(0,13),
-                                               -data[i,14:(ageIndex-1)], 0)
+                                               -populationdata[i,14:(ageIndex-1)], 0)
                           }
                         }
                         dataRetiredM<-c(dataRetiredM,dataNameMan,dataNameWoman0)
@@ -315,14 +319,14 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
               if(birthID[j-1]!=birthID[j]){
                 if((ageIndex>=1) && (ageIndex<=5)){
                   if((ageIndex>1) && (ageIndex<5))
-                    dataEducationM <-c(-data[i,1:(ageIndex-1)], 0, 
-                                       -data[i,(ageIndex+1):5], rep(0,(nc-7)))
+                    dataEducationM <-c(-populationdata[i,1:(ageIndex-1)], 0, 
+                                       -populationdata[i,(ageIndex+1):5], rep(0,(nc-7)))
                   else{
                     if(ageIndex==1)
-                      dataEducationM <-c(0, -data[i,(ageIndex+1):5], rep(0,(nc-7)))
+                      dataEducationM <-c(0, -populationdata[i,(ageIndex+1):5], rep(0,(nc-7)))
                     else{
                       if(ageIndex==5)
-                        dataEducationM <-c(-data[i,1:4],0, rep(0,(nc-7)))
+                        dataEducationM <-c(-populationdata[i,1:4],0, rep(0,(nc-7)))
                     }
                   }
                   
@@ -341,18 +345,18 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                   if((ageIndex>=6) && (ageIndex<=13)){
                     if((ageIndex>6) && (ageIndex<13))
                       dataWorkingM <- c(rep(0,5),
-                                        -data[i,6:(ageIndex-1)], 0,
-                                        -data[i,(ageIndex+1):13], 
+                                        -populationdata[i,6:(ageIndex-1)], 0,
+                                        -populationdata[i,(ageIndex+1):13], 
                                         rep(0,(nc-15)))
                     else{
                       if(ageIndex==6) 
                         dataWorkingM <- c(rep(0,5),
-                                          0, -data[i,(ageIndex+1):13], 
+                                          0, -populationdata[i,(ageIndex+1):13], 
                                           rep(0,(nc-15)))
                       else{
                         if(ageIndex==13) 
                           dataWorkingM <- c(rep(0,5),
-                                            -data[i,6:(ageIndex-1)], 0,  
+                                            -populationdata[i,6:(ageIndex-1)], 0,  
                                             rep(0,(nc-15)))
                       }
                     }
@@ -372,16 +376,16 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                       
                       if((ageIndex>14) && (ageIndex<(nc-2)))
                         dataRetiredM <-c(rep(0,13),
-                                         -data[i,14:(ageIndex-1)], 0,
-                                         -data[i,(ageIndex+1):(nc-2)])
+                                         -populationdata[i,14:(ageIndex-1)], 0,
+                                         -populationdata[i,(ageIndex+1):(nc-2)])
                       else{
                         if(ageIndex==14)
                           dataRetiredM <-c(rep(0,13),
-                                           0, -data[i,(ageIndex+1):(nc-2)])
+                                           0, -populationdata[i,(ageIndex+1):(nc-2)])
                         else{
                           if(ageIndex==(nc-2))
                             dataRetiredM <-c(rep(0,13),
-                                             -data[i,14:(ageIndex-1)], 0)
+                                             -populationdata[i,14:(ageIndex-1)], 0)
                         }
                       }
                       dataRetiredM<-c(dataRetiredM,dataNameMan,dataNameWoman0)
@@ -410,7 +414,7 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
             #             ageGroupNameMan<-ageGroups
             #             dataNameMan0 <- rep(0,(nc-2))
             #             
-            dataNameWoman<-c(rep(0,(ageIndex-1)),data[i+1,ageIndex], 
+            dataNameWoman<-c(rep(0,(ageIndex-1)),populationdata[i+1,ageIndex], 
                              rep(0,(nc-ageIndex-2)))
             namesNameWoman<-rep(nameID[j],(nc-2))
             ageGroupNameWoman<-ageGroups
@@ -420,14 +424,14 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                 if(birthID[j]==birthID[k]){  
                   if((ageIndex>=1) && (ageIndex<=5)){
                     if((ageIndex>1) && (ageIndex<5))
-                      dataEducationW <-c(data[i+1,1:(ageIndex-1)], 0, 
-                                         data[i+1,(ageIndex+1):5], rep(0,(nc-7)))
+                      dataEducationW <-c(populationdata[i+1,1:(ageIndex-1)], 0, 
+                                         populationdata[i+1,(ageIndex+1):5], rep(0,(nc-7)))
                     else{
                       if(ageIndex==1)
-                        dataEducationW <-c(0, data[i+1,(ageIndex+1):5], rep(0,(nc-7)))
+                        dataEducationW <-c(0, populationdata[i+1,(ageIndex+1):5], rep(0,(nc-7)))
                       else{
                         if(ageIndex==5)
-                          dataEducationW <-c(data[i+1,1:4],0, rep(0,(nc-7)))
+                          dataEducationW <-c(populationdata[i+1,1:4],0, rep(0,(nc-7)))
                       }
                     }
                     
@@ -446,18 +450,18 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                     if((ageIndex>=6) && (ageIndex<=13)){
                       if((ageIndex>6) && (ageIndex<13))
                         dataWorkingW <- c(rep(0,5),
-                                          data[i+1,6:(ageIndex-1)], 0,
-                                          data[i+1,(ageIndex+1):13], 
+                                          populationdata[i+1,6:(ageIndex-1)], 0,
+                                          populationdata[i+1,(ageIndex+1):13], 
                                           rep(0,(nc-15)))
                       else{
                         if(ageIndex==6) 
                           dataWorkingW <- c(rep(0,5),
-                                            0, data[i+1,(ageIndex+1):13], 
+                                            0, populationdata[i+1,(ageIndex+1):13], 
                                             rep(0,(nc-15)))
                         else{
                           if(ageIndex==13) 
                             dataWorkingW <- c(rep(0,5),
-                                              data[i+1,6:(ageIndex-1)], 0,  
+                                              populationdata[i+1,6:(ageIndex-1)], 0,  
                                               rep(0,(nc-15)))
                         }
                       }
@@ -477,16 +481,16 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                         
                         if((ageIndex>14) && (ageIndex<(nc-2)))
                           dataRetiredW <-c(rep(0,13),
-                                           data[i+1,14:(ageIndex-1)], 0,
-                                           data[i+1,(ageIndex+1):(nc-2)])
+                                           populationdata[i+1,14:(ageIndex-1)], 0,
+                                           populationdata[i+1,(ageIndex+1):(nc-2)])
                         else{
                           if(ageIndex==14)
                             dataRetiredW <-c(rep(0,13),
-                                             0, data[i+1,(ageIndex+1):(nc-2)])
+                                             0, populationdata[i+1,(ageIndex+1):(nc-2)])
                           else{
                             if(ageIndex==(nc-2))
                               dataRetiredW <-c(rep(0,13),
-                                               data[i+1,14:(ageIndex-1)], 0)
+                                               populationdata[i+1,14:(ageIndex-1)], 0)
                           }
                         }
                         dataRetiredW<-c(dataRetiredW,dataNameWoman,dataNameMan0)
@@ -508,14 +512,14 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                     if((ageIndex>=1) && (ageIndex<=5)){
                       
                       if((ageIndex>1) && (ageIndex<5))
-                        dataEducationW <-c(data[i+1,1:(ageIndex-1)], 0, 
-                                           data[i+1,(ageIndex+1):5], rep(0,(nc-7)))
+                        dataEducationW <-c(populationdata[i+1,1:(ageIndex-1)], 0, 
+                                           populationdata[i+1,(ageIndex+1):5], rep(0,(nc-7)))
                       else{
                         if(ageIndex==1)
-                          dataEducationW <-c(0, data[i+1,(ageIndex+1):5], rep(0,(nc-7)))
+                          dataEducationW <-c(0, populationdata[i+1,(ageIndex+1):5], rep(0,(nc-7)))
                         else{
                           if(ageIndex==5)
-                            dataEducationW <-c(data[i+1,1:4],0, rep(0,(nc-7)))
+                            dataEducationW <-c(populationdata[i+1,1:4],0, rep(0,(nc-7)))
                         }
                       }
                       
@@ -533,18 +537,18 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                         
                         if((ageIndex>6) && (ageIndex<13))
                           dataWorkingW <- c(rep(0,5),
-                                            data[i+1,6:(ageIndex-1)], 0,
-                                            data[i+1,(ageIndex+1):13], 
+                                            populationdata[i+1,6:(ageIndex-1)], 0,
+                                            populationdata[i+1,(ageIndex+1):13], 
                                             rep(0,(nc-15)))
                         else{
                           if(ageIndex==6) 
                             dataWorkingW <- c(rep(0,5),
-                                              0, data[i+1,(ageIndex+1):13], 
+                                              0, populationdata[i+1,(ageIndex+1):13], 
                                               rep(0,(nc-15)))
                           else{
                             if(ageIndex==13) 
                               dataWorkingW <- c(rep(0,5),
-                                                data[i+1,6:(ageIndex-1)], 0,  
+                                                populationdata[i+1,6:(ageIndex-1)], 0,  
                                                 rep(0,(nc-15)))
                           }
                         }
@@ -562,16 +566,16 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                         if((ageIndex>=14) && (ageIndex<=(nc-2))){
                           if((ageIndex>14) && (ageIndex<(nc-2)))
                             dataRetiredW <-c(rep(0,13),
-                                             data[i+1,14:(ageIndex-1)], 0,
-                                             data[i+1,(ageIndex+1):(nc-2)])
+                                             populationdata[i+1,14:(ageIndex-1)], 0,
+                                             populationdata[i+1,(ageIndex+1):(nc-2)])
                           else{
                             if(ageIndex==14)
                               dataRetiredW <-c(rep(0,13),
-                                               0, data[i+1,(ageIndex+1):(nc-2)])
+                                               0, populationdata[i+1,(ageIndex+1):(nc-2)])
                             else{
                               if(ageIndex==(nc-2))
                                 dataRetiredW <-c(rep(0,13),
-                                                 data[i+1,14:(ageIndex-1)], 0)
+                                                 populationdata[i+1,14:(ageIndex-1)], 0)
                             }
                           }
                           
@@ -596,14 +600,14 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                 if(birthID[j-1]!=birthID[j]){
                   if((ageIndex>=1) && (ageIndex<=5)){
                     if((ageIndex>1) && (ageIndex<5))
-                      dataEducationW <-c(data[i+1,1:(ageIndex-1)], 0, 
-                                         data[i+1,(ageIndex+1):5], rep(0,(nc-7)))
+                      dataEducationW <-c(populationdata[i+1,1:(ageIndex-1)], 0, 
+                                         populationdata[i+1,(ageIndex+1):5], rep(0,(nc-7)))
                     else{
                       if(ageIndex==1)
-                        dataEducationW <-c(0, data[i+1,(ageIndex+1):5], rep(0,(nc-7)))
+                        dataEducationW <-c(0, populationdata[i+1,(ageIndex+1):5], rep(0,(nc-7)))
                       else{
                         if(ageIndex==5)
-                          dataEducationW <-c(data[i+1,1:4],0, rep(0,(nc-7)))
+                          dataEducationW <-c(populationdata[i+1,1:4],0, rep(0,(nc-7)))
                       }
                     }
                     
@@ -622,18 +626,18 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                     if((ageIndex>=6) && (ageIndex<=13)){
                       if((ageIndex>6) && (ageIndex<13))
                         dataWorkingW <- c(rep(0,5),
-                                          data[i+1,6:(ageIndex-1)], 0,
-                                          data[i+1,(ageIndex+1):13], 
+                                          populationdata[i+1,6:(ageIndex-1)], 0,
+                                          populationdata[i+1,(ageIndex+1):13], 
                                           rep(0,(nc-15)))
                       else{
                         if(ageIndex==6) 
                           dataWorkingW <- c(rep(0,5),
-                                            0, data[i+1,(ageIndex+1):13], 
+                                            0, populationdata[i+1,(ageIndex+1):13], 
                                             rep(0,(nc-15)))
                         else{
                           if(ageIndex==13) 
                             dataWorkingW <- c(rep(0,5),
-                                              data[i+1,6:(ageIndex-1)], 0,  
+                                              populationdata[i+1,6:(ageIndex-1)], 0,  
                                               rep(0,(nc-15)))
                         }
                       }
@@ -653,16 +657,16 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
                         
                         if((ageIndex>14) && (ageIndex<(nc-2)))
                           dataRetiredW <-c(rep(0,13),
-                                           data[i+1,14:(ageIndex-1)], 0,
-                                           data[i+1,(ageIndex+1):(nc-2)])
+                                           populationdata[i+1,14:(ageIndex-1)], 0,
+                                           populationdata[i+1,(ageIndex+1):(nc-2)])
                         else{
                           if(ageIndex==14)
                             dataRetiredW <-c(rep(0,13),
-                                             0, data[i+1,(ageIndex+1):(nc-2)])
+                                             0, populationdata[i+1,(ageIndex+1):(nc-2)])
                           else{
                             if(ageIndex==(nc-2))
                               dataRetiredW <-c(rep(0,13),
-                                               data[i+1,14:(ageIndex-1)], 0)
+                                               populationdata[i+1,14:(ageIndex-1)], 0)
                           }
                         }
                         dataRetiredW<-c(dataRetiredW,dataNameWoman,dataNameMan0)
@@ -734,6 +738,7 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
   #pf$chart(color= c('#ff7f0e','#1f77b4','#d62728','#bcbd22','#594c26'))
   
   pf$yAxis(showMaxMin=FALSE)
+  pf$chart(stacked = 'true')
   
   pf 
   }
