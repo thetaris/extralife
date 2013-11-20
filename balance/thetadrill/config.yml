@@ -1,0 +1,12 @@
+thetadrill:
+  css: [css/thetadrill.css]
+  jshead: [js/jquery-1.10.1.js,js/highcharts.js,js/drilldown.src.js,js/thetadrill.js]
+  cdn:
+    css:
+      - "http://github.highcharts.com/bdf6471/css/thetadrill.css"
+    jshead: 
+      - "http://code.jquery.com/jquery-1.10.1.js"
+      - "http://github.highcharts.com/bdf6471/highcharts.js"
+      - "http://github.highcharts.com/bdf6471/modules/drilldown.src.js"
+      - "http://github.highcharts.com/bdf6471/modules/thetadrill.js"
+
