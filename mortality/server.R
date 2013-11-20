@@ -6,6 +6,7 @@ library(rCharts)
 source('plotMort.R')
 source('plotMort_rCharts.R')
 source('mortality_rCharts.R')
+source('../common/readDGSData.R')
 
 # Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output, session) {
@@ -16,10 +17,23 @@ shinyServer(function(input, output, session) {
   
   #load data
   #dataurl <- paste("http://thetava.com/shiny-data/people?sid=",sid,sep='') 
-  dataurl <- paste("http://cloud.thetaris.com/shiny-data/people?sid=cpl0siilKeGZysYCrIxKa-ZZA6fdWNfjlgK1yoTX_hs",sep="")
+#  dataurl <- paste("http://cloud.thetaris.com/shiny-data/people?sid=cpl0siilKeGZysYCrIxKa-ZZA6fdWNfjlgK1yoTX_hs",sep="")
   
-  data <- data.frame(fromJSON(file=dataurl))    
+#  data <- data.frame(fromJSON(file=dataurl))    
   
+  data <- readDGSData(sid = "cpl0siilKeGZysYCrIxKa-ZZA6fdWNfjlgK1yoTX_hs", requestedFields = c("title","person.geburtsdatum", "person.geschlecht"))
+  
+  # select only people with birthday
+  data <- data[is.na(data[,2])==FALSE,]
+  
+  # convert data to fit other algorithms
+  name = data$title
+  birthYear = as.numeric(format(as.Date(data$person.geburtsdatum), "%Y"))
+  sex = c(numeric(length(data)))
+  sex[data$person.geschlecht == "mann"] <- 1
+  sex[data$person.geschlecht == "frau"] <- 2
+  sex[is.na(data$person.geschlecht)] <- 0
+  data = data.frame(name, birthYear, sex)
   
   output$mortalityPlot <- renderPlot({    
     # plot mortality report
