@@ -253,7 +253,10 @@ getItemsStructure <- function(url)
 
 # get data from JSON service 
 # Note: Set "sid" to a valid session ID for testing
-CashStr = getItemsStructure('http://cloud.thetaris.com/shiny-data/vertrag?sid=EsOILW7UJcLDc_B_s2-OQeVgiACf3H0SqFswZZqPbm4')
+
+
+#CashStr = getItemsStructure('http://cloud.thetaris.com/shiny-data/vertrag?sid=EsOILW7UJcLDc_B_s2-OQeVgiACf3H0SqFswZZqPbm4')
+CashStr = getItemsStructure('http://thetava.com/shiny-data/vertrag?sid=iJ7tEMA1XeQCiAZewFrFgS9JUkLsvdRTDrnK5kynaxA')
 
 # convert data to data.frame
 CashItm = getItemsDataFrameFromStructure(CashStr)

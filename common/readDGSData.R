@@ -164,6 +164,18 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
 }
 
 DGSData <- function(session = NULL, sid = NULL, file = NULL){
+# Creating a dataobject with methods for reading data
+#
+# example:
+#  
+#   dataObj <- DGSData(file = "../test/testdata.json" )
+#   tmp = dataObj$get("person.geschlecht")
+#   tmp = dataObj$get("person.geburtsdatum")
+#   tmp = dataObj$get("person.geburtsdatum", getType_idFromTaxonomyMap()$Meine_Familie)
+#   tmp = dataObj$get("person.geburtsdatum", getType_idFromTaxonomyMap()$ich)
+#   print(dataObj$getLog())
+#   #
+  
   resultObj <- new.env()
   
   # get all data from session
@@ -253,4 +265,130 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
 }
 
 
+getCashItm<-function (dataObj = NULL, file = NULL){
+  titel <- character()
+  taxonomy1 <- character()
+  taxonomy2 <- character()
+  taxonomy3 <- character()
+  wert <- numeric()
+  zahlungsbeginn <- date()
+  zahlungsbetrag <- numeric()
+  zahlungswiederholung <- character()
+  zahlungsende <- date()
+  bewertung <- character()
+  
+  # read Taxonomy
+  taxTree = fromJSON(file="http://cloud.thetaris.com/shiny-data/taxonomy-tree") 
+  dat<-getTaxonomy(taxTree, recursive = TRUE)
+  
+  if (is.null(dataObj)){
+    dataObj <- DGSData(file = file)
+  }
+    
+  titel = dataObj$get("title")
+  
+  taxonomy = as.numeric(dataObj$get("type_id"))
+    
+  for (iterTax in taxonomy){
+    tmp = as.character(dat[dat$type_id==iterTax,"name"])
+    tmp = sub("_", " ", tmp)
+    taxonomy1 = c(taxonomy1, tmp[1])
+    taxonomy2 = c(taxonomy2, tmp[2])
+    if (length(tmp)<3) {
+       tmp[3] <- NA
+    }
+    taxonomy3 = c(taxonomy3, tmp[3])
+  }
+  
+  wert = as.numeric(dataObj$get("zeitwert.betrag"))
+  
+  bewertung = wert
+  bewertung[!is.na(bewertung)] <- "static"
+  
+  data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung)
+}
 
+
+getTaxonomy <- function(taxTree, recursive = FALSE){
+# returns a data.frame with a map of type_id and taxonomy name
+# set the argument "recursive" to TRUE for inclusion of the parents
+#
+# example:
+#
+# > taxTree = fromJSON(file="http://cloud.thetaris.com/shiny-data/taxonomy-tree") 
+# > dat<-getTaxonomy(taxTree, recursive = TRUE)
+#   
+# > dat[dat$type_id==305,]
+#        type_id          name
+#     12     305 Meine_Familie
+#     16     305       Partner
+#     20     305           ich
+#  
+# > dat[dat$name=="ich",]
+#        type_id name
+#     20     305  ich
+#
+# author: Andreas
+
+  res = data.frame(numeric(0), character(0))
+  colnames(res) <- c("type_id", "name")
+
+  
+  name = sapply(taxTree, function(x) x$name)
+  name = sub(" ", "_", name)
+  
+  type_id <- as.numeric(sapply(taxTree, function(x) x$term_id))
+  
+  res = rbind(res, data.frame(type_id, name))
+  
+  
+  # level 0 taxonomies
+  if(length(name)>0){
+    for (iterName in 1:length(name)){
+      # level 1 taxonomies
+      taxTree1 <- taxTree[[iterName]]$children
+      
+      name1 = sapply(taxTree1, function(x) x$name)
+      name1 = sub(" ", "_", name1)
+      
+      type_id1 <- as.numeric(sapply(taxTree1, function(x) x$term_id))
+      
+      if (recursive){
+      res0 <- data.frame(type_id1, rep(name[iterName], length(name1)))
+      colnames(res0) <-  c("type_id", "name")
+      res = rbind(res, res0)
+}
+      res1 <- data.frame(type_id1, name1)
+      colnames(res1) <-  c("type_id", "name")
+      res = rbind(res, res1)
+      
+      # level 2 taxonomies
+      if(length(name1)>0){
+        
+        for (iterName1 in 1:length(name1)){
+          taxTree2 <- taxTree1[[iterName1]]$children
+          
+          name2 = sapply(taxTree2, function(x) x$name)
+          name2 = sub(" ", "_", name2)
+          
+          type_id2 <- as.numeric(sapply(taxTree2, function(x) x$term_id))
+          
+          if (recursive) {
+            res0 <- data.frame(type_id2, rep(name[iterName], length(name2)))
+            colnames(res0) <-  c("type_id", "name")
+            res = rbind(res, res0)
+            
+            res1 <- data.frame(type_id2, rep(name1[iterName1], length(name2)))
+            colnames(res1) <-  c("type_id", "name")
+            res = rbind(res, res1)
+          }
+          res2 <- data.frame(type_id2, name2)
+          colnames(res2) <-  c("type_id", "name")
+          res = rbind(res, res2)
+        }
+      }
+    }
+  }
+  return(res)
+  
+}

@@ -3,11 +3,15 @@ require(rCharts)
 library(rjson)
 
 source("../bu/balance.R")
+source("../common/readDGSData.R")
 
-
-shinyServer(function(input, output) {
-  CashStr = getItemsStructure('http://thetava.com/shiny-data/vertrag?sid=_tBPOcWakIvRazn5fOuH_HnbDAeSfvTKtOsewd4ZyNk')
-  CashItm = getItemsDataFrameFromStructure(CashStr)
+shinyServer(function(input, output, session) {
+  
+  dataObj = DGSData(session=session)
+  #dataObj = DGSData(file="../test/testdata2.json")
+  
+  CashItm = getCashItm(dataObj)
+  
   allData=aggregate(wert~taxonomy1+taxonomy2+taxonomy3, sum, data=CashItm)
   
   mdata = subset(CashItm, bewertung == "static")
