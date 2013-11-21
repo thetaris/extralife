@@ -15,7 +15,8 @@ shinyServer(function(input, output, session) {
   sid <- isolate(sub('^.*sid=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE))
   
   
-  data <- readDGSData(file = "../test/testdata.json", requestedFields = c("title","person.geburtsdatum", "person.geschlecht"))
+  #data <- readDGSData(file = "../test/testdata.json", requestedFields = c("title","person.geburtsdatum", "person.geschlecht"))
+  data <- isolate(readDGSData(session = session, requestedFields = c("title","person.geburtsdatum", "person.geschlecht")))
   
   # select only people with birthday
   data <- data.frame(data[!sapply(data[,2], is.null),])
