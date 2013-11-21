@@ -30,7 +30,7 @@ shinyServer(function(input, output, session) {
   data = data.frame(name, birthYear, sex)
 
   # read data for population forecast
-  PopulationForecastDE<-read.delim(file = "../mortality/data/PopulationForecastDE.txt", header = FALSE, )
+  PopulationForecastDE<<-read.delim(file = "../mortality/data/PopulationForecastDE.txt", header = FALSE, )
   
   
   output$mortalityPlot <- renderPlot({    
@@ -46,8 +46,7 @@ shinyServer(function(input, output, session) {
     
     # link with HTML page
     n2$addParams(dom = 'mortalityPlotRCharts')      
-    
-    
+        
     return(n2)      
   })
   

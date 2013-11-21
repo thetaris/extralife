@@ -1,9 +1,5 @@
 
 require(rCharts)
-
-
-
-
 plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
 
   
@@ -744,13 +740,13 @@ plotPopulationForecast_rCharts <- function(yearID,nameID,birthID,genderID){
   }
 
 
-yearID = c(2010)
-nameID = c("Homer","Medge")
-birthID = c(1980,1970)
-genderID = c("m","w")
-
-
-plotPopulationForecast_rCharts(yearID,nameID,birthID,genderID)
+# yearID = c(2010)
+# nameID = c("Homer","Medge")
+# birthID = c(1980,1970)
+# genderID = c("m","w")
+# 
+# 
+# plotPopulationForecast_rCharts(yearID,nameID,birthID,genderID)
 
 #plotPopulationForecast_rCharts(2010,"Homer",1987,"m")
 
