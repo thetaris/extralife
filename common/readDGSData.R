@@ -305,6 +305,24 @@ getCashItm<-function (dataObj = NULL, file = NULL){
   bewertung = wert
   bewertung[!is.na(bewertung)] <- "static"
   
+  tmp_wert1 = as.numeric(dataObj$get("vertrag.zahlung.betrag"))
+  tmp_wert2 = as.numeric(dataObj$get("vertrag.zahlung.betrag.konsum"))
+  tmp_wert3 = as.numeric(dataObj$get("vertrag.zahlung.betrag.investition"))
+  
+  tmp_wertAll = tmp_wert1
+  tmp_wertAll[!is.na(tmp_wert2)]<-tmp_wert2[!is.na(tmp_wert2)]
+  tmp_wertAll[!is.na(tmp_wert3)]<-tmp_wert3[!is.na(tmp_wert3)]
+  
+  bewertung[!is.na(tmp_wertAll)] <- "expense"
+  wert[!is.na(tmp_wertAll)] <- tmp_wertAll[!is.na(tmp_wertAll)]
+  
+  bewertung[taxonomy2 == "Kredit"] <- "credit"
+  
+  
+  tmp_wertEinkommen = as.numeric(dataObj$get("einkommen.betrag.netto"))  
+  bewertung[!is.na(tmp_wertEinkommen)] <- "income"
+  wert[!is.na(tmp_wertEinkommen)] <- tmp_wertEinkommen[!is.na(tmp_wertEinkommen)]
+  
   data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung)
 }
 
