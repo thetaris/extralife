@@ -16,8 +16,9 @@ prepChartData <- function(data, pBewertung ){
 }
 
 shinyServer(function(input, output,session) {
-  dataObj = isolate(DGSData(session=session))
-  #dataObj = DGSData(file="../test/testdata2.json")
+  #dataObj = isolate(DGSData(session=session))
+  #dataObj = isolate(DGSData(file="../test/testdata2.json"))
+  dataObj = isolate(DGSData(sid="0O0ujzouuKt10rV_wsxLNNxm6qdws2p4_u5ZvlhXWdk"))
   
   CashItm = getCashItm(dataObj)
   allData=aggregate(wert~taxonomy1+taxonomy2+taxonomy3, sum, data=CashItm)

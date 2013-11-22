@@ -9,16 +9,16 @@ shinyUI(bootstrapPage(
       tabPanel("Übersicht" 
       )
       
-      
-      ,tabPanel("Vermögensstatus",
-                showOutput("myChartAssets", "thetadrill"),
-                showOutput("myChartCredit", "thetadrill")
-                
+      ,tabPanel("Vermögen",
+                showOutput("myChartAssets", "thetadrill")                       
       )
-      
-      
-      ,tabPanel("Einnahmen/Ausgaben",
-                showOutput("myChartIncome", "thetadrill"),
+      ,tabPanel("Kredite",
+                showOutput("myChartCredit", "thetadrill") 
+      )      
+      ,tabPanel("Einnahmen",
+                showOutput("myChartIncome", "thetadrill")
+      ) 
+      ,tabPanel("Ausgaben",
                 showOutput("myChartExpense", "thetadrill")
       )
     )

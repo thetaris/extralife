@@ -1,6 +1,9 @@
 function buildOptions(myJSONObject) {
-var index = [];
+if(myJSONObject === 'NoData') {
+  return myJSONObject;
+}
 
+var index = [];
 // to array
 for (var x in myJSONObject) {
    if(myJSONObject[x] instanceof Array) continue;
@@ -19,7 +22,7 @@ var mainCat = index[0]
 index.splice(0, 1);
 
 var options=[]
-options['chart'] = {'height': 370,'width':380}
+options['chart'] = {'height': 370,'width':700}
 options['title']= {'text': 'Generic Title'}
 options['xAxis']= {'categories': true}
 options['legend']= {'enabled': false}
