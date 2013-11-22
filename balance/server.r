@@ -5,27 +5,28 @@ library(rjson)
 source("../bu/balance.R")
 source("../common/readDGSData.R")
 
-shinyServer(function(input, output, session) {
+prepChartData <- function(data, pBewertung ){
+  result ="NoData"
   
-  dataObj = DGSData(session=session)
+  mdata = subset(data, bewertung == pBewertung)
+  if(nrow(mdata)>0) 
+    result=aggregate(wert~taxonomy1+taxonomy2+taxonomy3+titel, sum, data=mdata)
+  
+  result  
+}
+
+shinyServer(function(input, output,session) {
+  dataObj = isolate(DGSData(session=session))
   #dataObj = DGSData(file="../test/testdata2.json")
   
   CashItm = getCashItm(dataObj)
-  
   allData=aggregate(wert~taxonomy1+taxonomy2+taxonomy3, sum, data=CashItm)
   
-  mdata = subset(CashItm, bewertung == "static")
-  assets=aggregate(wert~taxonomy1+taxonomy2+taxonomy3+titel, sum, data=mdata)
-  
-  mdata = subset(CashItm, bewertung == "credit")
-  credit=aggregate(wert~taxonomy1+taxonomy2+taxonomy3+titel, sum, data=mdata)
-  
-  mdata=subset(CashItm, bewertung == "income")
-  income=aggregate(wert~taxonomy1+taxonomy2+taxonomy3+titel, sum, data=mdata)
-  
-  mdata=subset(CashItm, bewertung == "expense")
-  expense=aggregate(wert~taxonomy1+taxonomy2+taxonomy3+titel, sum, data=mdata)
-  
+  assets = prepChartData(CashItm, "static")
+  credit = prepChartData(CashItm, "credit")
+  income = prepChartData(CashItm, "income")
+  expense = prepChartData(CashItm, "expense")
+  nothing = prepChartData(CashItm, "nothing")
   
   output$myChartAssets <- renderChart({
     
@@ -67,5 +68,4 @@ shinyServer(function(input, output, session) {
     return(theChart$copy())
   })
 })
-
 

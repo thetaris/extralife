@@ -1,6 +1,15 @@
 function buildOptions(myJSONObject) {
 var index = [];
 
+// to array
+for (var x in myJSONObject) {
+   if(myJSONObject[x] instanceof Array) continue;
+   
+   var tmp = myJSONObject[x];
+   myJSONObject[x]=[];
+   myJSONObject[x].push(tmp);
+}
+
 // build the index
 for (var x in myJSONObject) {
    if(x !=='wert') index.push(x);
@@ -10,7 +19,7 @@ var mainCat = index[0]
 index.splice(0, 1);
 
 var options=[]
-options['chart'] = {'height': 300,'width':300}
+options['chart'] = {'height': 370,'width':380}
 options['title']= {'text': 'Generic Title'}
 options['xAxis']= {'categories': true}
 options['legend']= {'enabled': false}
