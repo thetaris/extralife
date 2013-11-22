@@ -3,6 +3,7 @@ require(rCharts)
 library(rjson)
 
 source("../bu/balance.R")
+source("../common/readDGSData.R")
 
 prepChartData <- function(data, pBewertung ){
   result ="NoData"
