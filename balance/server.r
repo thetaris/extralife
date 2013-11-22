@@ -3,6 +3,7 @@ require(rCharts)
 library(rjson)
 
 source("../bu/balance.R")
+source("../common/readDGSData.R")
 
 prepChartData <- function(data, pBewertung ){
   result ="NoData"
@@ -15,7 +16,7 @@ prepChartData <- function(data, pBewertung ){
 }
 
 shinyServer(function(input, output,session) {
-  dataObj = DGSData(session=session)
+  dataObj = isolate(DGSData(session=session))
   #dataObj = DGSData(file="../test/testdata2.json")
   
   CashItm = getCashItm(dataObj)
