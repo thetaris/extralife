@@ -15,21 +15,25 @@ shinyServer(function(input, output, session) {
   sid <- isolate(sub('^.*sid=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE))
   
   
-  #data <- readDGSData(file = "../test/testdata.json", requestedFields = c("title","person.geburtsdatum", "person.geschlecht"))
-  data <- isolate(readDGSData(session = session, requestedFields = c("title","person.geburtsdatum", "person.geschlecht")))
+  data <- readDGSData(file = "../test/testdata2.json", requestedFields = c("title","person.geburtsdatum", "person.geschlecht"))
+  #data <- isolate(readDGSData(session = session, requestedFields = c("title","person.geburtsdatum", "person.geschlecht")))
   
   # select only people with birthday
   data <- data.frame(data[!sapply(data[,2], is.null),])
   
   # convert data to fit other algorithms
   name = unlist(data$title)
+  data[data$person.geburtsdatum=="","person.geburtsdatum"] = NA
   birthYear = sapply(data$person.geburtsdatum, function(x) as.numeric(format(as.Date(x), "%Y")))
+  birthYear[is.na(birthYear)] = 0
+  data[data$person.geschlecht=="","person.geschlecht"] = NA
   sex = c(numeric(length(data)))
   sex[data$person.geschlecht == "mann"] <- 1
   sex[data$person.geschlecht == "frau"] <- 2
   sex[is.na(data$person.geschlecht)] <- 0
   data = data.frame(name, birthYear, sex)
-
+  # sort by age
+  data = data[order(-data$birthYear),]
   # read data for population forecast
   PopulationForecastDE<<-read.delim(file = "../mortality/data/PopulationForecastDE.txt", header = FALSE, )
   
