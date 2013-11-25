@@ -1,4 +1,5 @@
 library(shiny)
+library(rCharts)
 
 source('balance.R')
 source('CashFlowAndBalanceSheetStackBarPlot.R')

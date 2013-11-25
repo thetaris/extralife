@@ -1,4 +1,5 @@
 library(shiny)
+library(rCharts)
 
 
 # Define server logic required to generate and plot a random distribution
