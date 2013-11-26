@@ -1,17 +1,11 @@
 library(shiny)
 
 # Define UI for application that plots random distributions 
+#
 shinyUI(bootstrapPage(
-  
-  # load data
-  
-  
-  #load data
-  
-  
   # Show a plot of the generated distribution
   mainPanel(
-    tabsetPanel(
+    div(style="width:800px", tabsetPanel(
       tabPanel("Übersicht der Lebensphasen" 
                ,showOutput("myChart", "nvd3")
                )
@@ -28,7 +22,7 @@ shinyUI(bootstrapPage(
                 ,plotOutput("mortalityPlot")
               )
 
-    )
+    ))
     
   )
 ))
