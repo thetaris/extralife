@@ -13,7 +13,7 @@ recommend <- function(recom_id, target_type, target_id, is_satisfied=FALSE) {
 }
 
 # Define quick access lists
-types = as.numeric(lapply(data, function(iter) {iter$type_id }))
+types = as.numeric(lapply(json, function(iter) {iter$type_id }))
 
 
 # Recommendation 442: Gueltiges Geburtsdatum
