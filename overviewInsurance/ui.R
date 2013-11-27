@@ -15,11 +15,13 @@ shinyUI(basicPage(
   # Show a plot of the generated distribution
   mainPanel(
 #    plotOutput("distPlot")
-     tabsetPanel(
-       tabPanel("Risikoabdeckung", chartOutput("myChart","datatables"))
-       ,tabPanel("Vertragsoptimierung")
-       ,tabPanel("Annahmen")
-       )
+    div(style="width:800px", 
+        tabsetPanel(
+           tabPanel("Risikoabdeckung", chartOutput("myChart","datatables"))
+           ,tabPanel("Vertragsoptimierung")
+           ,tabPanel("Annahmen")
+           )
+    )
   )
   
 ))

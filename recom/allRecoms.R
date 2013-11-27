@@ -11,8 +11,8 @@ recommend <- function(recom_id, target_type, target_id, is_satisfied=FALSE) {
 # Define quick access lists
 types = as.numeric(sapply(json, function(iter) {iter$type_id }))
 has <- function(type) { any(types == type) }
-hasAll <- function(type) { all(sapply(types, function(t) { t %in% types})) }
-hasAny <- function(type) { any(sapply(types, function(t) { t %in% types})) }
+hasAll <- function(type) { all(sapply(types, function(t) { t %in% type})) }
+hasAny <- function(type) { any(sapply(types, function(t) { t %in% type})) }
 
 # Recommendation 442: Gueltiges Geburtsdatum
 for (node in json) {
@@ -49,5 +49,3 @@ if (!any(types==ELTYPE$Ich)) {
       recommend(625, "TERM", missing)
   }
 }
-
-print(result)

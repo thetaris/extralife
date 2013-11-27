@@ -141,8 +141,14 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
       }
     } else {    
       sid <- sub('^.*sid=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
+    }   
+    
+    if (sid==session$clientData$url_search){
+      testFile <- sub('^.*test=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
+      file <- sprintf("../test/%s.json",testFile) 
+    } else {
+      file <- paste("http://cloud.thetaris.com/shiny-data/alldata?sid=",sid,sep='') 
     }
-    file <- paste("http://cloud.thetaris.com/shiny-data/alldata?sid=",sid,sep='') 
   }
   
   data <- fromJSON(file=file)
