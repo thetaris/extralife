@@ -44,8 +44,8 @@ if (!any(types==ELTYPE$Ich)) {
   # Recommendation 626: Familie anlegen
   if (!hasAny(setdiff(ELTYPE$Meine.Familie._, ELTYPE$Ich))) {
     for (missing in ELTYPE$Partner._)
-      recommend(625, "TERM", missing)
+      recommend(626, "TERM", missing)
     for (missing in ELTYPE$Kinder._)
-      recommend(625, "TERM", missing)
+      recommend(626, "TERM", missing)
   }
 }
