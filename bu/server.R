@@ -12,12 +12,10 @@ shinyServer(function(input, output, session) {
   # The following is done once per session:
   
   # get data from JSON service
-  url ='http://thetava.com/shiny-data/vertrag?sid=v69Sp5Cs25vJfwLOGbuW5y52nz0WukTMxUPSko4qPvA'
-  CashStr = getItemsStructure(url)
+  dataObj = isolate(DGSData(session=session))
+  #dataObj = isolate(DGSData(file="../test/testdata2.json"))
   
-  # convert data to data.frame
-  CashItm = getItemsDataFrameFromStructure(CashStr)
-  
+  CashItm = getCashItm(dataObj)  
   # compute time series from data.frame
   CashTS = getCashFlowTS(CashItm)
   

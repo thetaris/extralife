@@ -3,37 +3,39 @@ library(rjson)
 
 library(rCharts)
 
+source('../common/getELTYPE.R')
+source('../common/readDGSData.R')
+
 source('plotMort.R')
 source('plotMort_rCharts.R')
 source('mortality_rCharts.R')
 source('populationForecastrChartsPlot.R')
-source('../common/readDGSData.R')
+
 
 # Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output, session) {
   
-  sid <- isolate(sub('^.*sid=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE))
-  
-  
-  #data <- readDGSData(file = "../test/testdata2.json", requestedFields = c("title","person.geburtsdatum", "person.geschlecht"))
-  data <- isolate(readDGSData(session = session, requestedFields = c("title","person.geburtsdatum", "person.geschlecht")))
-  
-  # select only people with birthday
-  data <- data.frame(data[!sapply(data[,2], is.null),])
-  
+  dataObj = isolate(DGSData(session=session))
+  #dataObj = isolate(DGSData(file="../test/testdata2.json"))
+
+  name <- dataObj$get("title", type=ELTYPE$Meine.Familie._)
+  birthYear <- dataObj$get("person.geburtsdatum", type=ELTYPE$Meine.Familie._)
+  sex <- dataObj$get("person.geschlecht", type=ELTYPE$Meine.Familie._)
+      
   # convert data to fit other algorithms
-  name = unlist(data$title)
-  data[data$person.geburtsdatum=="","person.geburtsdatum"] = NA
-  birthYear = sapply(data$person.geburtsdatum, function(x) as.numeric(format(as.Date(x), "%Y")))
+  birthYear[birthYear==""] = NA
+  birthYear = sapply(birthYear, function(x) as.numeric(format(as.Date(x), "%Y")))
   birthYear[is.na(birthYear)] = 0
-  data[data$person.geschlecht=="","person.geschlecht"] = NA
-  sex = c(numeric(length(data)))
-  sex[data$person.geschlecht == "mann"] <- 1
-  sex[data$person.geschlecht == "frau"] <- 2
-  sex[is.na(data$person.geschlecht)] <- 0
-  data = data.frame(name, birthYear, sex)
+  
+  sex[sex==""] = NA
+  sex[sex == "mann"] <- 1
+  sex[sex == "frau"] <- 2
+  sex[is.na(sex)] <- 0
+  data = data.frame(name, birthYear, sex, row.names=NULL)
+  
   # sort by age
   data = data[order(-data$birthYear),]
+
   # read data for population forecast
   PopulationForecastDE<<-read.delim(file = "../mortality/data/PopulationForecastDE.txt", header = FALSE, )
   
@@ -64,9 +66,9 @@ shinyServer(function(input, output, session) {
     tmp_sex[tmp_sex==1] <-"m"  
     tmp_sex[tmp_sex==2] <-"w"  
     
-    n1 <- plotPopulationForecast_rCharts(input$year,name[1:2], birthYear[1:2], tmp_sex[1:2])
+#   n1 <- plotPopulationForecast_rCharts(input$year,name[1:2], birthYear[1:2], tmp_sex[1:2])
     # link with to HTML page
-    n1$addParams(dom = 'demographyPlot')      
+#    n1$addParams(dom = 'demographyPlot')      
     
     # show how to use input
     #n1$yAxis(tickFormat =  sprintf("#!function(d) {return (d/1000000).toFixed(2) + ' Mio (%i)';}!#",input$year))

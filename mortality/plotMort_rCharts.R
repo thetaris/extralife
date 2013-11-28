@@ -306,6 +306,7 @@ plotMortality_rCharts <- function(familyID){
   
   np<-nPlot(cumulativeProbability~age,group="gender",data = dfplotdata, 
             type = "multiBarChart"
+            #type = "stackedAreaChart"
   )
   
   np$chart(tooltipContent = "#! function(key, x, y) { 

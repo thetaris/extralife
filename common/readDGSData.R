@@ -151,7 +151,7 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
     }
   }
   
-  data <- fromJSON(file=file)
+  data <- suppressWarnings(fromJSON(file=file))
   
   # fill non-existent fields with NULL  
   data2 <- lapply(data, function(j) { j[requestedFields] })
@@ -284,7 +284,7 @@ getCashItm<-function (dataObj = NULL, file = NULL){
   bewertung <- character()
   
   # read Taxonomy
-  taxTree = fromJSON(file="http://cloud.thetaris.com/shiny-data/taxonomy-tree") 
+  taxTree = suppressWarnings(fromJSON(file="http://cloud.thetaris.com/shiny-data/taxonomy-tree"))
   dat<-getTaxonomy(taxTree, recursive = TRUE)
   
   if (is.null(dataObj)){
