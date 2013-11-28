@@ -1,6 +1,8 @@
 library(shiny)
 library(rCharts)
 
+source('../common/readDGSData.R')
+
 source('balance.R')
 source('CashFlowAndBalanceSheetStackBarPlot.R')
 source('CashFlowAndBalanceSheetLinePlot1.R')
