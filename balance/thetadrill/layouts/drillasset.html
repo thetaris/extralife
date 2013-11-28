@@ -1,5 +1,12 @@
 
 <script type='text/javascript'>//<![CDATA[ 
+
+function onRedrawAsset(obj1,obj2) {
+    var myChart = obj1.currentTarget;
+    var inp = document.getElementById( "myassetlevel" );
+    onRedraw(myChart,inp,'asset');
+}
+
 var params = {{{ chartParams }}};
 
 $(function(){
@@ -16,9 +23,9 @@ var options = buildOptions(params.data)
 options.chart.renderTo = 'container1';
 options.chart.type = 'pie';
 options.title.text='Vermoegen';
-options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '70%' } }
+options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }
 
-// use this options.chart.events={ redraw: function() {alert ('The chart was just redrawn'); }}
+options.chart.events={ redraw: onRedrawAsset}
 //options.chart.events['click'] = function() {alert ('The chart was just click'); }
 //options.labels ={'events':{ 'redraw': function() {alert ('The label was just redrawn'); }}}
 //options.labels.events['click'] = function() {alert ('The label was just click'); }
@@ -29,7 +36,8 @@ options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': 
 //options.plotOptions['area']['events']['redraw']= function() {alert ('The area was just redraw'); }
 
 var chart2 = new Highcharts.Chart(options);
-var chart = $('#container1').highcharts();
+chart2['id']='asset';
+chart2.drilldownLevels=[]
 } else {
   // do nothing  
   
