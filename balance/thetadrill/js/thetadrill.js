@@ -44,7 +44,7 @@ options['title']= {'text': 'Generic Title'}
 options['xAxis']= {'categories': true}
 options['legend']= {'enabled': false}
 options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '70%' } }
-  
+options['tooltip'] = {'valueSuffix':' \u20AC'  }
 var series=[]
 options['series'] =series
 var seriesData = []

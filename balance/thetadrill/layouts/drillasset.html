@@ -12,28 +12,29 @@ var params = {{{ chartParams }}};
 $(function(){
 Highcharts.setOptions({
     lang: {
-        drillUpText: '< Back to {series.name}'
+        drillUpText: '< Back to {series.name}',
+        decimalPoint:',',
+        thousandsSep:'.'
     }
 });
 
 
 var options = buildOptions(params.data)
  if(options instanceof Array) {
+   var sum=0;
+   var opts0 = options.series[0]
+   for(var idx =0; idx<opts0.data.length;idx++) {
+    sum += opts0.data[idx].y
+    }
+
 // Pie
 options.chart.renderTo = 'container1';
 options.chart.type = 'pie';
-options.title.text='Vermoegen';
+options.title.text='Vermoegen '  + sum + ' \u20AC';
 options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }
 
 options.chart.events={ redraw: onRedrawAsset}
-//options.chart.events['click'] = function() {alert ('The chart was just click'); }
-//options.labels ={'events':{ 'redraw': function() {alert ('The label was just redrawn'); }}}
-//options.labels.events['click'] = function() {alert ('The label was just click'); }
-//options.plotOptions['column']={'point':{'events':{'click' : function() {alert ('The point was just click'); }}}}
-//options.plotOptions['pie']={'point':{'events':{'click' : function() {alert ('The pie was just click'); }}}}
-//options.plotOptions['pie']['point']['events']['redraw'] = function() {alert ('The pie was just redrawn'); }
-//options.plotOptions['area']={'events':{'click': function() {alert ('The area was just click'); }}}
-//options.plotOptions['area']['events']['redraw']= function() {alert ('The area was just redraw'); }
+
 
 var chart2 = new Highcharts.Chart(options);
 chart2['id']='asset';
@@ -47,4 +48,4 @@ chart2.drilldownLevels=[]
 });//]]>  
 
 </script>
-<div id="container1" style="float:left;height: 400px; width: 380px; margin: 0 auto"></div>
+<div id="container1" style="height: 400px; width: 880px; margin: 0 auto"></div>

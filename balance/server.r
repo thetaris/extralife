@@ -80,6 +80,7 @@ shinyServer(function(input, output,session) {
     filterstr = input$myassetlevel
     print(filterstr)
     toShow =filterTableData(toShow,filterstr,categorynames)
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
     head(toShow,n=nrow(toShow))
   })
   
@@ -104,6 +105,7 @@ shinyServer(function(input, output,session) {
     toShow = credit
     filterstr = input$mycreditlevel
     toShow =filterTableData(toShow,filterstr,categorynames)
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
     head(toShow,n=nrow(toShow))
     
     
@@ -130,6 +132,7 @@ shinyServer(function(input, output,session) {
     toShow = income
     filterstr = input$myincomelevel
     toShow =filterTableData(toShow,filterstr,categorynames)
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
     head(toShow,n=nrow(toShow))
   })
 
@@ -154,6 +157,7 @@ shinyServer(function(input, output,session) {
     toShow = expense
     filterstr = input$myexpenselevel
     toShow =filterTableData(toShow,filterstr,categorynames)
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
     head(toShow,n=nrow(toShow))
   })
 

@@ -12,7 +12,9 @@ var params = {{{ chartParams }}};
 $(function(){
 Highcharts.setOptions({
     lang: {
-        drillUpText: '< Back to {series.name}'
+        drillUpText: '< Back to {series.name}',
+        decimalPoint:',',
+        thousandsSep:'.'
     }
 });
 
@@ -38,4 +40,4 @@ if(options instanceof Array) {
 });//]]>  
 
 </script>
-<span id="container3" style="float:left;height: 400px; width: 380px; margin: 0 auto"></span>
+<span id="container3" style="height: 400px; width: 880px; margin: 0 auto"></span>
