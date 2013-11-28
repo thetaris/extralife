@@ -5,22 +5,31 @@ shinyUI(bootstrapPage(
   
   # Show a plot of the generated distribution
   mainPanel(
+    tags$div(width="800px",
     tabsetPanel(
       tabPanel("Übersicht" 
       )
       
       ,tabPanel("Vermögen",
-                showOutput("myChartAssets", "thetadrill")                       
+                showOutput("myChartAssets", "thetadrill"),
+                tableOutput("myAssetTable"),
+                textInput("myassetlevel", "", value="")
       )
       ,tabPanel("Kredite",
-                showOutput("myChartCredit", "thetadrill") 
+                showOutput("myChartCredit", "thetadrill"), 
+                tableOutput("myCreditTable"),
+                textInput("mycreditlevel", "", value="")
       )      
       ,tabPanel("Einnahmen",
-                showOutput("myChartIncome", "thetadrill")
+                showOutput("myChartIncome", "thetadrill"),
+                tableOutput("myIncomeTable"),
+                textInput("myincomelevel", "", value="")
       ) 
       ,tabPanel("Ausgaben",
-                showOutput("myChartExpense", "thetadrill")
+                showOutput("myChartExpense", "thetadrill"),
+                tableOutput("myExpenseTable"),
+                textInput("myexpenselevel", "", value="")
       )
     )
-    
+    )
   )))

@@ -1,3 +1,20 @@
+
+function onRedraw(myChart,inp,id) {
+
+  var levels = myChart.drilldownLevels;
+  myChart.drilldownLevels[id]=id;
+ 
+  var inpValue = [];
+  for(idx = 0; idx<levels.length;idx++) {
+    var name = levels[idx].pointOptions.name;
+    inpValue.push(name);
+
+    }
+  inp.value= JSON.stringify(inpValue);
+  var e = new KeyboardEvent("keyup", {bubbles : true, cancelable : true, key : "Q", char : "Q", shiftKey : true});
+  inp.dispatchEvent(e);
+}
+
 function buildOptions(myJSONObject) {
 if(myJSONObject === 'NoData') {
   return myJSONObject;
@@ -54,12 +71,12 @@ for(idx = 0; idx<myJSONObject['wert'].length;idx++) {
 	}
 	
 	var localDrilldown = ddmap[rowMainCat]
-	for(subcat = 0; subcat<index.length;subcat++) {
+	for(var subcat = 0; subcat<index.length;subcat++) {
 		var cat = index[subcat]
 		var catValue = myJSONObject[cat][idx];
 		var catValueDd =undefined
 		
-		for (subidx=0; subidx<localDrilldown['data'].length;subidx++) {
+		for (var subidx=0; subidx<localDrilldown['data'].length;subidx++) {
 		    var foo = localDrilldown['data'][subidx]
 			if(localDrilldown['data'][subidx]['name'] !== catValue) continue;
 			catValueDd = localDrilldown['data'][subidx]
@@ -84,7 +101,7 @@ var ddmap = []
 options['drilldown']={'series':[]}
 for (idx =0;idx<drilldown.length;idx++) {
 	var d = drilldown[idx]
-	if(d['data'].length>1) {
+	if(d['data'].length>0) {
 		options['drilldown']['series'].push(d)
 		ddmap[d['name']] = d
 	}

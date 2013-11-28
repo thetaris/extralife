@@ -1,0 +1,39 @@
+
+<script type='text/javascript'>//<![CDATA[ 
+
+function onRedrawExpense(obj1,obj2) {
+    var myChart = obj1.currentTarget;
+    var inp = document.getElementById( "myexpenselevel" );
+    onRedraw(myChart,inp,'expense');
+}
+
+var params = {{{ chartParams }}};
+
+$(function(){
+Highcharts.setOptions({
+    lang: {
+        drillUpText: '< Back to {series.name}'
+    }
+});
+
+
+var options = buildOptions(params.data)
+
+if(options instanceof Array) {
+  // Pie
+  options.chart.renderTo = 'container4';
+  options.chart.type = 'pie';
+  options.title.text='Ausgaben';
+  options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }
+  options.chart.events={ redraw: onRedrawExpense}
+  var chart2 = new Highcharts.Chart(options);
+  chart2.drilldownLevels=[]
+  chart2['id']='expense';
+
+} else {
+  }
+
+});//]]>  
+
+</script>
+<span id="container4" style="float:left;height: 400px; width: 380px; margin: 0 auto"></span>
