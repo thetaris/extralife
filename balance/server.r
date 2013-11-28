@@ -5,29 +5,36 @@ library(rjson)
 source("../bu/balance.R")
 source("../common/readDGSData.R")
 
-prepChartData <- function(data, pBewertung ){
+makeAggregateString<- function(categorynames) {
+  aggregateString = 'wert~'
+  for(i in 1:length(categorynames)) {
+    if(i>1) aggregateString = paste(aggregateString,'+',categorynames[i],sep='') 
+    else    aggregateString = paste(aggregateString,categorynames[i],sep='')      
+  }
+  aggregateString = paste(aggregateString,'+titel',sep='')  
+}
+
+prepChartData <- function(data, pBewertung,aggregateString ){
   result ="NoData"
-  
   mdata = subset(data, bewertung == pBewertung)
   if(nrow(mdata)>0) 
-    result=aggregate(wert~taxonomy1+taxonomy2+taxonomy3+titel, sum, data=mdata)
-  
+    #result = aggregate(wert~taxonomy1+taxonomy2+taxonomy3+titel, sum, data=mdata)
+    result = aggregate(formula(aggregateString), sum, data=mdata)
   result  
 }
 
-filterTableData <- function(data,filterstr) {
+filterTableData <- function(data,filterstr,categories) {
  
   if(nchar(filterstr)>0) {
     filters = fromJSON(filterstr)
     
-    if(length(filters)>0) {
+    if(length(filters)>0 && length(categories)>0 ) {
+      flength=min(length(filters),length(categories))
       
-      for (i in 1:length(filters)) {
-        print(filters[i])
-        if(i==1)          data = subset(data, taxonomy1 == filters[1])    
-        if(i==2)          data = subset(data, taxonomy2 == filters[2])   
-        if(i==3)          data = subset(data, taxonomy3 == filters[3])
-      }
+      #CashItm[CashItm['taxonomy1']=="Mein Besitz", ]
+      for (i in 1:flength) {
+        data = data[data[categories[i]]== filters[i],]
+        }
     }
   }
  
@@ -42,14 +49,14 @@ shinyServer(function(input, output,session) {
   #dataObj = isolate(DGSData(sid="NDvJD2-LPQ42nt4JcHM4TMG-OWXY18ZraNEb3rV7Qd4"))
   
   CashItm = getCashItm(dataObj)
-  print(CashItm)
-  allData=aggregate(wert~taxonomy1+taxonomy2+taxonomy3, sum, data=CashItm)
-  print(allData)
-  assets = prepChartData(CashItm, "static")
-  credit = prepChartData(CashItm, "credit")
-  print(credit)
-  income = prepChartData(CashItm, "income")
-  expense = prepChartData(CashItm, "expense")
+  categorynames=colnames(CashItm)
+  categorynames =categorynames[grepl("^taxonomy.*", categorynames)]
+  aggregateString = makeAggregateString(categorynames);
+  
+  assets = prepChartData(CashItm, "static",aggregateString)
+  credit = prepChartData(CashItm, "credit",aggregateString)
+  income = prepChartData(CashItm, "income",aggregateString)
+  expense = prepChartData(CashItm, "expense",aggregateString)
   
   # asset
   output$myChartAssets <- renderChart({
@@ -64,15 +71,15 @@ shinyServer(function(input, output,session) {
   
   output$myAssetTable <- renderTable({
     if(is.character(assets)) {
-      res = data.frame(numeric(0), character(0))
-      colnames(res) <- c("", "")
+      res = data.frame(character(0))
+      colnames(res) <- c("")
       return(head(res,n=0))
     }
     
     toShow = assets
     filterstr = input$myassetlevel
     print(filterstr)
-    toShow =filterTableData(toShow,filterstr)
+    toShow =filterTableData(toShow,filterstr,categorynames)
     head(toShow,n=nrow(toShow))
   })
   
@@ -89,14 +96,14 @@ shinyServer(function(input, output,session) {
   })
   output$myCreditTable <- renderTable({
     if(is.character(credit)) {
-      res = data.frame(numeric(0), character(0))
-      colnames(res) <- c("", "")
+      res = data.frame(character(0))
+      colnames(res) <- c("")
       return(head(res,n=0))
     } 
     
     toShow = credit
     filterstr = input$mycreditlevel
-    toShow =filterTableData(toShow,filterstr)
+    toShow =filterTableData(toShow,filterstr,categorynames)
     head(toShow,n=nrow(toShow))
     
     
@@ -115,14 +122,14 @@ shinyServer(function(input, output,session) {
   })
   output$myIncomeTable <- renderTable({
     if(is.character(income)) {
-      res = data.frame(numeric(0), character(0))
-      colnames(res) <- c("", "")
+      res = data.frame( character(0))
+      colnames(res) <- c("")
       return(head(res,n=0))
     } 
     
     toShow = income
     filterstr = input$myincomelevel
-    toShow =filterTableData(toShow,filterstr)
+    toShow =filterTableData(toShow,filterstr,categorynames)
     head(toShow,n=nrow(toShow))
   })
 
@@ -139,14 +146,14 @@ shinyServer(function(input, output,session) {
   })
   output$myExpenseTable <- renderTable({
     if(is.character(expense)) {
-      res = data.frame(numeric(0), character(0))
-      colnames(res) <- c("", "")
+      res = data.frame(character(0))
+      colnames(res) <- c("")
       return(head(res,n=0))
     }
     
     toShow = expense
     filterstr = input$myexpenselevel
-    toShow =filterTableData(toShow,filterstr)
+    toShow =filterTableData(toShow,filterstr,categorynames)
     head(toShow,n=nrow(toShow))
   })
 

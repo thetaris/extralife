@@ -77,13 +77,13 @@ for(idx = 0; idx<myJSONObject['wert'].length;idx++) {
 		var catValueDd =undefined
 		
 		for (var subidx=0; subidx<localDrilldown['data'].length;subidx++) {
-		    var foo = localDrilldown['data'][subidx]
 			if(localDrilldown['data'][subidx]['name'] !== catValue) continue;
 			catValueDd = localDrilldown['data'][subidx]
 		}
 		
 		if(!catValueDd) {
-			localDrilldown['data'].push({'name': catValue, 'y': value,'drilldown': catValue})
+      if(subcat==index.length-1)  localDrilldown['data'].push({'name': catValue, 'y': value,'drilldown': ''})
+      else                        localDrilldown['data'].push({'name': catValue, 'y': value,'drilldown': catValue})
 		} else {
 			catValueDd['y'] = catValueDd['y'] +value
 		}
