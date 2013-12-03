@@ -1,0 +1,51 @@
+
+<script type='text/javascript'>//<![CDATA[ 
+
+function onRedrawAsset(obj1,obj2) {
+    var myChart = obj1.currentTarget;
+    var inp = document.getElementById( "myassetlevel" );
+    onRedraw(myChart,inp,'asset');
+}
+
+var params = {{{ chartParams }}};
+
+$(function(){
+Highcharts.setOptions({
+    lang: {
+        drillUpText: '< Back to {series.name}',
+        decimalPoint:',',
+        thousandsSep:'.'
+    }
+});
+
+
+var options = buildOptions(params.data)
+ if(options instanceof Array) {
+   var sum=0;
+   var opts0 = options.series[0]
+   for(var idx =0; idx<opts0.data.length;idx++) {
+    sum += opts0.data[idx].y
+    }
+
+// Pie
+options.chart.renderTo = 'container1';
+options.chart.type = 'pie';
+options.title.text='Vermoegen '  + sum + ' \u20AC';
+options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }
+
+options.chart.events={ redraw: onRedrawAsset}
+
+
+var chart2 = new Highcharts.Chart(options);
+chart2['id']='asset';
+chart2.drilldownLevels=[]
+} else {
+  // do nothing  
+  
+  }
+
+
+});//]]>  
+
+</script>
+<div id="container1" style="height: 400px; width: 880px; margin: 0 auto"></div>

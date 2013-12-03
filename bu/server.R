@@ -1,6 +1,8 @@
 library(shiny)
 library(rCharts)
 
+source('../common/readDGSData.R')
+
 source('balance.R')
 source('CashFlowAndBalanceSheetStackBarPlot.R')
 source('CashFlowAndBalanceSheetLinePlot1.R')
@@ -12,12 +14,10 @@ shinyServer(function(input, output, session) {
   # The following is done once per session:
   
   # get data from JSON service
-  url ='http://thetava.com/shiny-data/vertrag?sid=v69Sp5Cs25vJfwLOGbuW5y52nz0WukTMxUPSko4qPvA'
-  CashStr = getItemsStructure(url)
+  dataObj = isolate(DGSData(session=session))
+  #dataObj = isolate(DGSData(file="../test/testdata2.json"))
   
-  # convert data to data.frame
-  CashItm = getItemsDataFrameFromStructure(CashStr)
-  
+  CashItm = getCashItm(dataObj)  
   # compute time series from data.frame
   CashTS = getCashFlowTS(CashItm)
   
@@ -148,6 +148,7 @@ shinyServer(function(input, output, session) {
     n1 <- nPlot(Dauer ~ Name, data = phase, group = 'Lebensabschnitt', type = 'multiBarChart')
     n1$yAxis(tickFormat = "#!function(d) {return (d/1000000).toFixed(2) + ' Mio';}!#")
     n1$chart(width = 450)
+    n1$chart(stacked = 'true')
     return(n1)
     
     ##################################################################################################

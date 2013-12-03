@@ -1,0 +1,46 @@
+
+<script type='text/javascript'>//<![CDATA[ 
+
+function onRedrawCredit(obj1,obj2) {
+    var myChart = obj1.currentTarget;
+    var inp = document.getElementById( "mycreditlevel" );
+    onRedraw(myChart,inp,'credit');
+}
+
+var params = {{{ chartParams }}};
+
+$(function(){
+Highcharts.setOptions({
+    lang: {
+        drillUpText: '< Back to {series.name}',
+        decimalPoint:',',
+        thousandsSep:'.'
+    }
+});
+
+
+var options = buildOptions(params.data)
+if(options instanceof Array) {
+sum=0;
+opts0 = options.series[0]
+for(dat in opts0.data) {
+  sum += dat.y
+}
+
+// Pie
+options.chart.renderTo = 'container2';
+options.chart.type = 'pie';
+options.title.text='Kredite ' + sum;
+options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }
+options.chart.events={ redraw: onRedrawCredit}
+
+var chart2 = new Highcharts.Chart(options);
+chart2.drilldownLevels=[]
+chart2['id']='credit';
+} else {
+  }
+  
+});//]]>  
+
+</script>
+<div id="container2" style="height: 400px; width: 880px; margin: 0 auto"></div>
