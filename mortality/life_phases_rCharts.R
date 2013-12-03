@@ -56,7 +56,7 @@ for (i in 1:length(Gender)){
 
   tmp<-findSurvivalQuantile(DateOfBirth[i], Gender[i], 0.5)  
   if (length( tmp$year)>0){
-    WahrscheinlichesSterbedatum[i] = tmp$year
+    WahrscheinlichesSterbedatum[i] = as.numeric(as.Date(ISOdate(tmp$year, 1, 1)))
   }else{
     WahrscheinlichesSterbedatum[i] = 0
   }  
@@ -83,7 +83,7 @@ for(i in 1:length(DateOfBirth)){
   Name_frame[(i-1)*3+3] = Names[i]
   Phase_frame[(i-1)*3+3] = "Rentenphase"
   Dauer_frame[(i-1)*3+3] = max(as.numeric(WahrscheinlichesSterbedatum[i] - (as.numeric(Sys.Date()) + 365.24 *(Dauer_frame[(i-1)*3+1] + Dauer_frame[(i-1)*3+2]) )) /365.24, 0)
-  print(WahrscheinlichesSterbedatum[i] )
+  
 }
 
 

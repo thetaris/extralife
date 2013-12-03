@@ -3,7 +3,7 @@ require(rjson)
 getELTYPE <- function() {
   ELTYPE <<- list()
   
-  taxTree <- fromJSON(file="http://cloud.thetaris.com/shiny-data/taxonomy-tree") 
+  taxTree <- suppressWarnings(fromJSON(file="http://cloud.thetaris.com/shiny-data/taxonomy-tree")) 
   
   process <- function(subTree) {
     allIds <- c()

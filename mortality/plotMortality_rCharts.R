@@ -454,9 +454,9 @@ plotMortality_rCharts <- function(familyID){
   np$xAxis(staggerLabels = FALSE, showMaxMin=TRUE)
   
   
-  np
+  return(np)
   
   }
 
 
-plotMortality_rCharts(familyID)
+#plotMortality_rCharts(familyID)

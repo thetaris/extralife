@@ -177,8 +177,8 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
 #   dataObj <- DGSData(file = "../test/testdata.json" )
 #   tmp = dataObj$get("person.geschlecht")
 #   tmp = dataObj$get("person.geburtsdatum")
-#   tmp = dataObj$get("person.geburtsdatum", getType_idFromTaxonomyMap()$Meine_Familie)
-#   tmp = dataObj$get("person.geburtsdatum", getType_idFromTaxonomyMap()$ich)
+#   tmp = dataObj$get("person.geburtsdatum", type=ELTYPE$Meine.Familie._)
+#   tmp = dataObj$get("person.geburtsdatum", type=ELTYPE$Ich)
 #   print(dataObj$getLog())
 #   #
   
@@ -208,7 +208,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       
       return(result)
     }
-    
+    sel = NULL
     # check inputs    
     if (!is.null(type)){
       # type_id is provided: find matching nodes
@@ -233,10 +233,15 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
     
     n <- length(value)
     
-    node_id       <- sanitize(.data[,"node_id"], n)
-    title         <- sanitize(.data[,"title"], n)
-    field         <- sanitize(requestedField, n)  
-    
+    if (is.null(sel)){
+      node_id       <- sanitize(.data[,"node_id"], n)
+      title         <- sanitize(.data[,"title"], n)
+      field         <- sanitize(requestedField, n)  
+    } else{
+      node_id       <- sanitize(.data[sel,"node_id"], n)
+      title         <- sanitize(.data[sel,"title"], n)      
+      field         <- sanitize(requestedField, n) 
+    }
     estimatedFlag <- sanitize(FALSE, n)
     
     if (sys.nframe()>1){

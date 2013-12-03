@@ -6,9 +6,9 @@ library(rCharts)
 source('../common/getELTYPE.R')
 source('../common/readDGSData.R')
 
-source('plotMort.R')
-source('plotMort_rCharts.R')
 source('mortality_rCharts.R')
+source('plotMort.R')
+source('life_phases_rCharts.R')
 source('populationForecastrChartsPlot.R')
 
 
@@ -19,19 +19,18 @@ shinyServer(function(input, output, session) {
   #dataObj = isolate(DGSData(file="../test/testdata2.json"))
 
   name <- dataObj$get("title", type=ELTYPE$Meine.Familie._)
-  birthYear <- dataObj$get("person.geburtsdatum", type=ELTYPE$Meine.Familie._)
+  birthDay <- dataObj$get("person.geburtsdatum", type=ELTYPE$Meine.Familie._)
   sex <- dataObj$get("person.geschlecht", type=ELTYPE$Meine.Familie._)
       
   # convert data to fit other algorithms
-  birthYear[birthYear==""] = NA
-  birthYear = sapply(birthYear, function(x) as.numeric(format(as.Date(x), "%Y")))
+  birthDay[birthDay==""] = NA
+  birthYear = sapply(birthDay, function(x) as.numeric(format(as.Date(x), "%Y")))
   birthYear[is.na(birthYear)] = 0
   
-  sex[sex==""] = NA
-  sex[sex == "mann"] <- 1
-  sex[sex == "frau"] <- 2
+  sex[sex==""]    <- 0
   sex[is.na(sex)] <- 0
-  data = data.frame(name, birthYear, sex, row.names=NULL)
+  
+  data = data.frame(name, birthYear, birthDay, sex, row.names=NULL)
   
   # sort by age
   data = data[order(-data$birthYear),]
@@ -48,13 +47,15 @@ shinyServer(function(input, output, session) {
   
   
   output$mortalityPlotRCharts<- renderChart({  
-        
-    n2 = plotMortality_rCharts(data[data$name==input$dataName,])
+   tmpData = data[data$name==input$dataName,]
     
+   n2 <- mortalityHistogram(as.Date(tmpData$birthDay), tmpData$sex, tmpData$name)        
+   #n2 = plotMortality_rCharts(data[data$name==input$dataName,])
+         
     # link with HTML page
-    n2$addParams(dom = 'mortalityPlotRCharts')      
+   n2$addParams(dom = 'mortalityPlotRCharts')      
         
-    return(n2)      
+   return(n2)      
   })
   
   output$dataNames <-renderUI({
