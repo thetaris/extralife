@@ -28,8 +28,9 @@ textareaField <- function(field, text, rows=5) {
 
 selectField <- function(field, text, values, optionNames) {
   inputFrame(text, 
-               tags$select(tags$section(lapply(data.frame(rbind(values, optionNames)), 
-                                                function(x) { tags$option(value=x[[1]], x[[2]]) }))))
+               tags$select(`data-name`=field,
+                  tags$section(lapply(data.frame(rbind(values, optionNames)), 
+                                                  function(x) { tags$option(value=x[[1]], x[[2]]) }))))
 }
 dynamicSelectField <- function(field, text, dataSource) {
   inputFrame(text, 
