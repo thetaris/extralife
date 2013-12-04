@@ -36,7 +36,7 @@ demographyChart <- function(currentYear, name, birthYear, gender_in){
   #PopulationForecastDE<<-read.delim(file = "../mortality/data/PopulationForecastDE.txt", header = TRUE, )
   
   # select subset of data with correct year
-  data = PopulationForecastDE[PopulationForecastDE$X==as.character(2013),]
+  data = PopulationForecastDE[PopulationForecastDE$X==currentYear,]
   
   # present male data to the left using negative values
   data[data$X.1=="m",3:22]=-as.numeric(data[data$X.1=="m",3:22])
