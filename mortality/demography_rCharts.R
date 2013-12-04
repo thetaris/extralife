@@ -81,5 +81,6 @@ demographyChart <- function(currentYear, name, birthYear, gender_in){
   pf$chart(stacked = T, showControls = F)
   
   pf$yAxis(tickFormat="#!function(d) {if (d>0) {res = d/1000 + ' Mio. Frauen'} else {res = -d/1000 + ' Mio. Männer'} return res;}!#" )
+  pf$yAxis(showMaxMin = F)
   return(pf)
 }

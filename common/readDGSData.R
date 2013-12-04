@@ -143,7 +143,7 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
       sid <- sub('^.*sid=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
     }   
     
-    if (sid==session$clientData$url_search){
+    if ((length(session$clientData$url_search)>0) && (sid==session$clientData$url_search)){
       testFile <- sub('^.*test=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
       file <- sprintf("../test/%s.json",testFile) 
     } else {
