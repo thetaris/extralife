@@ -68,7 +68,9 @@ shinyServer(function(input, output, session) {
     tmp_sex[tmp_sex=="frau"] <-"w"  
     
     n1 <- demographyChart(input$year,name, birthYear, gender_in = tmp_sex)
-
+    # does not work yet in shiny, rCharts has a bug there
+    #n1 <- demographyChartControlled()
+    
     # link with to HTML page
     n1$addParams(dom = 'demographyPlot')      
                 

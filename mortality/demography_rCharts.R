@@ -1,4 +1,48 @@
 demographyChart <- function(currentYear, name, birthYear, gender_in){
+  plotData <- demographyChartPrepareData(currentYear, name, birthYear, gender_in)
+  
+  pf<-nPlot(forecast~age, group="phase", data = plotData, type = "multiBarHorizontalChart")
+  pf$chart(stacked = T, showControls = F)
+  
+  pf$yAxis(tickFormat="#!function(d) {if (d>0) {res = d/1000 + ' Mio. Frauen'} else {res = -d/1000 + ' Mio. Männer'} return res;}!#" )
+  pf$yAxis(showMaxMin = F)
+  return(pf)
+}
+
+demographyChartControlled <- function(currentYear=2013, name=NULL, birthYear=NULL, gender_in=NULL){
+  simulatedYears <- c(2009:2060)
+  coln <- c()
+  for (iterCurrentYear in simulatedYears){
+    plotDataTmp <- demographyChartPrepareData(iterCurrentYear, name=NULL, birthYear=NULL, gender_in=NULL)
+    if (iterCurrentYear==simulatedYears[1]){
+      plotData <- plotDataTmp
+      colnTmp <- colnames(plotDataTmp)
+      tmpCol <- sprintf("forecast.%i",iterCurrentYear)
+      coln <- c(coln, tmpCol)
+      colnTmp[3]<-tmpCol
+      colnames(plotData) <- colnTmp;
+    }else{
+      plotData <- cbind(plotData, forecast=plotDataTmp$forecast)
+      colnTmp <- colnames(plotData)
+      tmpCol <- sprintf("forecast.%i",iterCurrentYear)
+      coln <- c(coln, tmpCol)
+      colnTmp[length(colnTmp)]<-tmpCol
+      colnames(plotData) <- colnTmp;
+    }
+  }
+#  return(plotData)
+  pf<-nPlot(forecast.2014~age, group="phase", data = plotData, type = "multiBarHorizontalChart")
+  
+  pf$addControls("y", value = "forecast.2015", values = coln)
+  pf$chart(stacked = T, showControls = F)
+  
+  pf$yAxis(tickFormat="#!function(d) {if (d>0) {res = d/1000 + ' Mio. Frauen'} else {res = -d/1000 + ' Mio. Männer'} return res;}!#" )
+  pf$yAxis(showMaxMin = F)
+  return(pf)
+}
+
+
+demographyChartPrepareData <- function(currentYear, name, birthYear, gender_in){
   # Creates the demography charts of Germany including persons
   # 
   # example:
@@ -63,6 +107,7 @@ demographyChart <- function(currentYear, name, birthYear, gender_in){
   plotData = rbind(plotDataEducation, plotDataWorking, plotDataRetired)
   
   # include persons and remove corresponding population bar
+  if (length(name)>0){
   for (iterPersons in 1:length(name)){
     personData = data.frame(age, group, forecast=forecast, phase="to come", gender, stringsAsFactors = FALSE)
     
@@ -76,11 +121,7 @@ demographyChart <- function(currentYear, name, birthYear, gender_in){
     personData[,"phase"] = name[iterPersons]
     plotData = rbind(plotData, personData)
   }
+  }
   plotData = plotData[order(-plotData$age),]
-  pf<-nPlot(forecast~age, group="phase", data = plotData, type = "multiBarHorizontalChart")
-  pf$chart(stacked = T, showControls = F)
-  
-  pf$yAxis(tickFormat="#!function(d) {if (d>0) {res = d/1000 + ' Mio. Frauen'} else {res = -d/1000 + ' Mio. Männer'} return res;}!#" )
-  pf$yAxis(showMaxMin = F)
-  return(pf)
+  return(plotData)
 }
