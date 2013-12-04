@@ -33,7 +33,7 @@ demographyChart <- function(currentYear, name, birthYear, gender_in){
     gender_in = uniqueGender_in
   }
   
-  PopulationForecastDE<<-read.delim(file = "../mortality/data/PopulationForecastDE.txt", header = TRUE, )
+  #PopulationForecastDE<<-read.delim(file = "../mortality/data/PopulationForecastDE.txt", header = TRUE, )
   
   # select subset of data with correct year
   data = PopulationForecastDE[PopulationForecastDE$X==as.character(2013),]
@@ -42,7 +42,7 @@ demographyChart <- function(currentYear, name, birthYear, gender_in){
   data[data$X.1=="m",3:22]=-as.numeric(data[data$X.1=="m",3:22])
   data[data$X.1=="w",3:22]= as.numeric(data[data$X.1=="w",3:22])
   
-  # rearrange data 
+  # rearrange data for plotting 
   group = c()
   forecast = c()
   age = c()
@@ -62,7 +62,7 @@ demographyChart <- function(currentYear, name, birthYear, gender_in){
   
   plotData = rbind(plotDataEducation, plotDataWorking, plotDataRetired)
   
-  
+  # include persons and remove corresponding population bar
   for (iterPersons in 1:length(name)){
     personData = data.frame(age, group, forecast=forecast, phase="to come", gender, stringsAsFactors = FALSE)
     
@@ -80,7 +80,6 @@ demographyChart <- function(currentYear, name, birthYear, gender_in){
   pf<-nPlot(forecast~age, group="phase", data = plotData, type = "multiBarHorizontalChart")
   pf$chart(stacked = T, showControls = F)
   
-  #pf$yAxis(tickFormat="#!function(d) {return Math.abs(d)/1000 + ' Mio.';}!#" )
   pf$yAxis(tickFormat="#!function(d) {if (d>0) {res = d/1000 + ' Mio. Frauen'} else {res = -d/1000 + ' Mio. Männer'} return res;}!#" )
   return(pf)
 }

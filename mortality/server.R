@@ -7,9 +7,9 @@ source('../common/getELTYPE.R')
 source('../common/readDGSData.R')
 
 source('mortality_rCharts.R')
-source('plotMort.R')
+#source('plotMort.R')
 source('life_phases_rCharts.R')
-source('populationForecastrChartsPlot.R')
+source('demography_rCharts.R')
 
 
 # Define server logic required to generate and plot a random distribution
@@ -36,7 +36,7 @@ shinyServer(function(input, output, session) {
   data = data[order(-data$birthYear),]
 
   # read data for population forecast
-  PopulationForecastDE<<-read.delim(file = "../mortality/data/PopulationForecastDE.txt", header = FALSE, )
+  PopulationForecastDE<<-read.delim(file = "../mortality/data/PopulationForecastDE.txt", header = TRUE, )
   
   
   output$mortalityPlot <- renderPlot({    
@@ -64,18 +64,14 @@ shinyServer(function(input, output, session) {
   
   output$demographyPlot <- renderChart({
     tmp_sex <- sex;
-    tmp_sex[tmp_sex==1] <-"m"  
-    tmp_sex[tmp_sex==2] <-"w"  
+    tmp_sex[tmp_sex=="mann"] <-"m"  
+    tmp_sex[tmp_sex=="frau"] <-"w"  
     
-#   n1 <- plotPopulationForecast_rCharts(input$year,name[1:2], birthYear[1:2], tmp_sex[1:2])
+    n1 <- demographyChart(input$year,name, birthYear, gender_in = tmp_sex)
+
     # link with to HTML page
-#    n1$addParams(dom = 'demographyPlot')      
-    
-    # show how to use input
-    #n1$yAxis(tickFormat =  sprintf("#!function(d) {return (d/1000000).toFixed(2) + ' Mio (%i)';}!#",input$year))
-    
-    
-    
+    n1$addParams(dom = 'demographyPlot')      
+                
     return(n1)
   })
   
