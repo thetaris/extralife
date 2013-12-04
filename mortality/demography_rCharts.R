@@ -69,7 +69,7 @@ demographyChart <- function(currentYear, name, birthYear, gender_in){
     ageTmp = currentYear - birthYear[iterPersons]
     genderTmp = gender_in[iterPersons]
     
-    sel = ((personData$age<=ageTmp-5) | (personData$age>ageTmp)) | 
+    sel = ((personData$age<=ageTmp) | (personData$age>(ageTmp+5))) | 
       !(personData$gender==genderTmp)
     personData[sel, "forecast"] = 0
     plotData[!sel,"forecast"] = 0
