@@ -19,7 +19,7 @@ shinyUI(bootstrapPage(
       ,tabPanel("Details"   
                ,uiOutput("dataNames")
                 ,showOutput("mortalityPlotRCharts", "nvd3")  
-                ,plotOutput("mortalityPlot")
+                #,plotOutput("mortalityPlot")
               )
 
     ))

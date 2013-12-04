@@ -50,8 +50,9 @@ splitDataByAge<-function(data, age){
   res$education = data
   res$working = data
   res$retirement = data
-  age = age:(age+length(data)-1)
-  
+  if (length(age)==1){
+    age = age:(age+length(data)-1)
+  }
   # set to zero where age is not in phase
   res$education[age>=24] = 0
   res$working[(age<24)|(age>=67)] = 0
@@ -60,6 +61,10 @@ splitDataByAge<-function(data, age){
 }
 
 mortalityHistogram <- function(birthDay, sex, name){
+  if (length(name)==0){
+    return(NULL)
+  }
+  
   age <- as.numeric(Sys.Date()-birthDay)/365.24
   plotProb <- getProbabilities(age, sex)
   
@@ -79,6 +84,24 @@ mortalityHistogram <- function(birthDay, sex, name){
   hist$chart(reduceXTicks = "true")
   #hist$xAxis(staggerLabels = FALSE, showMaxMin=FALSE)
   hist$chart(stacked = "true")
+  
+  birthYear = as.numeric(format(birthDay, "%Y"))  
+
+  hist$chart(tooltip = sprintf("#!function(key, x, y, e, graph){ return '<h3> Alter '+ (x - %i) + '</h3>' +
+                '<p>' + x + '</p>' +'<p>' + key + '</p>' + '<p>' + y + '</p>' ;}!#", birthYear))
+  
+  hist$yAxis(tickFormat = "#!function(d) {return (100*d).toFixed(0) + '%';}!#")
+  
+#   n1$chart(tooltip = "#!function(key, x, y, e, graph){ return '<h3>'+ x + '</h3>' +
+#                 '<p>' + key + '</p>' + '<p>' + ((d3.time.format('%Y').parse(y).getTime()-(new Date()).getTime())/1000/60/60/24/365.24).toFixed(0)  
+#           + ' Jahre</p>' ;}!#")
+#   
+  #n1$chart(width = 700)
+
+  
+#   n1$yAxis(tickFormat = "#!function(d) {return d3.time.format('%Y')( new Date( (new Date()).getTime() + d * 86400000*365.24 ));}!#")
+#   n1$yAxis(axisLabel = "Zeit in Jahren")
+  
   return(hist)
 }
 
