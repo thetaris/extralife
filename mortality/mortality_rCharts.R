@@ -82,7 +82,7 @@ mortalityHistogram <- function(birthDay, sex, name){
   
   hist<-nPlot(prob~plotYear, data = plotData, type = "multiBarChart", group = "phase"  )
   hist$chart(reduceXTicks = "true")
-  #hist$xAxis(staggerLabels = FALSE, showMaxMin=FALSE)
+  
   hist$chart(stacked = "true")
   
   birthYear = as.numeric(format(birthDay, "%Y"))  
@@ -92,16 +92,7 @@ mortalityHistogram <- function(birthDay, sex, name){
   
   hist$yAxis(tickFormat = "#!function(d) {return (100*d).toFixed(0) + '%';}!#")
   
-#   n1$chart(tooltip = "#!function(key, x, y, e, graph){ return '<h3>'+ x + '</h3>' +
-#                 '<p>' + key + '</p>' + '<p>' + ((d3.time.format('%Y').parse(y).getTime()-(new Date()).getTime())/1000/60/60/24/365.24).toFixed(0)  
-#           + ' Jahre</p>' ;}!#")
-#   
-  #n1$chart(width = 700)
-
-  
-#   n1$yAxis(tickFormat = "#!function(d) {return d3.time.format('%Y')( new Date( (new Date()).getTime() + d * 86400000*365.24 ));}!#")
-#   n1$yAxis(axisLabel = "Zeit in Jahren")
-  
+  hist$addParams(dom = 'mortalityPlotRCharts')      
   return(hist)
 }
 

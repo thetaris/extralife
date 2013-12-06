@@ -1,0 +1,51 @@
+Test Mortality and Demography Report
+========================================================
+**Configuration**
+
+should be foldable
+```{r, comment = NA}
+str(ELtestDataFile)
+require(rjson)
+str(suppressWarnings(fromJSON(file=ELtestDataFile)))
+```
+
+**Init**
+
+Include Header.
+```{r results='asis', echo=FALSE, comment = NA}
+# read header fixing nvd3 bug
+source("../test/reportHeaderNvd3.R")
+
+## load the package
+library(rCharts)
+library(shiny)
+library(rjson)
+
+source('../common/getELTYPE.R')
+source('../common/readDGSData.R')
+
+source('mortality_rCharts.R')
+source('life_phases_rCharts.R')
+source('demography_rCharts.R')
+
+source('prepareData.R')
+```
+
+**Data transformation**
+
+```{r echo=FALSE, comment = NA}
+
+dataObj = isolate(DGSData(file=ELtestDataFile))
+data = prepareDataFamily(dataObj)
+str(data)
+```
+
+
+**Tab: Demography**
+
+```{r results = 'asis', comment = NA}
+n1 <- lebensphasenChart(data)
+n1$print('chart2', include_assets = TRUE, cdn = TRUE)
+```
+
+Done.
