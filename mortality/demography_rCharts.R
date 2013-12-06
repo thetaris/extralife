@@ -1,4 +1,8 @@
 demographyChart <- function(currentYear, name, birthYear, gender_in){
+  # reformat gender_in to fit data file
+  gender_in[gender_in=="mann"] <-"m"  
+  gender_in[gender_in=="frau"] <-"w"  
+  
   plotData <- demographyChartPrepareData(currentYear, name, birthYear, gender_in)
   
   pf<-nPlot(forecast~age, group="phase", data = plotData, type = "multiBarHorizontalChart")
@@ -6,7 +10,7 @@ demographyChart <- function(currentYear, name, birthYear, gender_in){
   
   pf$yAxis(tickFormat="#!function(d) {if (d>0) {res = d/1000 + ' Mio. Frauen'} else {res = -d/1000 + ' Mio. Männer'} return res;}!#" )
   pf$yAxis(showMaxMin = F)
-  pf$addParams(dom = 'demographyPlot')    
+  pf$addParams(dom = 'demography')    
   return(pf)
 }
 
@@ -14,6 +18,8 @@ demographyChartControlled <- function(currentYear=2013, name=NULL, birthYear=NUL
   # reformat gender_in to fit data file
   gender_in[gender_in=="mann"] <-"m"  
   gender_in[gender_in=="frau"] <-"w"  
+  
+  print(str(gender_in))
   
   simulatedYears <- c(2009:2060)
   coln <- c()

@@ -1,14 +1,8 @@
-getDensitiesFromFile <- function(fileName = "data/DEU_1D_InsMort_prob_ERGO_Zielbild_Leben.dat"){
-  #get current working directory
-  wd <- getwd()
-  readName <- paste(wd, fileName, sep = "/")
-  #read data file
-  dataSet <- read.csv(readName, sep = "\t", header = FALSE)
-}
 
 getProbabilities <- function(age_in, sex){
   # sex : 1<- male, 2<- female, 0<- unknown
-  densities <- getDensitiesFromFile()
+  
+  # densities is global, created in server.R 
   n <- nrow(densities)
   age <- round(age_in)
     
@@ -92,7 +86,7 @@ mortalityHistogram <- function(birthDay, sex, name){
   
   hist$yAxis(tickFormat = "#!function(d) {return (100*d).toFixed(0) + '%';}!#")
   
-  hist$addParams(dom = 'mortalityPlotRCharts')      
+  hist$addParams(dom = 'mortality')      
   return(hist)
 }
 

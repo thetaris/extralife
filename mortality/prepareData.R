@@ -20,3 +20,11 @@ prepareDataFamily<-function(dataObj){
 prepareDataDemography<-function(){
   PopulationForecastDE<<-read.delim(file = "../mortality/data/PopulationForecastDE.txt", header = TRUE, )  
 }
+
+getDensitiesFromFile <- function(fileName = "../mortality/data/DEU_1D_InsMort_prob_ERGO_Zielbild_Leben.dat"){
+  #get current working directory
+  wd <- getwd()
+  readName <- paste(wd, fileName, sep = "/")
+  #read data file
+  dataSet <- read.csv(readName, sep = "\t", header = FALSE)
+}

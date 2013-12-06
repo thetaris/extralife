@@ -24,11 +24,11 @@ library(rjson)
 source('../common/getELTYPE.R')
 source('../common/readDGSData.R')
 
-source('mortality_rCharts.R')
-source('life_phases_rCharts.R')
-source('demography_rCharts.R')
+source('../mortality/mortality_rCharts.R')
+source('../mortality/life_phases_rCharts.R')
+source('../mortality/demography_rCharts.R')
 
-source('prepareData.R')
+source('../mortality/prepareData.R')
 ```
 
 **Data transformation**
@@ -38,14 +38,37 @@ source('prepareData.R')
 dataObj = isolate(DGSData(file=ELtestDataFile))
 data = prepareDataFamily(dataObj)
 str(data)
+densities <<- getDensitiesFromFile()
+PopulationForecastDE<<-prepareDataDemography()
 ```
 
-
-**Tab: Demography**
+**Tab: life_phases**
 
 ```{r results = 'asis', comment = NA}
 n1 <- lebensphasenChart(data)
-n1$print('chart2', include_assets = TRUE, cdn = TRUE)
+n1$print('life_phases', include_assets = TRUE, cdn = TRUE)
+```
+
+**Tab: Demography 2013**
+
+```{r results = 'asis', comment = NA}
+n2 <- demographyChart(2013,data$name, data$birthYear, gender_in = data$sex)
+n2$print('demography2013', include_assets = TRUE, cdn = TRUE)
+```
+
+**Tab: Demography 2060**
+
+```{r results = 'asis', comment = NA}
+n21 <- demographyChart(2060,data$name, data$birthYear, gender_in = data$sex)
+n21$print('demography2060', include_assets = TRUE, cdn = TRUE)
+```
+
+**Tab: Mortality**
+
+```{r results = 'asis', comment = NA}
+tmpData = data[1,]    
+n3 <- mortalityHistogram(as.Date(tmpData$birthDay), tmpData$sex, tmpData$name)           
+n3$print('mortality', include_assets = TRUE, cdn = TRUE)
 ```
 
 Done.

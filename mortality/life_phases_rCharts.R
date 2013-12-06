@@ -94,7 +94,7 @@ colnames(phase) = c('Name', 'Lebensabschnitt', 'Dauer')
 n1 <- nPlot(Dauer ~ Name, data = phase, group = 'Lebensabschnitt', type = 'multiBarHorizontalChart')
 
 
-n1$addParams(dom = 'myChart')
+n1$addParams(dom = 'life_phases')
 
 n1$chart(stacked = 'true')
 
