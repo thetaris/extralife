@@ -84,8 +84,8 @@ if (!hasAny(ELTYPE$Hausratversicherung)) {
 }
 
 # Recommendation 1657: BU
-if (!hasAny(ELTYPE$Berufsunfähigkeitsversicherung)) {
-  recommend(1657, "TERM", ELTYPE$Berufsunfähigkeitsversicherung)
+if (!hasAny(ELTYPE$Berufsunfaehigkeitsversicherung)) {
+  recommend(1657, "TERM", ELTYPE$Berufsunfaehigkeitsversicherung)
 }
 
 #Recommendation 185: Risikolebensversicherung

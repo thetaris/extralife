@@ -13,6 +13,10 @@ getELTYPE <- function() {
       taxName <- gsub(' |/|-', '.', taxName)
       taxName <- gsub('\\.*\\(.*\\)', '', taxName)
       taxName <- gsub('\\.+', '.', taxName)
+      taxName <- gsub('ä', 'ae', taxName)
+      taxName <- gsub('ü', 'ue', taxName)
+      taxName <- gsub('ö', 'oe', taxName)
+      taxName <- gsub('ß', 'ss', taxName)
       
       # record taxonomy entry
       taxId <- as.numeric(taxItem$term_id)

@@ -3,7 +3,7 @@ Recommendation test suite
 
 ```{r}
 require(rjson, quietly=TRUE)
-source('../common/getELTYPE.R')
+source('../common/getELTYPE.R', encoding='UTF-8')
 run <- function(TASK) {
   source('../recom/allRecoms.R', encoding='UTF-8')
   print(result[result$recom_id %in% TASK,])
