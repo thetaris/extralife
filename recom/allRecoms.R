@@ -36,7 +36,7 @@ if (!any(types==ELTYPE$Ich)) {
   recommend(442, "NODE", 0)
 } else {
   for (ich in getAll(ELTYPE$Ich)) {
-  if (ich$title=="ich" || ich$title=="")
+  if (ich$title=="Ich" || ich$title=="")
     recommend(1650, "NODE", ich$node_id)
   if (ich$person.geschlecht=="")
     recommend(1651, "NODE", ich$node_id)

@@ -19,7 +19,7 @@ run(TASK)
 
 ```{r}
 json <- fromJSON(file='test_simpson_Ich.json')
-json[[1]]$title = "ich"
+json[[1]]$title = "Ich"
 run(TASK)
 ```
 ```{r}
