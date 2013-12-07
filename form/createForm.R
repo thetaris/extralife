@@ -117,6 +117,6 @@ simpleField('bausparen.summe','Bausparsumme:','text'),
 simpleField('bausparen.mindestsparguthaben','Bausparmindestguthaben:','text')
 )
 
-f <- file('form.html','w', encoding='utf8')
+f <- file('form/form.html','w', encoding='utf8')
 write(as.character(form), f)
 close(f)

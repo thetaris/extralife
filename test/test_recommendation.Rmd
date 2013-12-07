@@ -1,0 +1,68 @@
+Recommendation test suite
+========================================================
+
+```{r}
+require(rjson, quietly=TRUE)
+source('../common/getELTYPE.R')
+run <- function(TASK) {
+  source('../recom/allRecoms.R', encoding='UTF-8')
+  print(result[result$recom_id %in% TASK,])
+}
+```
+
+# Willkommen
+```{r}
+TASK <- c(627, 442, 1650, 1651)
+json <- fromJSON('[]')
+run(TASK)
+```
+
+```{r}
+json <- fromJSON(file='test_simpson_Ich.json')
+json[[1]]$title = "ich"
+run(TASK)
+```
+```{r}
+json <- fromJSON(file='test_simpson_Ich.json')
+json[[1]]$person.geschlecht = ""
+run(TASK)
+```
+
+```{r}
+json <- fromJSON(file='test_simpson_Ich.json')
+json[[1]]$person.geburtsdatum = ""
+run(TASK)
+```
+
+```{r}
+json <- fromJSON(file='test_simpson_Ich.json')
+run(TASK)
+```
+
+# Familie anlegen
+```{r}
+TASK <- c(626, 442)
+json <- fromJSON('[]')
+run(TASK)
+```
+
+```{r}
+json <- fromJSON(file='test_simpson_Familie.json')
+json[[2]]$person.geburtsdatum=""
+json[[3]]$person.geburtsdatum="abc"
+run(TASK)
+```
+
+```{r}
+json <- fromJSON(file='test_simpson_Familie.json')
+run(TASK)
+```
+
+# Versicherungsdaten
+```{r}
+TASK <- c(1653, 1652, 1655, 1656, 1654, 1657)
+json <- fromJSON('[]')
+run(TASK)
+```
+
+

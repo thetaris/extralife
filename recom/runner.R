@@ -9,7 +9,7 @@
 require(rjson, quietly=TRUE)
 json=fromJSON(file='stdin')
 ELTYPE <- readRDS('recom/ELTYPE.cache')
-source('recom/allRecoms.R')
+source('recom/allRecoms.R', encoding='utf8')
 cat(toJSON(result))
 
 

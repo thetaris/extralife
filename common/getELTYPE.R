@@ -10,11 +10,12 @@ getELTYPE <- function() {
     for (taxItem in subTree) {
       # convert special characters in the taxonomy name
       taxName <- taxItem$name
-      taxName <- gsub(' |/', '.', taxName)
+      taxName <- gsub(' |/|-', '.', taxName)
       taxName <- gsub('\\.*\\(.*\\)', '', taxName)
+      taxName <- gsub('\\.+', '.', taxName)
       
       # record taxonomy entry
-      taxId <- taxItem$term_id
+      taxId <- as.numeric(taxItem$term_id)
       allIds <- c(allIds, taxId)
       ELTYPE[taxName] <<- taxId
   
