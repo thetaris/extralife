@@ -23,7 +23,7 @@ runtest<-function(testMarkdown, openBrowser = TRUE){
     runnerVarsGlobal = ls(all.names =TRUE, envir = .GlobalEnv)
     runnerVarsLocal  = ls(all.names =TRUE)
       
-    knit2html(inputfile, output=outputfile, quiet=TRUE)
+    knit2html(inputfile, output=outputfile, quiet=TRUE, envir=new.env())
       
     # remove variables created parsing the test
     newVarsLocal  = ls(all.names =TRUE)
@@ -61,11 +61,11 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
   for (iterReport in reportFiles){    
     fileReport    <- normalizePath(sprintf("../test/reports/%s", iterReport))
     fileReference <- normalizePath(sprintf("../test/reports/reference/%s", iterReport))
-    cmdString <- sprintf("FC /W %s %s", fileReport, fileReference)
+    cmdString <- sprintf("FC /A /W %s %s", fileReport, fileReference)
     reportDiff<-suppressWarnings(shell(cmdString, intern=TRUE))
     
-    urlReport = sprintf("file:///%s/../test/reports/%s", getwd(), iterReport)
-    urlReference = sprintf("file:///%s/../test/reports/%s", getwd(), iterReport)
+    urlReport = sprintf("file:///%s", fileReport)
+    urlReference = sprintf("file:///%s", fileReference)
     result = sprintf("%s\n<tr>
                             <td>
                               %s  
@@ -88,9 +88,10 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
                    </head>\n
                    </html>", result)
   if (!is.null(outputfile)){
-    write(result, file = outputfile)
+    outputfilePath = normalizePath(outputfile)
+    write(result, file = outputfilePath)
     if (openBrowser){
-      url = sprintf("file:///%s/%s", getwd(), outputfile)
+      url = sprintf("file:///%s", outputfilePath)
       browseURL(url)
     }
   }
