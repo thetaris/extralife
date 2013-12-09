@@ -59,13 +59,15 @@ if (!hasAny(setdiff(ELTYPE$Meine.Familie._, ELTYPE$Ich))) {
 }
 
 # Recommendation 1653: Krankenversicherung
-if (!hasAny(ELTYPE$Krankenversicherung._)) {
-  recommendTerms(1653, ELTYPE$Krankenversicherung._)
+docs <- c(ELTYPE$Gesetzliche.Krankenversicherung, ELTYPE$Private.Krankenversicherung)
+if (!hasAny(docs)) {
+  recommendTerms(1653, docs)
 }
 
 # Recommendation 1652: Haftpflicht
-if (!hasAny(ELTYPE$Haftpflichtversicherung._)) {
-  recommendTerms(1652, ELTYPE$Krankenversicherung._)  
+docs <- c(ELTYPE$Privathaftpflichtversicherung)
+if (!hasAny(docs)) {
+  recommendTerms(1652, docs)  
 }
 
 # Recommendation 1655: KFZ-Versicherung
@@ -103,16 +105,16 @@ ref <- c(ELTYPE$Miete,
          ELTYPE$Hausgeld, 
          ELTYPE$Kindertagesbetreuung,
          ELTYPE$Hypothek)
-#if (!hasAny(ref)) {
-#  for (missing in ref)
-#    recommend(624, "TERM", missing)
-#}
+if (!hasAny(ref)) {
+  for (missing in ref)
+    recommend(624, "TERM", missing)
+}
 
 # Recommendation 625: Einkommensart
-#if (!hasAny(ELTYPE$Einkommen._)) {
-#  for (missing in ELTYPE$Einkommen._)
-#    recommend(625, "TERM", missing)
-#}
+if (!hasAny(ELTYPE$Einkommen._)) {
+  for (missing in ELTYPE$Einkommen._)
+    recommend(625, "TERM", missing)
+}
 
 # Recommendation 897: Kaltmiete eintragen
 for (node in getAll(ELTYPE$Mietvertrag)) {
