@@ -131,7 +131,7 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
 # readDGSData(allDGSDataFields(), sid = "abc") 
 #
 # deliver title
-# readDGSData(requestedFields=c('title'), file = "../test/testdata.json") 
+# readDGSData(requestedFields=c('title'), file = "../test/data/testdata.json") 
   
   if(is.null(file)){
     if (is.null(session))
@@ -145,7 +145,7 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
     
     if ((length(session$clientData$url_search)>0) && (sid==session$clientData$url_search)){
       testFile <- sub('^.*test=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
-      file <- sprintf("../test/%s.json",testFile) 
+      file <- sprintf("../test/data/%s.json",testFile) 
     } else {
       file <- paste("http://cloud.thetaris.com/shiny-data/alldata?sid=",sid,sep='') 
     }
@@ -174,7 +174,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
 #
 # example:
 #  
-#   dataObj <- DGSData(file = "../test/testdata.json" )
+#   dataObj <- DGSData(file = "../test/data/testdata.json" )
 #   tmp = dataObj$get("person.geschlecht")
 #   tmp = dataObj$get("person.geburtsdatum")
 #   tmp = dataObj$get("person.geburtsdatum", type=ELTYPE$Meine.Familie._)

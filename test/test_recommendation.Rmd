@@ -18,24 +18,24 @@ run(TASK)
 ```
 
 ```{r}
-json <- fromJSON(file='test_simpson_Ich.json')
+json <- fromJSON(file='data/test_simpson_Ich.json')
 json[[1]]$title = "Ich"
 run(TASK)
 ```
 ```{r}
-json <- fromJSON(file='test_simpson_Ich.json')
+json <- fromJSON(file='data/test_simpson_Ich.json')
 json[[1]]$person.geschlecht = ""
 run(TASK)
 ```
 
 ```{r}
-json <- fromJSON(file='test_simpson_Ich.json')
+json <- fromJSON(file='data/test_simpson_Ich.json')
 json[[1]]$person.geburtsdatum = ""
 run(TASK)
 ```
 
 ```{r}
-json <- fromJSON(file='test_simpson_Ich.json')
+json <- fromJSON(file='data/test_simpson_Ich.json')
 run(TASK)
 ```
 
@@ -47,14 +47,14 @@ run(TASK)
 ```
 
 ```{r}
-json <- fromJSON(file='test_simpson_Familie.json')
+json <- fromJSON(file='data/test_simpson_Familie.json')
 json[[2]]$person.geburtsdatum=""
 json[[3]]$person.geburtsdatum="abc"
 run(TASK)
 ```
 
 ```{r}
-json <- fromJSON(file='test_simpson_Familie.json')
+json <- fromJSON(file='data/test_simpson_Familie.json')
 run(TASK)
 ```
 

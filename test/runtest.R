@@ -4,10 +4,10 @@ require(knitr)
 rm(list=ls(all=TRUE))
 
 runtest<-function(testMarkdown){
-  dataFiles <- list.files(path="../test", pattern = "^test.*json$")
+  dataFiles <- list.files(path="../test/data", pattern = "^test.*json$")
   opts_knit$set(root.dir = getwd())   
   for (testDataFile in dataFiles){
-    ELtestDataFile <- sprintf("../test/%s",testDataFile)
+    ELtestDataFile <- sprintf("../test/data/%s",testDataFile)
     testDataFileName = sub(".json", "", testDataFile)
     outputfile <- sprintf("reports/testMarkdown_%s.html",testDataFileName)
     
