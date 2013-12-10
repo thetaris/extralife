@@ -1,88 +1,3 @@
-allDGSDataFields <- function(){
-  return(tolower(c(    
-  "node_id", 
-  "type_id",
-  "title",
-  "person.geschlecht",
-  "person.geburtsdatum",
-  "adresse", 
-  "Kauf.datum",
-  "Kauf.wert",
-  "Hersteller",
-  "Vertrag.nummer",
-  "Vertrag.Zahlung.betrag",
-  "Vertrag.Zahlung.betrag.konsum",
-  "Vertrag.Zahlung.betrag.investition",
-  "Vertrag.Zahlung.start",
-  "Vertrag.Zahlung.frequenz",
-  "Verttrag.Zahlung.ende",
-  "Mietvertrag.Mieter",
-  "Mietvertrag.Adresse",
-  "Vermietung.betrag.kalt",
-  "Vermietung.betrag.nebenkosten",
-  "Vermietung.betrag.start",
-  "Vermietung.betrag.frequenz",
-  "Vermietung.betrag.ende",
-  "Einkommen.betrag.brutto",
-  "Einkommen.betrag.netto",
-  "Einkommen.betrag.frequenz",
-  "Einkommen.betrag.start",
-  "Einkommen.betrag.ende",
-  "Arbeitsvertrag.Arbeitgeber",
-  "Arbeitsvertrag.Zeitanteil",
-  "Rente.Traeger",
-  "Mietvertrag.Vermieter",
-  "Miete.betrag.kalt",
-  "Miete.betrag.nebenkosten",
-  "Miete.betrag.start",
-  "Miete.betrag.frequenz",
-  "Miete.betrag.ende",
-  "Zeitwert.betrag",
-  "Zeitwert.datum",
-  "Versicherung.tarif",
-  "gesetzlicheRente.entgeldpunkte.anzahl",
-  "gesetzlicheRente.entgeldpunkte.datum",
-  "Versicherung.Deckungssumme.betrag",
-  "Versicherung.Selbstbeteiligung",
-  "Versicherung.Ausfalldeckung",
-  "Versicherung.Haftpflicht.Schluesselverlust",
-  "Invaliditaet.Rente.betrag",
-  "Invaliditaet.Rente.bezugsende",
-  "Bu.VersicherterBeruf",
-  "Bankkonto.IBAN",
-  "KFZVersicherung.Modell",
-  "KFZVersicherung.Hersteller",
-  "PrivateRente.Grundsumme",
-  "PrivateRente.Progression",
-  "Versicherung.Todesfallleistung",
-  "Versicherung.Unfallrente",
-  "Schadensabdeckung.privat",
-  "Schadensabdeckung.beruf",
-  "Schadensabdeckung.verkehr",
-  "Schadensabdeckung.wohnen",
-  "Schadensabdeckung.vermietung",
-  "Schadensabdeckung.Blitzschlag",
-  "Schadensabdeckung.sturm",
-  "Schadensabdeckung.Hagel",
-  "Schadensabdeckung.Leitungswasser",
-  "Schadensabdeckung.Elementar",
-  "Auto.Kennzeichen",
-  "Auto.Schluesselnummer",
-  "Auto.Fahrzeugidentnummer",
-  "Boot.klasse",
-  "Motorrad.klasse",
-  "Fahrrad.rahmennummer",
-  "Immobilie.wohnflaeche",
-  "Immobilie.grundstücksflaeche",
-  "Immobilie.grundbuchnummer",
-  "Pferd.Equidenpass",
-  "Hund.Hundemarke",
-  "Bausparen.Tarif",
-  "Bausparen.Summe",
-  "Bausparen.MindestSparGuthaben",
-  "kommentarfeld")))  
-}
-
 getType_idFromTaxonomyMap <- function(){
   ich <- 305
   Ehefrau <- 295
@@ -98,7 +13,6 @@ getType_idFromTaxonomyMap <- function(){
   Schwiegervater<-303
   
   Partner = c(ich, Ehefrau, Ehemann, Lebenspartner)
-  Kinder = c(Tochter, Sohn)
   Eltern = c(Meine_Mutter, Mein_Vater, Schwiegermutter, Schwiegervater)
 
   Meine_Familie = c(Partner, Kinder, Eltern)
@@ -128,10 +42,10 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
 # return data.frame of requested fields from DGS server  
 # 
 # deliver all available data:
-# readDGSData(allDGSDataFields(), sid = "abc") 
+# readDGSData(ELFIELD$._, sid = "abc") 
 #
 # deliver title
-# readDGSData(requestedFields=c('title'), file = "../test/data/testdata.json") 
+# readDGSData(requestedFields=c('title'), file = "../test/data/test_simpson_Familie.json") 
   
   if(is.null(file)){
     if (is.null(session))
@@ -150,7 +64,7 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
       file <- paste("http://cloud.thetaris.com/shiny-data/alldata?sid=",sid,sep='') 
     }
   }
-  
+  print(file)
   data <- suppressWarnings(fromJSON(file=file))
   
   # fill non-existent fields with NULL  
@@ -174,18 +88,18 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
 #
 # example:
 #  
-#   dataObj <- DGSData(file = "../test/data/testdata.json" )
-#   tmp = dataObj$get("person.geschlecht")
-#   tmp = dataObj$get("person.geburtsdatum")
-#   tmp = dataObj$get("person.geburtsdatum", type=ELTYPE$Meine.Familie._)
-#   tmp = dataObj$get("person.geburtsdatum", type=ELTYPE$Ich)
+#   dataObj <- DGSData(file = "../test/data/test_simpson_Familie.json" )
+#   tmp = dataObj$get(ELFIELD$person.geschlecht)
+#   tmp = dataObj$get(ELFIELD$person.geburtsdatum)
+#   tmp = dataObj$get(ELFIELD$person.geburtsdatum, type=ELTYPE$Meine.Familie._)
+#   tmp = dataObj$get(ELFIELD$person.geburtsdatum, type=ELTYPE$Ich)
 #   print(dataObj$getLog())
 #   #
   
   resultObj <- new.env()
   
   # get all data from session
-  resultObj$.data <- readDGSData(allDGSDataFields(), session = session, sid = sid, file = file)
+  resultObj$.data <- readDGSData(ELFIELD$._, session = session, sid = sid, file = file)
   
   # log used data: [node_id, title, field, value, estimatedFlag]
   resultObj$.dataLog <- data.frame(matrix(NA, nrow = 0, ncol = 6))
@@ -219,7 +133,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       node_id <- .data[sel,"node_id"]
     }
     
-    if (sum(allDGSDataFields() == requestedField) == 0){
+    if (sum(ELFIELD$._ == requestedField) == 0){
       stop(sprintf("DGSData$get() : requestedField '%s' does not exist", requestedField))
     }
     
@@ -311,14 +225,14 @@ getCashItm<-function (dataObj = NULL, file = NULL){
     taxonomy3 = c(taxonomy3, tmp[3])
   }
   
-  wert = as.numeric(dataObj$get("zeitwert.betrag"))
+  wert = as.numeric(dataObj$get(ELFIELD$zeitwert.betrag))
   
   bewertung = wert
   bewertung[!is.na(bewertung)] <- "static"
   
-  tmp_wert1 = as.numeric(dataObj$get("vertrag.zahlung.betrag"))
-  tmp_wert2 = as.numeric(dataObj$get("vertrag.zahlung.betrag.konsum"))
-  tmp_wert3 = as.numeric(dataObj$get("vertrag.zahlung.betrag.investition"))
+  tmp_wert1 = as.numeric(dataObj$get(ELFIELD$vertrag.zahlung.betrag))
+  tmp_wert2 = as.numeric(dataObj$get(ELFIELD$vertrag.zahlung.betrag.konsum))
+  tmp_wert3 = as.numeric(dataObj$get(ELFIELD$vertrag.zahlung.betrag.investition))
   
   tmp_wertAll = tmp_wert1
   tmp_wertAll[!is.na(tmp_wert2)]<-tmp_wert2[!is.na(tmp_wert2)]
@@ -330,7 +244,7 @@ getCashItm<-function (dataObj = NULL, file = NULL){
   bewertung[taxonomy2 == "Kredit"] <- "credit"
   
   
-  tmp_wertEinkommen = as.numeric(dataObj$get("einkommen.betrag.netto"))  
+  tmp_wertEinkommen = as.numeric(dataObj$get(ELFIELD$einkommen.betrag.netto))  
   bewertung[!is.na(tmp_wertEinkommen)] <- "income"
   wert[!is.na(tmp_wertEinkommen)] <- tmp_wertEinkommen[!is.na(tmp_wertEinkommen)]
   
