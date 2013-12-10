@@ -1,3 +1,5 @@
+library(rCharts)
+
 ## utility function to add required assets such as CSS and JS libraries
 add_lib_assets <- function(lib, cdn = F, css = NULL) {
   assets = get_assets(get_lib(lib), cdn = cdn)
