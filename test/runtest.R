@@ -14,7 +14,9 @@ runtest<-function(testMarkdown, openBrowser = TRUE){
   dataFiles <- list.files(path="../test/data", pattern = "^test.*json$")
   opts_knit$set(root.dir = getwd())   
   for (testDataFile in dataFiles){
+    # set value of ELtestDataFile for usage in report
     ELtestDataFile <- sprintf("../test/data/%s",testDataFile)
+    
     testDataFileName = sub(".json", "", testDataFile)
     outputfile <- sprintf("../test/reports/%s_%s.html",testMarkdown, testDataFileName)
     inputfile <- sprintf("../test/%s.Rmd", testMarkdown)
@@ -68,7 +70,7 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
     urlReference = sprintf("file:///%s", fileReference)
     result = sprintf("%s\n<tr>
                             <td>
-                              %s  
+                              <strong>%s</strong>  
                               <a href='%s'>
                                 [neuer Report]
                               </a>
@@ -77,10 +79,11 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
                               </a>
                               </td>
                           </tr>", result, iterReport, urlReport, urlReference)
-    
+    result = sprintf("%s\n\n<tr>\n<td><textarea cols='80' rows='4'>", result)
     for (iterReportDiff in reportDiff[2:length(reportDiff)]){
-      result = sprintf("%s\n<tr>\n<td>%s</td>\n</tr>", result, iterReportDiff)
+      result = sprintf("%s\n%s", result, iterReportDiff)
     }
+    result = sprintf("%s\n</textarea></td>\n</tr>", result)
   }
   result = sprintf("%s\n
                    </table>\n
@@ -107,12 +110,23 @@ runtestAll<-function(outputfile="testcases_overview.html", openBrowser = TRUE){
 # example:
 # 
 #   runtestAll()
+  cmdString <- sprintf("del /Q ..\\test\\reports\\*.html")  
+  res <- shell(cmdString)
+  if (res=="0"){
+    print("Old reports deleted.")
+  } else {
+    print(sprintf("Old reports not deleted: %s",res))  
+  }
+  
   testFiles <- list.files(path="../test", pattern = "^test.*Rmd$")
   for (iterTestFile in testFiles){
+    print(sprintf("Running Testcase: %s", iterTestFile))
     runtest(sub(".Rmd","",iterTestFile), openBrowser = FALSE)
   }
+  print("Creating summary of comparison.")
   compareReports(outputfile, openBrowser)
-  return(NULL)
+  print("Done.")
+  
 }
 
 resetReference<-function(){
@@ -124,7 +138,7 @@ resetReference<-function(){
 # example:
 # 
 # resetReference()  
-  cmdString <- sprintf("del /Q ..\\test\\reports\\reference\\*.*")  
+  cmdString <- sprintf("del /Q ..\\test\\reports\\reference\\*.html")  
   print((shell(cmdString, intern=TRUE)))
   cmdString <- sprintf("copy ../test/reports/*.html ../test/reports/reference")
   print(suppressWarnings(shell(cmdString, intern=TRUE, translate=TRUE)))
