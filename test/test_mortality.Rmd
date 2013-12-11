@@ -14,10 +14,10 @@ str(suppressWarnings(fromJSON(file=ELtestDataFile)))
 Include Header.
 ```{r results='asis', echo=FALSE, comment = NA}
 # read header fixing nvd3 bug
+source("../test/reportHeader.R")
 source("../test/reportHeaderNvd3.R")
 
 ## load the package
-library(rCharts)
 library(shiny)
 library(rjson)
 
