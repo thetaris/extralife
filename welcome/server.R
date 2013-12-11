@@ -15,7 +15,7 @@ shinyServer(function(input, output, session) {
   output$welcomeImg <- renderPlot({
     img <- readPNG("welcome.png")
     plot.new()
-    rasterImage(ima, lim$usr[1], lim$usr[3], lim$usr[2], lim$usr[4], interpolate=TRUE)              
+    rasterImage(img, lim$usr[1], lim$usr[3], lim$usr[2], lim$usr[4], interpolate=TRUE)              
   }, height=650, width=651 )
   
   
