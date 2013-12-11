@@ -34,7 +34,7 @@ selectField <- function(field, text, values, optionNames) {
 }
 dynamicSelectField <- function(field, text, dataSource) {
   inputFrame(text, 
-             tags$select(`data-source`=dataSource))
+             tags$select(`data-source`=dataSource, `data-name`=field))
 }
 
 
