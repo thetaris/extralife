@@ -51,82 +51,59 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
   #
   # compareReports()
   
-  decodeFCStatus<-function(cmdString){    
-    suppressWarnings({
-      tmpStatus <- shell(cmd=sprintf("%s 2>nul 1>nul",cmdString), intern=FALSE, wait=TRUE)
-      status = "ok"
-      color = "#00FF00"
-      reportDiff = NULL
-      if (tmpStatus==1){
-        status <- "Files do not match."
-        color = "#FF0000"
-        reportDiff = shell(cmd=cmdString, intern=TRUE)
-      }else if (tmpStatus==2){
-        status <- "File not found."
-        color = "#FFFF00"
-      }else if (tmpStatus!=0){
-        status <- "Error."
-        color = "#FF0000"
-        reportDiff = shell(cmd=cmdString, intern=TRUE)
-      }        
-      res = list()
-      res$status <- status
-      res$color <- color
-      res$reportDiff <- reportDiff
-      return(res)
-    })
+  
+  pathNew <- "../test/reports"
+  pathRef <- "../test/reports/reference"
+  reportFiles <- list.files(path= pathNew, pattern = "^test.*html$")
+  
+  # compare data from two data.frames and provide a link to diffchecker.com
+  compareContents <- function(A, B) {
+    if (nrow(A)==nrow(B) && A==B)
+      "No change"
+    else
+      tags$form(action="http://www.diffchecker.com/diff", method="POST",
+                tags$div(style="display:none",
+                         tags$textarea(name="file1", paste(as.character(A[[1]]),collapse='\n')),
+                         tags$textarea(name="file2", paste(as.character(B[[1]]),collapse='\n'))),
+                tags$input(type="submit", value="Show differences"))
+  }
+
+  # compare report to its reference file, returns a table row object
+  compareFiles <- function(filename) {
+    file1 <- sprintf('%s/%s',pathNew,filename)
+    file2 <- sprintf('%s/%s',pathRef,filename)
+    tags$tr(
+      tags$td(filename),
+      tags$td(tags$a(href=file1, "neuer Report")),
+      if (file.exists(file2)) 
+        list(
+          tags$td(tags$a(href=file2, "Referenz")),
+          tags$td(compareContents(read.delim(file1), read.delim(file2)))
+        )
+      else 
+        tags$td("--")
+    )
   }
   
-  referenceFiles <- list.files(path="../test/reports/reference", pattern = "^test.*html$")
-  reportFiles <- list.files(path="../test/reports", pattern = "^test.*html$")
+  # Construct the full report html file
+  report = tags$html(
+    tags$head(
+      tags$meta(`http-equiv`='Content-Type', content='text/html; charset=utf-8'),
+      tags$title('Übersicht der Test-Cases')
+      ),
+    tags$body(
+      tags$h1("Test Ergebnisse"),
+      tags$table(
+        tags$tr(tags$th("Report"), tags$th("Neu"), tags$th("Referenz"), tags$th("Ergebnis")),
+        lapply(reportFiles, compareFiles)
+      )
+    )
+  )
   
-  result = sprintf("<html> 
-                    <head>
-                    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
-                    <title>Übersicht der Test-Cases</title>
-                    <body>
-                    <table>")
   
-  for (iterReport in reportFiles){    
-    fileReport    <- normalizePath(sprintf("../test/reports/%s", iterReport))
-    fileReference <- normalizePath(sprintf("../test/reports/reference/%s", iterReport))
-    cmdString <- sprintf("FC /A /W %s %s", fileReport, fileReference)
-    #reportDiff<-suppressWarnings(shell(cmdString, intern=TRUE))
-    diffRes<-decodeFCStatus(cmdString)
-    
-    
-    urlReport = sprintf("file:///%s", fileReport)
-    urlReference = sprintf("file:///%s", fileReference)
-    result = sprintf("%s\n<tr>
-                            <td>
-                              <strong style='background-color:%s'>%s</strong>  
-                              <a href='%s'>
-                                [neuer Report]
-                              </a>
-                              <a href='%s'>
-                                [Referenz]
-                              </a>
-                                %s
-                              </td>
-                          </tr>", result, diffRes$color, iterReport, urlReport, urlReference, diffRes$status)
-    if ((diffRes$status == "ok")|(diffRes$status == "File not found.")){
-      result = sprintf("%s\n\n<tr>\n<td><br/></td>\n</tr>",result)
-    }else{
-      result = sprintf("%s\n\n<tr>\n<td><textarea cols='80' rows='4'>", result)
-      for (iterReportDiff in diffRes$reportDiff[2:length(diffRes$reportDiff)]){
-        result = sprintf("%s\n%s", result, iterReportDiff)
-      }    
-      result = sprintf("%s\n</textarea></td>\n</tr>", result)
-    }
-  }
-  result = sprintf("%s\n
-                   </table>\n
-                   </body>\n
-                   </head>\n
-                   </html>", result)
   if (!is.null(outputfile)){
     outputfilePath = normalizePath(outputfile)
-    write(result, file = outputfilePath)
+    write(as.character(report), file = outputfilePath)
     if (openBrowser){
       url = sprintf("file:///%s", outputfilePath)
       browseURL(url)
@@ -144,13 +121,11 @@ runtestAll<-function(outputfile="testcases_overview.html", openBrowser = TRUE){
   # example:
   # 
   #   runtestAll()
-  cmdString <- sprintf("del /Q ..\\test\\reports\\*.html")  
-  res <- shell(cmdString)
-  if (res=="0"){
-    print("Old reports deleted.")
-  } else {
-    print(sprintf("Old reports not deleted: %s",res))  
+  pathOut <- '../test/reports'
+  for (filename in list.files(pathOut, '*.html')) {
+    file.remove(sprintf('%s/%s', pathOut, filename))
   }
+  print("Old reports deleted.")
   
   testFiles <- list.files(path="../test", pattern = "^test.*Rmd$")
   for (iterTestFile in testFiles){
@@ -172,9 +147,14 @@ resetReference<-function(){
   # example:
   # 
   # resetReference()  
-  cmdString <- sprintf("del /Q ..\\test\\reports\\reference\\*.html")  
-  print((shell(cmdString, intern=TRUE)))
-  cmdString <- sprintf("copy ../test/reports/*.html ../test/reports/reference")
-  print(suppressWarnings(shell(cmdString, intern=TRUE, translate=TRUE)))
+  pathNew <- "../test/reports"
+  pathRef <- "../test/reports/reference"
+  for (filename in list.files(pathRef, '*.html')) {
+    file.remove(sprintf('%s/%s', pathRef, filename))
+  }
+  for (filename in list.files(pathNew, '*.html')) {
+    file.copy(sprintf('%s/%s', pathNew, filename), 
+              sprintf('%s/%s', pathRef, filename))
+  }
 }
 
