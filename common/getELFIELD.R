@@ -84,7 +84,7 @@ getELFIELD <- function(){
       "kommentarfeld")))  
   }
   ELFIELD <<- list()
-  ELFIELD[allDGSDataFields()]<<-allDGSDataFields()
-  ELFIELD$._ <<- allDGSDataFields()
+  ELFIELD[allELDataFields()]<<-allELDataFields()
+  ELFIELD$._ <<- allELDataFields()
 }
 getELFIELD()
