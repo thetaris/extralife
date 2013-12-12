@@ -25,15 +25,18 @@ if(options instanceof Array) {
   // Pie
   options.chart.renderTo = 'container4';
   options.chart.type = 'pie';
-  options.title.text='Ausgaben';
+  
+  options.title.text = makeTitle('Ausgaben',options)
   options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }
   options.chart.events={ redraw: onRedrawExpense}
   var chart2 = new Highcharts.Chart(options);
   chart2.drilldownLevels=[]
   chart2['id']='expense';
-
+  $('#alterContExpense').addClass('hiddenContainer');
 } else {
-  }
+  $('#tableContExpense').addClass('hiddenContainer');
+  $('#alterContExpense').addClass('shownContainer');
+}
 
 });//]]>  
 

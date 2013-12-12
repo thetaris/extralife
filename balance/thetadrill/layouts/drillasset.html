@@ -20,29 +20,26 @@ Highcharts.setOptions({
 
 
 var options = buildOptions(params.data)
- if(options instanceof Array) {
-   var sum=0;
-   var opts0 = options.series[0]
-   for(var idx =0; idx<opts0.data.length;idx++) {
-    sum += opts0.data[idx].y
-    }
+if(options instanceof Array) {
+  options.chart.renderTo = 'container1';
+  options.chart.type = 'pie';
+  options.title.text = makeTitle('Vermoegen',options)
 
-// Pie
-options.chart.renderTo = 'container1';
-options.chart.type = 'pie';
-options.title.text='Vermoegen '  + sum + ' \u20AC';
-options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }
+  // Pie
+  options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }
 
-options.chart.events={ redraw: onRedrawAsset}
+  options.chart.events={ redraw: onRedrawAsset}
 
 
-var chart2 = new Highcharts.Chart(options);
-chart2['id']='asset';
-chart2.drilldownLevels=[]
+  var chart2 = new Highcharts.Chart(options);
+  chart2['id']='asset';
+  chart2.drilldownLevels=[]
+  $('#alterContAsset').addClass('hiddenContainer');
 } else {
-  // do nothing  
+  $('#tableContAsset').addClass('hiddenContainer');
+  $('#alterContAsset').addClass('shownContainer');
   
-  }
+} 
 
 
 });//]]>  

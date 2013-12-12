@@ -21,24 +21,21 @@ Highcharts.setOptions({
 
 var options = buildOptions(params.data)
 if(options instanceof Array) {
-sum=0;
-opts0 = options.series[0]
-for(dat in opts0.data) {
-  sum += dat.y
-}
+  // Pie
+  options.chart.renderTo = 'container2';
+  options.chart.type = 'pie';
+  options.title.text = makeTitle('Kredite',options)
+  options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }
+  options.chart.events={ redraw: onRedrawCredit}
 
-// Pie
-options.chart.renderTo = 'container2';
-options.chart.type = 'pie';
-options.title.text='Kredite ' + sum;
-options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }
-options.chart.events={ redraw: onRedrawCredit}
-
-var chart2 = new Highcharts.Chart(options);
-chart2.drilldownLevels=[]
-chart2['id']='credit';
+  var chart2 = new Highcharts.Chart(options);
+  chart2.drilldownLevels=[]
+  chart2['id']='credit';
+  $('#alterContCredit').addClass('hiddenContainer');
 } else {
-  }
+  $('#tableContCredit').addClass('hiddenContainer');
+  $('#alterContCredit').addClass('shownContainer');  
+} 
   
 });//]]>  
 

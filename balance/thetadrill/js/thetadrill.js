@@ -128,3 +128,27 @@ return options;
 }
 
 
+function makeTitle(tab,options) {
+  if(options instanceof Array) {
+    var sum=0;
+    var opts0 = options.series[0]
+    for(idx = 0; idx<opts0.data.length;idx++) {
+      var data = opts0.data[idx]
+      sum += data.y
+      }
+
+    return (tab + ' ' + sum + ' \u20AC') ;
+    }
+  
+  return tab;
+}
+
+function jumpAsset() {
+ var obj= $('div.tabbable').find('a')
+
+}
+
+function jumpCredit() {
+  alert('rr')
+  }
+

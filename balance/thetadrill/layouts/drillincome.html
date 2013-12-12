@@ -25,16 +25,19 @@ if(options instanceof Array) {
   // Pie
   options.chart.renderTo = 'container3';
   options.chart.type = 'pie';
-  options.title.text='Einkommen';
+  options.title.text = makeTitle('Einkommen',options)
   options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }
   options.chart.events={ redraw: onRedrawIncome}
   var chart2 = new Highcharts.Chart(options);
   chart2.drilldownLevels=[]
 
   chart2['id']='income';
-
+  $('#alterContIncome').addClass('hiddenContainer');
+  
 } else {
-  }
+  $('#tableContIncome').addClass('hiddenContainer');
+  $('#alterContIncome').addClass('shownContainer');
+} 
 
 
 });//]]>  

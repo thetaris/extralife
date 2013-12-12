@@ -4,6 +4,7 @@ library(rjson)
 
 source("../bu/balance.R")
 source("../common/readDGSData.R")
+source('../common/getELFIELD.r')
 
 makeAggregateString<- function(categorynames) {
   aggregateString = 'wert~'
@@ -24,16 +25,20 @@ prepChartData <- function(data, pBewertung,aggregateString ){
 }
 
 filterTableData <- function(data,filterstr,categories) {
+ print(filterstr)
  
   if(nchar(filterstr)>0) {
     filters = fromJSON(filterstr)
+    print(filters)
     
     if(length(filters)>0 && length(categories)>0 ) {
       flength=min(length(filters),length(categories))
-      
+      print(flength)  
       #CashItm[CashItm['taxonomy1']=="Mein Besitz", ]
       for (i in 1:flength) {
+        print('vor')
         data = data[data[categories[i]]== filters[i],]
+        print(data)
         }
     }
   }
@@ -53,19 +58,51 @@ shinyServer(function(input, output,session) {
   categorynames =categorynames[grepl("^taxonomy.*", categorynames)]
   aggregateString = makeAggregateString(categorynames);
   
+
+  
+ 
+  
   assets = prepChartData(CashItm, "static",aggregateString)
   credit = prepChartData(CashItm, "credit",aggregateString)
   income = prepChartData(CashItm, "income",aggregateString)
   expense = prepChartData(CashItm, "expense",aggregateString)
   
+  sumassets=0;
+  if(!is.character(assets)) {
+    sumassets = sum(assets['wert'])
+  }
+  sumcredit=0;
+  if(!is.character(credit)) {
+    sumcredit = sum(credit['wert'])
+  }
+  sumincome=0;
+  if(!is.character(income)) {
+    sumincome = sum(income['wert'])
+  }
+  sumexpense=0;
+  if(!is.character(expense)) {
+    sumexpense = sum(expense['wert'])
+  }  
+  
+  sumstatic = sumassets-sumcredit
+  sumflow = sumincome-sumexpense
+  
+  # overview 
+
+  htmlStatic = paste('<table><tr onclick="jumpAsset()" ><td>Summe der Verm&ouml;genswerte</td><td>',sumassets,'</td></tr><tr onclick="jumpCredit()"><td>Summe der Kredite</td><td>',sumcredit,'</td></tr><tr><td>Netto Verm&ouml;gen</td><td>', sumstatic, '</td></tr></table>')
+  htmlFlow   = paste('<table><tr><td>Summe der Einnahmen</td><td>',sumincome,'</td></tr><tr><td>Summe der Ausgaben</td><td>',sumexpense,'</td></tr><tr><td>&Uuml;berschuss</td><td>', sumflow, '</td></tr></table>')
+  
+  output$ovFlowHtml <-renderText({ htmlFlow})
+  output$ovStatHtml <-renderText({ htmlStatic})
+  
+  
   # asset
-  output$myChartAssets <- renderChart({
-    
+  output$myChartAssets <- renderChart({    
     # lokal subdir thetadrill
     theChart <- rCharts$new()
     theChart$setLib('thetadrill')
     theChart$setTemplate(script = "thetadrill/layouts/drillasset.html")
-    theChart$addParams(data=assets)
+    theChart$addParams(data=assets)    
     return(theChart$copy())
   })
   
@@ -73,15 +110,15 @@ shinyServer(function(input, output,session) {
     if(is.character(assets)) {
       res = data.frame(character(0))
       colnames(res) <- c("")
-      return(head(res,n=0))
+      return(head(res,n=0))      
     }
     
     toShow = assets
-    filterstr = input$myassetlevel
-    print(filterstr)
-    toShow =filterTableData(toShow,filterstr,categorynames)
+    filterstr = input$myassetlevel   
+    toShow =filterTableData(toShow,filterstr,categorynames)   
     colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
     head(toShow,n=nrow(toShow))
+ 
   })
   
   
@@ -96,15 +133,21 @@ shinyServer(function(input, output,session) {
     return(theChart$copy())
   })
   output$myCreditTable <- renderTable({
+    print('rendertable')
+    print(credit)
     if(is.character(credit)) {
       res = data.frame(character(0))
       colnames(res) <- c("")
+      print(res)
       return(head(res,n=0))
     } 
     
     toShow = credit
+    print(toShow)
     filterstr = input$mycreditlevel
+    print(filterstr)
     toShow =filterTableData(toShow,filterstr,categorynames)
+    print(toShow)
     colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
     head(toShow,n=nrow(toShow))
     
