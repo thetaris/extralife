@@ -3,14 +3,14 @@ require(knitr)
 # rm(list=ls(all=TRUE))
 
 runtest<-function(testMarkdown, openBrowser = TRUE){
-# runtest(testMarkdown, openBrowser = TRUE)
-#   creates the Knit2Html from MarkdownFile testMarkdown in
-#   "extralife/test" subfolder
-#
-# example:
-#  
-# runtest("test_mortality") # note: no extension ".Rmd"
-#
+  # runtest(testMarkdown, openBrowser = TRUE)
+  #   creates the Knit2Html from MarkdownFile testMarkdown in
+  #   "extralife/test" subfolder
+  #
+  # example:
+  #  
+  # runtest("test_mortality") # note: no extension ".Rmd"
+  #
   dataFiles <- list.files(path="../test/data", pattern = "^test.*json$")
   opts_knit$set(root.dir = getwd())   
   for (testDataFile in dataFiles){
@@ -24,9 +24,9 @@ runtest<-function(testMarkdown, openBrowser = TRUE){
     # remember current variables 
     runnerVarsGlobal = ls(all.names =TRUE, envir = .GlobalEnv)
     runnerVarsLocal  = ls(all.names =TRUE)
-      
+    
     knit2html(inputfile, output=outputfile, quiet=TRUE, envir=new.env())
-      
+    
     # remove variables created parsing the test
     newVarsLocal  = ls(all.names =TRUE)
     newVarsGlobal = ls(all.names =TRUE, envir = .GlobalEnv)
@@ -42,14 +42,41 @@ runtest<-function(testMarkdown, openBrowser = TRUE){
 }
 
 compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRUE){
-# compareReports(outputfile="testcases_overview.html", openBrowser = TRUE)
-#   compares all "extralife/test/reports/test*.html" files with the references under
-#                "extralife/test/reports/reference/test*.html"
-#   and creates a HTML summarry outputfile  
-#
-# example:
-#
-# compareReports()
+  # compareReports(outputfile="testcases_overview.html", openBrowser = TRUE)
+  #   compares all "extralife/test/reports/test*.html" files with the references under
+  #                "extralife/test/reports/reference/test*.html"
+  #   and creates a HTML summarry outputfile  
+  #
+  # example:
+  #
+  # compareReports()
+  
+  decodeFCStatus<-function(cmdString){    
+    suppressWarnings({
+      tmpStatus <- shell(cmd=sprintf("%s 2>nul 1>nul",cmdString), intern=FALSE, wait=TRUE)
+      status = "ok"
+      color = "#00FF00"
+      reportDiff = NULL
+      if (tmpStatus==1){
+        status <- "Files do not match."
+        color = "#FF0000"
+        reportDiff = shell(cmd=cmdString, intern=TRUE)
+      }else if (tmpStatus==2){
+        status <- "File not found."
+        color = "#FFFF00"
+      }else if (tmpStatus!=0){
+        status <- "Error."
+        color = "#FF0000"
+        reportDiff = shell(cmd=cmdString, intern=TRUE)
+      }        
+      res = list()
+      res$status <- status
+      res$color <- color
+      res$reportDiff <- reportDiff
+      return(res)
+    })
+  }
+  
   referenceFiles <- list.files(path="../test/reports/reference", pattern = "^test.*html$")
   reportFiles <- list.files(path="../test/reports", pattern = "^test.*html$")
   
@@ -64,26 +91,33 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
     fileReport    <- normalizePath(sprintf("../test/reports/%s", iterReport))
     fileReference <- normalizePath(sprintf("../test/reports/reference/%s", iterReport))
     cmdString <- sprintf("FC /A /W %s %s", fileReport, fileReference)
-    reportDiff<-suppressWarnings(shell(cmdString, intern=TRUE))
+    #reportDiff<-suppressWarnings(shell(cmdString, intern=TRUE))
+    diffRes<-decodeFCStatus(cmdString)
+    
     
     urlReport = sprintf("file:///%s", fileReport)
     urlReference = sprintf("file:///%s", fileReference)
     result = sprintf("%s\n<tr>
                             <td>
-                              <strong>%s</strong>  
+                              <strong style='background-color:%s'>%s</strong>  
                               <a href='%s'>
                                 [neuer Report]
                               </a>
                               <a href='%s'>
                                 [Referenz]
                               </a>
+                                %s
                               </td>
-                          </tr>", result, iterReport, urlReport, urlReference)
-    result = sprintf("%s\n\n<tr>\n<td><textarea cols='80' rows='4'>", result)
-    for (iterReportDiff in reportDiff[2:length(reportDiff)]){
-      result = sprintf("%s\n%s", result, iterReportDiff)
+                          </tr>", result, diffRes$color, iterReport, urlReport, urlReference, diffRes$status)
+    if ((diffRes$status == "ok")|(diffRes$status == "File not found.")){
+      result = sprintf("%s\n\n<tr>\n<td><br/></td>\n</tr>",result)
+    }else{
+      result = sprintf("%s\n\n<tr>\n<td><textarea cols='80' rows='4'>", result)
+      for (iterReportDiff in diffRes$reportDiff[2:length(diffRes$reportDiff)]){
+        result = sprintf("%s\n%s", result, iterReportDiff)
+      }    
+      result = sprintf("%s\n</textarea></td>\n</tr>", result)
     }
-    result = sprintf("%s\n</textarea></td>\n</tr>", result)
   }
   result = sprintf("%s\n
                    </table>\n
@@ -102,14 +136,14 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
 }
 
 runtestAll<-function(outputfile="testcases_overview.html", openBrowser = TRUE){
-# runtestAll(outputfile="testcases_overview.html", openBrowser = TRUE)
-#   runtestAll calles runtest for each "test.Rmd" file under "extralife/test"
-#   and finally calles compareReports() to present differences to the reference
-#   values from previous calls
-#
-# example:
-# 
-#   runtestAll()
+  # runtestAll(outputfile="testcases_overview.html", openBrowser = TRUE)
+  #   runtestAll calles runtest for each "test.Rmd" file under "extralife/test"
+  #   and finally calles compareReports() to present differences to the reference
+  #   values from previous calls
+  #
+  # example:
+  # 
+  #   runtestAll()
   cmdString <- sprintf("del /Q ..\\test\\reports\\*.html")  
   res <- shell(cmdString)
   if (res=="0"){
@@ -130,14 +164,14 @@ runtestAll<-function(outputfile="testcases_overview.html", openBrowser = TRUE){
 }
 
 resetReference<-function(){
-# resetReference()
-#   resetReference() deletes all files under "extralife/test/reports/reference" and
-#   copies all new report files from "extralife/test/reports/*.html" to 
-#   "extralife/test/reports/reference". Thus, new values for the reference are set.
-#
-# example:
-# 
-# resetReference()  
+  # resetReference()
+  #   resetReference() deletes all files under "extralife/test/reports/reference" and
+  #   copies all new report files from "extralife/test/reports/*.html" to 
+  #   "extralife/test/reports/reference". Thus, new values for the reference are set.
+  #
+  # example:
+  # 
+  # resetReference()  
   cmdString <- sprintf("del /Q ..\\test\\reports\\reference\\*.html")  
   print((shell(cmdString, intern=TRUE)))
   cmdString <- sprintf("copy ../test/reports/*.html ../test/reports/reference")
