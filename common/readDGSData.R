@@ -1,3 +1,5 @@
+source("../common/getELFIELD.R")
+
 getType_idFromTaxonomyMap <- function(){
   ich <- 305
   Ehefrau <- 295
