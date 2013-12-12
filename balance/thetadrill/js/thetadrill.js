@@ -143,12 +143,24 @@ function makeTitle(tab,options) {
   return tab;
 }
 
-function jumpAsset() {
- var obj= $('div.tabbable').find('a')
+function jumpIncome() {
+ jumpToTab(1)
+}
+function jumpExpense() {
+ jumpToTab(2)
+}
 
+function jumpAsset() {
+ jumpToTab(3)
 }
 
 function jumpCredit() {
-  alert('rr')
+ jumpToTab(4)
+}
+  
+function jumpToTab(idx) {
+ var obj= $('div.tabbable').find('a')
+ var evt = document.createEvent("MouseEvents"); 
+  evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null); 
+  obj[idx].dispatchEvent(evt);
   }
-

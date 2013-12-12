@@ -90,7 +90,7 @@ shinyServer(function(input, output,session) {
   # overview 
 
   htmlStatic = paste('<table><tr onclick="jumpAsset()" ><td>Summe der Verm&ouml;genswerte</td><td>',sumassets,'</td></tr><tr onclick="jumpCredit()"><td>Summe der Kredite</td><td>',sumcredit,'</td></tr><tr><td>Netto Verm&ouml;gen</td><td>', sumstatic, '</td></tr></table>')
-  htmlFlow   = paste('<table><tr><td>Summe der Einnahmen</td><td>',sumincome,'</td></tr><tr><td>Summe der Ausgaben</td><td>',sumexpense,'</td></tr><tr><td>&Uuml;berschuss</td><td>', sumflow, '</td></tr></table>')
+  htmlFlow   = paste('<table><tr onclick="jumpIncome()" ><td>Summe der Einnahmen</td><td>',sumincome,'</td></tr onclick="jumpExpense()"><tr><td>Summe der Ausgaben</td><td>',sumexpense,'</td></tr><tr><td>&Uuml;berschuss</td><td>', sumflow, '</td></tr></table>')
   
   output$ovFlowHtml <-renderText({ htmlFlow})
   output$ovStatHtml <-renderText({ htmlStatic})
