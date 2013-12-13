@@ -4,7 +4,7 @@ library(rjson)
 
 source("../bu/balance.R")
 source("../common/readDGSData.R")
-source('../common/getELFIELD.r')
+source('../common/getELFIELD.R')
 
 makeAggregateString<- function(categorynames) {
   aggregateString = 'wert~'
