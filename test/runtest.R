@@ -1,4 +1,5 @@
 require(knitr)
+require(shiny)
 # clear workspace should occure here:
 # rm(list=ls(all=TRUE))
 
@@ -58,13 +59,13 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
   
   # compare data from two data.frames and provide a link to diffchecker.com
   compareContents <- function(A, B) {
-    if (nrow(A)==nrow(B) && A==B)
+    if (length(A)==length(B) && A==B)
       "No change"
     else
       tags$form(action="http://www.diffchecker.com/diff", method="POST",
                 tags$div(style="display:none",
-                         tags$textarea(name="file1", paste(as.character(A[[1]]),collapse='\n')),
-                         tags$textarea(name="file2", paste(as.character(B[[1]]),collapse='\n'))),
+                         tags$textarea(name="file1", paste(A,collapse='\n')),
+                         tags$textarea(name="file2", paste(B,collapse='\n'))),
                 tags$input(type="submit", value="Show differences"))
   }
 
@@ -78,7 +79,7 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
       if (file.exists(file2)) 
         list(
           tags$td(tags$a(href=file2, "Referenz")),
-          tags$td(compareContents(read.delim(file1), read.delim(file2)))
+          tags$td(compareContents(readLines(file1), readLines(file2)))
         )
       else 
         tags$td("--")
@@ -102,10 +103,11 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
   
   
   if (!is.null(outputfile)){
-    outputfilePath = normalizePath(outputfile)
-    write(as.character(report), file = outputfilePath)
+    outFile= file(outputfile, 'w', encoding='UTF-8')
+    write(as.character(report), outFile)
+    close(outFile)
     if (openBrowser){
-      url = sprintf("file:///%s", outputfilePath)
+      url = sprintf("file:///%s", normalizePath(outputfile))
       browseURL(url)
     }
   }
@@ -149,9 +151,11 @@ resetReference<-function(){
   # resetReference()  
   pathNew <- "../test/reports"
   pathRef <- "../test/reports/reference"
-  for (filename in list.files(pathRef, '*.html')) {
-    file.remove(sprintf('%s/%s', pathRef, filename))
-  }
+
+  # delete old files
+  file.remove(list.files(pathRef, '*.html', full.names=TRUE))
+
+  # copy files
   for (filename in list.files(pathNew, '*.html')) {
     file.copy(sprintf('%s/%s', pathNew, filename), 
               sprintf('%s/%s', pathRef, filename))
