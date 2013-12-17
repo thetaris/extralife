@@ -1,53 +1,16 @@
+source("../common/getELTYPE.R")
 source("../common/getELFIELD.R")
 
-getType_idFromTaxonomyMap <- function(){
-  ich <- 305
-  Ehefrau <- 295
-  Ehemann <-294
-  Lebenspartner	<- 296
-  
-  Tochter<-298
-  Sohn<-299
-  
-  Meine_Mutter<-302
-  Mein_Vater<-301
-  Schwiegermutter<-304
-  Schwiegervater<-303
-  
-  Partner = c(ich, Ehefrau, Ehemann, Lebenspartner)
-  Eltern = c(Meine_Mutter, Mein_Vater, Schwiegermutter, Schwiegervater)
 
-  Meine_Familie = c(Partner, Kinder, Eltern)
-  
-  result = list(ich=ich, 
-                Ehefrau=Ehefrau, 
-                Ehemann=Ehemann,
-                Lebenspartner=Lebenspartner, 
-                Tochter = Tochter, 
-                Sohn = Sohn, 
-                Meine_Mutter=Meine_Mutter,
-                Mein_Vater=Mein_Vater,
-                Schwiegermutter=Schwiegermutter,
-                Schwiegervater=Schwiegervater,
-                
-                Partner = Partner,
-                Kinder = Kinder,
-                Eltern = Eltern,
-                
-                Meine_Familie = Meine_Familie
-  )
-  
-  return(result)
-}
 
 readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL){
-# return data.frame of requested fields from DGS server  
-# 
-# deliver all available data:
-# readDGSData(ELFIELD$._, sid = "abc") 
-#
-# deliver title
-# readDGSData(requestedFields=c('title'), file = "../test/data/test_simpson_Familie.json") 
+  # return data.frame of requested fields from DGS server  
+  # 
+  # deliver all available data:
+  # readDGSData(ELFIELD$._, sid = "abc") 
+  #
+  # deliver title
+  # readDGSData(requestedFields=c('title'), file = "../test/data/test_simpson_Familie.json") 
   
   if(is.null(file)){
     if (is.null(session))
@@ -86,17 +49,17 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
 }
 
 DGSData <- function(session = NULL, sid = NULL, file = NULL){
-# Creating a dataobject with methods for reading data
-#
-# example:
-#  
-#   dataObj <- DGSData(file = "../test/data/test_simpson_Familie.json" )
-#   tmp = dataObj$get(ELFIELD$person.geschlecht)
-#   tmp = dataObj$get(ELFIELD$person.geburtsdatum)
-#   tmp = dataObj$get(ELFIELD$person.geburtsdatum, type=ELTYPE$Meine.Familie._)
-#   tmp = dataObj$get(ELFIELD$person.geburtsdatum, type=ELTYPE$Ich)
-#   print(dataObj$getLog())
-#   #
+  # Creating a dataobject with methods for reading data
+  #
+  # example:
+  #  
+  #   dataObj <- DGSData(file = "../test/data/test_simpson_Familie.json" )
+  #   tmp = dataObj$get(ELFIELD$person.geschlecht)
+  #   tmp = dataObj$get(ELFIELD$person.geburtsdatum)
+  #   tmp = dataObj$get(ELFIELD$person.geburtsdatum, type=ELTYPE$Meine.Familie._)
+  #   tmp = dataObj$get(ELFIELD$person.geburtsdatum, type=ELTYPE$Ich)
+  #   print(dataObj$getLog())
+  #   #
   
   resultObj <- new.env()
   
@@ -104,14 +67,43 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
   resultObj$.data <- readDGSData(ELFIELD$._, session = session, sid = sid, file = file)
   
   # log used data: [node_id, title, field, value, estimatedFlag]
-  resultObj$.dataLog <- data.frame(matrix(NA, nrow = 0, ncol = 6))
+  resultObj$.dataLog <- data.frame(matrix(NA, nrow = 0, ncol = 7))
   
   op <- options(digits.secs = 3)
   
-  resultObj$get <- function(requestedField, type = NULL, node_id = NULL){    
+  resultObj$get <- function(requestedField, type = NULL, node_id = NULL){        
+    
+    res <- resultObj$get_raw(requestedField, type, node_id)
+    if (is.null(type)){
+      type <- unlist(ELTYPE, use.names=FALSE)
+    }
+    # infer gender from type
+    if (requestedField==ELFIELD$person.geschlecht){
+      women <- ((res$type==ELTYPE$Ehefrau) 
+                | (res$type==ELTYPE$Lebenspartnerin)
+                | (res$type==ELTYPE$Tochter)
+                | (res$type==ELTYPE$Mutter)
+                | (res$type==ELTYPE$Schwiegermutter)
+      )
+      
+      men <-  ((res$type==ELTYPE$Ehemann)
+               | (res$type==ELTYPE$Lebenspartner)
+               | (res$type==ELTYPE$Sohn)
+               | (res$type==ELTYPE$Vater)
+               | (res$type==ELTYPE$Schwiegervater)
+      )
+      
+      res[women,"value"] <- "frau"
+      res[men,"value"] <- "mann"      
+    }
+    .dataLog <<- rbind(.dataLog, res)
+    return(res)
+  }
+  
+  resultObj$get_raw <- function(requestedField, type = NULL, node_id = NULL){    
     # define a helper function
     sanitize <- function(data_in, n){
-    # format data_in such that it can be used creating a data.frame
+      # format data_in such that it can be used creating a data.frame
       if (is.list(data_in)){
         # replace NULL by NA to prevent error in data.frame
         data_in[unlist(lapply(data_in,is.null))] <- NA
@@ -152,11 +144,13 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
     if (is.null(sel)){
       node_id       <- sanitize(.data[,"node_id"], n)
       title         <- sanitize(.data[,"title"], n)
-      field         <- sanitize(requestedField, n)  
+      field         <- sanitize(requestedField, n)
+      type          <- sanitize(.data[,"type_id"], n)
     } else{
       node_id       <- sanitize(.data[sel,"node_id"], n)
       title         <- sanitize(.data[sel,"title"], n)      
       field         <- sanitize(requestedField, n) 
+      type          <- sanitize(.data[sel,"type_id"], n)
     }
     estimatedFlag <- sanitize(FALSE, n)
     
@@ -167,17 +161,16 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       caller <- rep('console', n)
     }      
     
-    timeStamp    <- sanitize(format(Sys.time(), "%y-%m-%d %H:%M:%OS"),n)
+    timeStamp    <- sanitize(format(Sys.time(), "%y-%m-%d %H:%M:%OS"),n)    
     
-
     
-    tmp_data = data.frame(node_id = node_id, title = title, field = field, value = value, estimatedFlag = estimatedFlag, caller = caller, timeStamp = timeStamp)
+    tmp_data = data.frame(node_id, title, field, type, value, estimatedFlag, caller, timeStamp)
+    colnames(tmp_data)<- c("node_id", "title","field", "type","value" ,"estimatedFlag", "caller", "timeStamp")          
     
-    .dataLog <<- rbind(.dataLog, tmp_data)
-    
-    return(value)
+    return(tmp_data)
   }
   environment(resultObj$get) <- as.environment(resultObj)
+  environment(resultObj$get_raw) <- as.environment(resultObj)
   
   resultObj$getLog <- function(requestedField){        
     return(.dataLog)
@@ -211,18 +204,18 @@ getCashItm<-function (dataObj = NULL, file = NULL){
   if (is.null(dataObj)){
     dataObj <- DGSData(file = file)
   }
-    
+  
   titel = dataObj$get("title")
   
   taxonomy = as.numeric(dataObj$get("type_id"))
-    
+  
   for (iterTax in taxonomy){
     tmp = as.character(dat[dat$type_id==iterTax,"name"])
     tmp = sub("_", " ", tmp)
     taxonomy1 = c(taxonomy1, tmp[1])
     taxonomy2 = c(taxonomy2, tmp[2])
     if (length(tmp)<3) {
-       tmp[3] <- NA
+      tmp[3] <- NA
     }
     taxonomy3 = c(taxonomy3, tmp[3])
   }
@@ -255,29 +248,29 @@ getCashItm<-function (dataObj = NULL, file = NULL){
 
 
 getTaxonomy <- function(taxTree, recursive = FALSE){
-# returns a data.frame with a map of type_id and taxonomy name
-# set the argument "recursive" to TRUE for inclusion of the parents
-#
-# example:
-#
-# > taxTree = fromJSON(file="http://cloud.thetaris.com/shiny-data/taxonomy-tree") 
-# > dat<-getTaxonomy(taxTree, recursive = TRUE)
-#   
-# > dat[dat$type_id==305,]
-#        type_id          name
-#     12     305 Meine_Familie
-#     16     305       Partner
-#     20     305           ich
-#  
-# > dat[dat$name=="ich",]
-#        type_id name
-#     20     305  ich
-#
-# author: Andreas
-
+  # returns a data.frame with a map of type_id and taxonomy name
+  # set the argument "recursive" to TRUE for inclusion of the parents
+  #
+  # example:
+  #
+  # > taxTree = fromJSON(file="http://cloud.thetaris.com/shiny-data/taxonomy-tree") 
+  # > dat<-getTaxonomy(taxTree, recursive = TRUE)
+  #   
+  # > dat[dat$type_id==305,]
+  #        type_id          name
+  #     12     305 Meine_Familie
+  #     16     305       Partner
+  #     20     305           ich
+  #  
+  # > dat[dat$name=="ich",]
+  #        type_id name
+  #     20     305  ich
+  #
+  # author: Andreas
+  
   res = data.frame(numeric(0), character(0))
   colnames(res) <- c("type_id", "name")
-
+  
   
   name = sapply(taxTree, function(x) x$name)
   name = sub(" ", "_", name)
@@ -299,10 +292,10 @@ getTaxonomy <- function(taxTree, recursive = FALSE){
       type_id1 <- as.numeric(sapply(taxTree1, function(x) x$term_id))
       
       if (recursive){
-      res0 <- data.frame(type_id1, rep(name[iterName], length(name1)))
-      colnames(res0) <-  c("type_id", "name")
-      res = rbind(res, res0)
-}
+        res0 <- data.frame(type_id1, rep(name[iterName], length(name1)))
+        colnames(res0) <-  c("type_id", "name")
+        res = rbind(res, res0)
+      }
       res1 <- data.frame(type_id1, name1)
       colnames(res1) <-  c("type_id", "name")
       res = rbind(res, res1)
