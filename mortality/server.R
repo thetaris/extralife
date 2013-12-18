@@ -19,7 +19,7 @@ shinyServer(function(input, output, session) {
   # only once per session          #
   ##################################
   dataObj = isolate(DGSData(session=session))
-  #dataObj = isolate(DGSData(file="../test/testdata2.json"))
+  #dataObj = isolate(DGSData(file="../test/data/test_simpson.json"))
   
   data = prepareDataFamily(dataObj)
   

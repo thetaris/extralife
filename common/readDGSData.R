@@ -97,7 +97,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       res[men,"value"] <- "mann"      
     }
     .dataLog <<- rbind(.dataLog, res)
-    return(res)
+    return(res$value)
   }
   
   resultObj$get_raw <- function(requestedField, type = NULL, node_id = NULL){    
@@ -164,7 +164,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
     timeStamp    <- sanitize(format(Sys.time(), "%y-%m-%d %H:%M:%OS"),n)    
     
     
-    tmp_data = data.frame(node_id, title, field, type, value, estimatedFlag, caller, timeStamp)
+    tmp_data = data.frame(node_id, title, field, type, value, estimatedFlag, caller, timeStamp, stringsAsFactors=FALSE)
     colnames(tmp_data)<- c("node_id", "title","field", "type","value" ,"estimatedFlag", "caller", "timeStamp")          
     
     return(tmp_data)
