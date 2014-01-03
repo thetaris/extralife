@@ -74,15 +74,15 @@ Dauer_frame= c(numeric())
 for(i in 1:length(DateOfBirth)){
   Name_frame[(i-1)*3+1] = Names[i]
   Phase_frame[(i-1)*3+1] = "Ausbildungsphase"
-  Dauer_frame[(i-1)*3+1] = max(as.numeric(DateOfBirth[i] + 20*365.24 - Sys.Date())/365.24, 0)
+  Dauer_frame[(i-1)*3+1] = max( (as.numeric(DateOfBirth[i] - Sys.Date(), units="days") + 20*365.24 )/365.24, 0)
 
   Name_frame[(i-1)*3+2] = Names[i]
   Phase_frame[(i-1)*3+2] = "Arbeitsphase"
-  Dauer_frame[(i-1)*3+2] = max(as.numeric(rentenEintrittsDatum(DateOfBirth[i] - (as.numeric(Sys.Date()) + 365.24 * Dauer_frame[(i-1)*3+1])) )/365.24, 0)
+  Dauer_frame[(i-1)*3+2] = max(as.numeric(rentenEintrittsDatum(DateOfBirth[i]) - Sys.Date(), units="days"),0)/365.25
 
   Name_frame[(i-1)*3+3] = Names[i]
   Phase_frame[(i-1)*3+3] = "Rentenphase"
-  Dauer_frame[(i-1)*3+3] = max(as.numeric(WahrscheinlichesSterbedatum[i] - (as.numeric(Sys.Date()) + 365.24 *(Dauer_frame[(i-1)*3+1] + Dauer_frame[(i-1)*3+2]) )) /365.24, 0)
+  Dauer_frame[(i-1)*3+3] = max(as.numeric(WahrscheinlichesSterbedatum[i] - (as.numeric(Sys.Date(), units="days") + 365.24 *(Dauer_frame[(i-1)*3+1] + Dauer_frame[(i-1)*3+2]) )) /365.24, 0)
   
 }
 

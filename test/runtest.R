@@ -59,7 +59,7 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
   
   # compare data from two data.frames and provide a link to diffchecker.com
   compareContents <- function(A, B) {
-    if (length(A)==length(B) && A==B)
+    if (length(A)==length(B) && all(A==B))
       "No change"
     else
       tags$form(action="http://www.diffchecker.com/diff", method="POST",

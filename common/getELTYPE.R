@@ -4,6 +4,7 @@ getELTYPE <- function() {
   ELTYPE <<- list()
   
   taxTree <- suppressWarnings(fromJSON(file="http://cloud.thetaris.com/shiny-data/taxonomy-tree")) 
+  #taxTree <- suppressWarnings(fromJSON(file="../test/data/taxonomy.json")) 
   
   process <- function(subTree) {
     allIds <- c()
@@ -33,6 +34,10 @@ getELTYPE <- function() {
     }
     return(allIds)
   }
-  process(taxTree)
+  process(taxTree)    
 }
+
 getELTYPE()
+
+# add field which contains all types used.
+ELTYPE$._ <- unique( unlist(ELTYPE, use.names = FALSE) )
