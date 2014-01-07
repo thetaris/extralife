@@ -9,7 +9,7 @@ shinyUI(basicPage(
     div(style="width:800px"
         ,tags$iframe(src="https://docs.google.com/forms/d/1aEGhYU961Mh2yIXux5LkHBxdbKY5sNUsuRzLFi91P88/viewform?embedded=true"
                      , width="760"
-                     , height="500"
+                     , height="760"
                      , frameborder="0"
                      , marginheight="0"
                      , marginwidth="0")        
