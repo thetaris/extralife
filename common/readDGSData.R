@@ -2,7 +2,6 @@ source("../common/getELTYPE.R")
 source("../common/getELFIELD.R")
 
 
-
 readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL){
   # return data.frame of requested fields from DGS server  
   # 
@@ -74,9 +73,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
   resultObj$get <- function(requestedField, type = NULL, node_id = NULL){        
     
     res <- resultObj$get_raw(requestedField, type, node_id)
-    if (is.null(type)){
-      type <- unlist(ELTYPE, use.names=FALSE)
-    }
+
     # infer gender from type
     if (requestedField==ELFIELD$person.geschlecht){
       women <- ((res$type==ELTYPE$Ehefrau) 
@@ -94,7 +91,9 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       )
       
       res[women,"value"] <- "frau"
+      res[women,"estimatedFlag"] <- "correct"
       res[men,"value"] <- "mann"      
+      res[men,"estimatedFlag"] <- "correct"
     }
     .dataLog <<- rbind(.dataLog, res)
     return(res$value)

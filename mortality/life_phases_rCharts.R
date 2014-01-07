@@ -78,7 +78,7 @@ for(i in 1:length(DateOfBirth)){
 
   Name_frame[(i-1)*3+2] = Names[i]
   Phase_frame[(i-1)*3+2] = "Arbeitsphase"
-  Dauer_frame[(i-1)*3+2] = max(as.numeric(rentenEintrittsDatum(DateOfBirth[i]) - Sys.Date(), units="days"),0)/365.25
+  Dauer_frame[(i-1)*3+2] = max(as.numeric(rentenEintrittsDatum(DateOfBirth[i]) - Sys.Date() - 365.24 * Dauer_frame[(i-1)*3+1] , units="days"),0)/365.25
 
   Name_frame[(i-1)*3+3] = Names[i]
   Phase_frame[(i-1)*3+3] = "Rentenphase"

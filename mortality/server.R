@@ -57,4 +57,11 @@ shinyServer(function(input, output, session) {
     return(n1)
     
   })
+  
+  output$dataUsed = renderDataTable({
+    log <- dataObj$getLog()
+    log <- log[order(log$node_id),c("title","field","value", "estimatedFlag")]
+    return(log)
+  }, options = list(aLengthMenu = c(5, 50, 250), iDisplayLength = 50))
+  
 })
