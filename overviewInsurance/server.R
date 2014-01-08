@@ -53,14 +53,14 @@ shinyServer(function(input, output, session) {
     }
     
     link = c("linkToPrivHaftpflicht", "linkToKrankheit","linkToInvaliditaet","linkToTod", "linkToSchadenamAuto", "linkToKFZHaftpflicht", "linkToSchadenamEigentum", "linkToRechtsstreit")
-    titel = c("private Haftpflicht", "Krankheit","Invalidität","Tod", "Schaden am Auto", "KFZ Haftpflicht", "Schaden am Eigentum", "Rechtsstreit")
+    titel = c("private Haftpflicht", "Krankheit","Invalidit??t","Tod", "Schaden am Auto", "KFZ Haftpflicht", "Schaden am Eigentum", "Rechtsstreit")
     schaden = c(8, 6, 7, 7, 6, 8, 5, 5)
     abdeckung = c(5, 5, 1, 1, 5, 5, 3, 0)
     status = c(0,0,1,1,0,0,0,0)
     
     uebsersichtTable <- data.frame(link, titel, schaden, abdeckung, status)
     
-    tmp = list(tags$th(tags$h4("Risiko")), tags$th(tags$h4("möglicher Schaden")), tags$th(tags$h4("Abdeckung")), tags$th(tags$h4("Status")))    
+    tmp = list(tags$th(tags$h4("Risiko")), tags$th(tags$h4("m??glicher Schaden")), tags$th(tags$h4("Abdeckung")), tags$th(tags$h4("Status")))    
     res = tags$tr(tmp)
     
     for (iterRisk in 1:nrow(uebsersichtTable))

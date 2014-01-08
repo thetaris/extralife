@@ -17,17 +17,17 @@ shinyUI(basicPage(
 #    plotOutput("distPlot")
     div(style="width:800px", 
         tabsetPanel(
-           tabPanel("Übersicht"
+           tabPanel("??bersicht"
                     , uiOutput("overviewTable")                    
                     )
            ,tabPanel("private Haftpflicht"
-                     , tags$h3("vorhandene Verträge:")   
+                     , tags$h3("vorhandene Vertr??ge:")   
                      , tableOutput("haftpflicht1")
                      , uiOutput("haftpflicht2")
                      )
            ,tabPanel("Krankheit"
               )
-           ,tabPanel("Invalidität"
+           ,tabPanel("Invalidit??t"
            )
            ,tabPanel("Tod"
            )
