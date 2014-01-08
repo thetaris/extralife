@@ -5,7 +5,7 @@ library(rCharts)
 shinyUI(basicPage(
   
   # Application title
-  headerPanel("Bericht: Versicherungsanalyse"),
+  headerPanel(tags$h3("Versicherungsanalyse")),
   
   # Sidebar with a slider input for number of observations
     
@@ -17,17 +17,17 @@ shinyUI(basicPage(
 #    plotOutput("distPlot")
     div(style="width:800px", 
         tabsetPanel(
-           tabPanel("??bersicht"
+           tabPanel("Übersicht"
                     , uiOutput("overviewTable")                    
                     )
            ,tabPanel("private Haftpflicht"
-                     , tags$h3("vorhandene Vertr??ge:")   
+                     , tags$h3("vorhandene Verträge:")   
                      , tableOutput("haftpflicht1")
                      , uiOutput("haftpflicht2")
                      )
            ,tabPanel("Krankheit"
               )
-           ,tabPanel("Invalidit??t"
+           ,tabPanel("Invalidität"
            )
            ,tabPanel("Tod"
            )
