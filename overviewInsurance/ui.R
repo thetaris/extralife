@@ -17,11 +17,32 @@ shinyUI(basicPage(
 #    plotOutput("distPlot")
     div(style="width:800px", 
         tabsetPanel(
-           tabPanel("Risikoabdeckung", chartOutput("myChart","datatables"))
-           ,tabPanel("Vertragsoptimierung")
-           ,tabPanel("Annahmen")
+           tabPanel("Übersicht"
+                    , uiOutput("overviewTable")                    
+                    )
+           ,tabPanel("private Haftpflicht"
+                     , tags$h3("vorhandene Verträge:")   
+                     , tableOutput("haftpflicht1")
+                     , uiOutput("haftpflicht2")
+                     )
+           ,tabPanel("Krankheit"
+              )
+           ,tabPanel("Invalidität"
            )
+           ,tabPanel("Tod"
+           )
+           ,tabPanel("Schaden am Auto"
+           )
+           ,tabPanel("KFZ Haftpflicht"
+           )
+           ,tabPanel("Schaden am Eigentum"
+           )
+           ,tabPanel("Rechtsstreit"
+           )
+        )
     )
   )
   
 ))
+
+  
