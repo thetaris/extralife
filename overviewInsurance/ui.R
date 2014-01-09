@@ -15,10 +15,11 @@ shinyUI(basicPage(
   # Show a plot of the generated distribution
   mainPanel(
     tags$table(
-      list(tags$td(tags$h2("Versicherungsanalyse ")),
-      tags$td(selectInput("variable"," ", choices=list("Möglichst viel absichern" = "viel", 
+      list(tags$td(tags$h2("Versicherungsanalyse "))
+           ,tags$td("")      
+           ,tags$td(selectInput("variable"," ", choices=list("Möglichst viel absichern" = "viel", 
                      "Ausgewogene Mischung" = "mittel", 
-                     "Sparen und zahle kleine Schäden selbst" = "wenig"))
+                     "Sparen, zahle kleine Schäden selbst" = "wenig"))
       ))
       ,width="100%"),
     
