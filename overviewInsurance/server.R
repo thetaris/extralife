@@ -27,7 +27,7 @@ shinyServer(function(input, output, session) {
     #### Calculation Haftpflicht
     if (nrow(haftpflicht$vertraegeTabelle)>1){
       res<-list(res,tags$h3(sprintf("Absicherung: %s", "überversichert")))
-      res<-list(res,tags$p("Empfehlung: Jeder Haushalt benötigt nur eine Haftpflichtversicherung. Melden Sie einer Versicherung alles Personen des Haushalts und kündigen Sie die andere."))      
+      res<-list(res,tags$p("Empfehlung: Jeder Haushalt benötigt nur eine Haftpflichtversicherung. Melden Sie einer Versicherung alle Personen des Haushalts und kündigen Sie die andere."))      
     }else{
     if (nrow(haftpflicht$vertraegeTabelle)<1){
       res<-list(res,tags$h3(sprintf("Absicherung: %s", "keine")))
@@ -123,21 +123,6 @@ shinyServer(function(input, output, session) {
     }
     res = list(res,tags$script(scripts))
          
-#     res = list(res, HTML("<script>$('#linkToPrivHaftpflicht').click(function() {
-#           			 tabs = $('.tabbable .nav.nav-tabs li')
-#     					 	 tabs.each(function() {
-#     							$(this).removeClass('active')
-#     					 	 })
-#     						 $(tabs[1]).addClass('active')
-#     						
-#     						 tabsContents = $('.tabbable .tab-content .tab-pane')
-#     					 	 tabsContents.each(function() {
-#     							$(this).removeClass('active')
-#     					 	 })
-#     						 $(tabsContents[1]).addClass('active')
-#     						
-#     						$('#linkToPrivHaftpflicht').trigger('change').trigger('shown');
-#     					 })</script>"))
   }
   )
   
