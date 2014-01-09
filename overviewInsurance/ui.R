@@ -5,7 +5,7 @@ library(rCharts)
 shinyUI(basicPage(
   
   # Application title
-  headerPanel("Versicherungsanalyse") ,
+  # headerPanel("Versicherungsanalyse") ,
   
   # Sidebar with a slider input for number of observations
     
@@ -14,9 +14,13 @@ shinyUI(basicPage(
   
   # Show a plot of the generated distribution
   mainPanel(
-    selectInput("variable","Ich möchte", choices=list("möglichst viel absichern." = "viel", 
-                     "eine ausgewogene Mischung aus selbst zahlen und versichern." = "mittel", 
-                     "sparen und zahle kleine Schäden selbst." = "wenig")),
+    tags$table(
+      list(tags$td(tags$h2("Versicherungsanalyse ")),
+      tags$td(selectInput("variable"," ", choices=list("Möglichst viel absichern" = "viel", 
+                     "Ausgewogene Mischung" = "mittel", 
+                     "Sparen und zahle kleine Schäden selbst" = "wenig"))
+      ))
+      ,width="100%"),
     
 #    plotOutput("distPlot")
     div(style="width:800px", 
