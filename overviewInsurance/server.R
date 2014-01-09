@@ -21,10 +21,24 @@ shinyServer(function(input, output, session) {
     haftpflicht$vertraegeTabelle
   })
   
-  output$haftpflicht2 <- renderUI(
-    tags$h3(sprintf("Absicherung: %s", "ok"))
-    , tags$p("Empfehlung: Nichts zu tun.")
-   
+  output$haftpflicht2 <- renderUI({
+    res<-list()
+    
+    #### Calculation Haftpflicht
+    if (nrow(haftpflicht$vertraegeTabelle)>1){
+      res<-list(res,tags$h3(sprintf("Absicherung: %s", "überversichert")))
+      res<-list(res,tags$p("Empfehlung: Jeder Haushalt benötigt nur eine Haftpflichtversicherung. Melden Sie einer Versicherung alles Personen des Haushalts und kündigen Sie die andere."))      
+    }else{
+    if (nrow(haftpflicht$vertraegeTabelle)<1){
+      res<-list(res,tags$h3(sprintf("Absicherung: %s", "keine")))
+      res<-list(res,tags$p("Empfehlung: Schließe eine private Haftpflichtversicherung ab."))      
+    }else{
+      res<-list(res,tags$h3(sprintf("Absicherung: %s", "ok")))
+      res<-list(res,tags$p("Empfehlung: Nichts zu tun."))      
+    }
+    }
+    return(res)
+  }
   )
   
   output$overviewTable <- renderUI({
@@ -60,6 +74,14 @@ shinyServer(function(input, output, session) {
     schaden = c(8, 6, 7, 7, 6, 8, 5, 5)
     abdeckung = c(5, 5, 1, 1, 5, 5, 3, 0)
     status = c(0,0,1,1,0,0,0,0)
+    
+    #### Calculation Haftpflicht
+    if (nrow(haftpflicht$vertraegeTabelle)>1){
+      status[1]<- 1
+    }
+    if (nrow(haftpflicht$vertraegeTabelle)<1){
+      status[1]<- 1
+    }
     
     uebsersichtTable <- data.frame(link, titel, schaden, abdeckung, status)
     
