@@ -33,7 +33,7 @@ if (!any(types==ELTYPE$Ich)) {
   recommend(627, "TERM", 305)
   recommend(1650, "NODE", 0)
   recommend(1651, "NODE", 0)
-  recommend(442, "NODE", 0)
+  recommend(1730, "NODE", 0)
 } else {
   for (ich in getAll(ELTYPE$Ich)) {
   if (ich$title=="Ich" || ich$title=="")
