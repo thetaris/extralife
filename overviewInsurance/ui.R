@@ -38,7 +38,7 @@ shinyUI(basicPage(
               )
            ,tabPanel("Invalidität"
                      , tags$h3("vorhandene Verträge:")
-                     , tags$p("keine")
+                     , tags$p("staatliche Rente")
                      , tags$br()
                      , tags$a("Details", href="http://cloud.thetaris.com/activateReport?report=1510&active=true")
            )
