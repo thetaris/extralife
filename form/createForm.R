@@ -21,6 +21,12 @@ simpleField <- function(field, text, type='text', postfix='') {
              postfix)
 }
 
+numberField <- function(field, text, type='text', postfix='', step='0.01') {
+  inputFrame(text,
+             tags$input(`data-name`=field, type=type, step=step), 
+             postfix)
+}
+
 textareaField <- function(field, text, rows=5) {
   inputFrame(text,
             tags$textarea(`data-name`=field, rows=rows))
@@ -37,12 +43,14 @@ dynamicSelectField <- function(field, text, dataSource) {
              tags$select(`data-source`=dataSource, `data-name`=field))
 }
 
+frequencyKey <- c('einmalig', 'woche','monat','quartal','halbjahr','jahr')
+frequencyName <- c('Einmalig', 'Woche','Monat','Quartal','Halbjahr','Jahr')
 
 form <- tags$div(
 simpleField('person.geburtsdatum','Geburtsdatum:','date'),
 selectField('person.geschlecht','Geschlecht',c('na','mann','frau'),c('--','männlich','weiblich')),
 textareaField('adresse', 'Adresse:'),
-simpleField('kauf.wert','Kaufpreis:','number',postfix='€'),
+numberField('kauf.wert','Kaufpreis:','number',postfix='€'),
 simpleField('kauf.datum','Kaufdatum:','date'),
 simpleField('hersteller','Hersteller:','text'),
 simpleField('vertrag.nummer','Vertragsnummer:','text'),
@@ -50,18 +58,18 @@ simpleField('vertrag.zahlung.betrag','Vertragliche Zahlung:','number'),
 simpleField('vertrag.zahlung.betrag.konsum','Vertragliche Zahlung:','number',postfix='(Konsum)'),
 simpleField('vertrag.zahlung.betrag.investition','Vertragliche Zahlung:','number',postfix='(Investition)'),
 simpleField('vertrag.zahlung.start','Vertragsbeginn:','date'),
-selectField('vertrag.zahlung.frequenz','Zahlungsfrequenz:',c('woche','monat','quartal','halbjahr','jahr'),c('Woche','Monat','Quartal','Halbjahr','Jahr')),
+selectField('vertrag.zahlung.frequenz','Zahlungsfrequenz:',frequencyKey, frequencyName),
 simpleField('verttrag.zahlung.ende','Vertragsende:','date'),
 simpleField('mietvertrag.mieter','Dein Mieter:','text'),
 textareaField('mietvertrag.adresse', 'Die Adresse der Wohnung:'),
 simpleField('vermietung.betrag.kalt','Kaltmiete:','number'),
 simpleField('vermietung.betrag.nebenkosten','Nebenkosten:','number'),
 simpleField('vermietung.betrag.start','Vermietet seit:','date'),
-selectField('vermietung.betrag.frequenz','Zahlungsfrequenz:',c('woche','monat','quartal','halbjahr','jahr'),c('Woche','Monat','Quartal','Halbjahr','Jahr')),
+selectField('vermietung.betrag.frequenz','Zahlungsfrequenz:',frequencyKey, frequencyName),
 simpleField('vermietung.betrag.ende','Befristung:','date'),
 simpleField('einkommen.betrag.brutto','Bruttoeinkommen:','number'),
 simpleField('einkommen.betrag.netto','Nettoeinkommen:','number'),
-selectField('einkommen.betrag.frequenz','Frequenz deines Einkommens:',c('woche','monat','quartal','halbjahr','jahr'),c('Woche','Monat','Quartal','Halbjahr','Jahr')),
+selectField('einkommen.betrag.frequenz','Frequenz deines Einkommens:',frequencyKey, frequencyName),
 simpleField('einkommen.betrag.start','Beginn des Einkommens:','date'),
 simpleField('einkommen.betrag.ende','Befristung des Einkommens:','date'),
 simpleField('arbeitsvertrag.arbeitgeber','Arbeitgeber:','text'),
@@ -75,9 +83,9 @@ simpleField('mietvertrag.vermieter','Vermieter:','text'),
 simpleField('miete.betrag.kalt','Kaltmiete:','number'),
 simpleField('miete.betrag.nebenkosten','Nebenkosten:','number'),
 simpleField('miete.betrag.start','Mietbeginn:','date'),
-selectField('miete.betrag.frequenz','Zahlungsfrequenz:',c('woche','monat','quartal','halbjahr','jahr'),c('Woche','Monat','Quartal','Halbjahr','Jahr')),
+selectField('miete.betrag.frequenz','Zahlungsfrequenz:',frequencyKey, frequencyName),
 simpleField('miete.betrag.ende','Mietende:','date'),
-simpleField('zeitwert.betrag','Zeitwert:','number',postfix='€'),
+numberField('zeitwert.betrag','Zeitwert:','number',postfix='€'),
 simpleField('zeitwert.datum','festgestellt am','date'),
 simpleField('versicherung.tarif','Versicherungstarif:','text'),
 simpleField('versicherung.deckungssumme.betrag','Deckungssumme:','number'),
