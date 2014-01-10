@@ -37,6 +37,10 @@ shinyUI(basicPage(
            ,tabPanel("Krankheit"
               )
            ,tabPanel("Invalidität"
+                     , tags$h3("vorhandene Verträge:")
+                     , tags$p("keine")
+                     , tags$br()
+                     , tags$a("Details", href="http://cloud.thetaris.com/activateReport?report=1510&active=true")
            )
            ,tabPanel("Tod"
            )
