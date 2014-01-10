@@ -40,6 +40,8 @@ if (!any(types==ELTYPE$Ich)) {
     recommend(1650, "NODE", ich$node_id)
   if (ich$person.geschlecht=="")
     recommend(1651, "NODE", ich$node_id)
+  if (ich$person.geburtsdatum=="")
+    recommend(1730, "NODE", ich$node_id)
   }
 }
 
