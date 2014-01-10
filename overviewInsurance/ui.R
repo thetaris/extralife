@@ -40,6 +40,8 @@ shinyUI(basicPage(
                      , tags$h3("vorhandene Verträge:")
                      , tags$p("staatliche Rente")
                      , tags$br()
+                     , tags$h3(sprintf("Absicherung: %s", "minimal"))
+                     , tags$p("Empfehlung: Informiere Dich über den Abschluß einer Beruftsunfähigkeitsversicherung (kurz BU) oder einer Unfallversicherung.")     
                      , tags$a("Details", href="http://cloud.thetaris.com/activateReport?report=1510&active=true")
            )
            ,tabPanel("Tod"
