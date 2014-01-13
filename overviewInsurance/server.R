@@ -4,7 +4,7 @@ source('../common/getELTYPE.R')
 source('../common/getELFIELD.R')
 source('../common/readDGSData.R')
 
-source("computations.R")
+source.with.encoding("computations.R", encoding="UTF-8")
 
 # Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output, session) {
@@ -13,33 +13,18 @@ shinyServer(function(input, output, session) {
   
   dataObj = isolate(DGSData(session=session))    
   
-  haftpflicht <- getHaftpflicht(dataObj)
+  versicherungen <- getVersicherungen(dataObj)
   overview <- getOverview(dataObj)
   
   
-  output$haftpflicht1 <- renderTable({
-    haftpflicht$vertraegeTabelle
-  })
-  
-  output$haftpflicht2 <- renderUI({
-    res<-list()
-    
-    #### Calculation Haftpflicht
-    if (nrow(haftpflicht$vertraegeTabelle)>1){
-      res<-list(res,tags$h3(sprintf("Absicherung: %s", "überversichert")))
-      res<-list(res,tags$p("Empfehlung: Jeder Haushalt benötigt nur eine Haftpflichtversicherung. Melden Sie einer Versicherung alle Personen des Haushalts und kündigen Sie die andere."))      
-    }else{
-    if (nrow(haftpflicht$vertraegeTabelle)<1){
-      res<-list(res,tags$h3(sprintf("Absicherung: %s", "keine")))
-      res<-list(res,tags$p("Empfehlung: Schließe eine private Haftpflichtversicherung ab."))      
-    }else{
-      res<-list(res,tags$h3(sprintf("Absicherung: %s", "ok")))
-      res<-list(res,tags$p("Empfehlung: Nichts zu tun."))      
-    }
-    }
-    return(res)
-  }
-  )
+  output$haftpflicht <- renderDetail(versicherungen$haftpflicht, "Haftpflicht")
+  output$Krankheit   <- renderDetail(versicherungen$Krankheit, "Krankheit")
+  output$Invaliditaet <- renderDetail(versicherungen$Invaliditaet, "Invaliditaet")
+  output$Tod <- renderDetail(versicherungen$Tod, "Tod")  
+  output$SchadenAmAuto <- renderDetail(versicherungen$SchadenAmAuto, "SchadenAmAuto")
+  output$KFZHaftpflicht <- renderDetail(versicherungen$KFZHaftpflicht, "KFZHaftpflicht")
+  output$SchadenAmEigentum <- renderDetail(versicherungen$SchadenAmEigentum, "SchadenAmEigentum")
+  output$Rechtsstreit <- renderDetail(versicherungen$Rechtsstreit, "Rechtsstreit")
   
   output$overviewTable <- renderUI({
     renderSchaden <- function(logSum){

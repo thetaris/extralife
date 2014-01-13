@@ -164,7 +164,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
     
     
     tmp_data = data.frame(node_id, title, field, type, value, estimatedFlag, caller, timeStamp, stringsAsFactors=FALSE)
-    colnames(tmp_data)<- c("node_id", "title","field", "type","value" ,"estimatedFlag", "caller", "timeStamp")          
+    try(colnames(tmp_data)<- c("node_id", "title","field", "type","value" ,"estimatedFlag", "caller", "timeStamp"), silent = TRUE)          
     
     return(tmp_data)
   }

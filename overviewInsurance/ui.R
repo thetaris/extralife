@@ -30,29 +30,28 @@ shinyUI(basicPage(
                     , uiOutput("overviewTable")                    
                     )
            ,tabPanel("private Haftpflicht"
-                     , tags$h3("vorhandene Verträge:")   
-                     , tableOutput("haftpflicht1")
-                     , uiOutput("haftpflicht2")
+                     , uiOutput("haftpflicht")
                      )
            ,tabPanel("Krankheit"
+                     , uiOutput("Krankheit")
               )
            ,tabPanel("Invalidität"
-                     , tags$h3("vorhandene Verträge:")
-                     , tags$p("staatliche Rente")
-                     , tags$br()
-                     , tags$h3(sprintf("Absicherung: %s", "minimal"))
-                     , tags$p("Empfehlung: Informiere Dich über den Abschluß einer Beruftsunfähigkeitsversicherung (kurz BU) oder einer Unfallversicherung.")     
-                     , tags$a("Details", href="http://cloud.thetaris.com/activateReport?report=1510&active=true")
+                     , uiOutput("Invaliditaet")
            )
            ,tabPanel("Tod"
+                     , uiOutput("Tod")
            )
            ,tabPanel("Schaden am Auto"
+                     , uiOutput("SchadenAmAuto")
            )
            ,tabPanel("KFZ Haftpflicht"
+                     , uiOutput("KFZHaftpflicht")
            )
            ,tabPanel("Schaden am Eigentum"
+                     , uiOutput("SchadenAmEigentum")
            )
            ,tabPanel("Rechtsstreit"
+                     , uiOutput("Rechtsstreit")
            )
         )
     )
