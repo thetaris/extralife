@@ -15,7 +15,6 @@ shinyServer(function(input, output, session) {
   dataObj = isolate(DGSData(session=session))    
   
   versicherungen <- getVersicherungen(dataObj)
-  overview <- getOverview(dataObj)
   
   
   output$haftpflicht <- renderDetail(versicherungen$haftpflicht, "Haftpflicht")
@@ -62,10 +61,10 @@ shinyServer(function(input, output, session) {
     status = c(0,0,1,1,0,0,0,0)
     
     #### Calculation Haftpflicht
-    if (nrow(haftpflicht$vertraegeTabelle)>1){
+    if (nrow(versicherungen$haftpflicht$vertraegeTabelle)>1){
       status[1]<- 1
     }
-    if (nrow(haftpflicht$vertraegeTabelle)<1){
+    if (nrow(versicherungen$haftpflicht$vertraegeTabelle)<1){
       status[1]<- 1
     }
     
