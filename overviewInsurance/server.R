@@ -15,7 +15,6 @@ shinyServer(function(input, output, session) {
   dataObj = isolate(DGSData(session=session))    
   
   versicherungen <- getVersicherungen(dataObj)
-  overview <- getOverview(dataObj)
   
   
   output$haftpflicht <- renderDetail(versicherungen$haftpflicht, "Haftpflicht")
