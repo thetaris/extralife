@@ -4,7 +4,8 @@ source('../common/getELTYPE.R')
 source('../common/getELFIELD.R')
 source('../common/readDGSData.R')
 
-source.with.encoding("computations.R", encoding="UTF-8")
+source("computations.R", encoding="UTF-8")
+#eval(parse("computations.R", encoding="UTF-8"))
 
 # Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output, session) {
