@@ -72,30 +72,67 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
   
   resultObj$get <- function(requestedField, type = NULL, node_id = NULL){        
     
-    res <- resultObj$get_raw(requestedField, type, node_id)
-
-    # infer gender from type
-    if (requestedField==ELFIELD$person.geschlecht){
-      women <- ((res$type==ELTYPE$Ehefrau) 
-                | (res$type==ELTYPE$Lebenspartnerin)
-                | (res$type==ELTYPE$Tochter)
-                | (res$type==ELTYPE$Mutter)
-                | (res$type==ELTYPE$Schwiegermutter)
-      )
+    if (requestedField==ELFIELD$i.kosten.monatlich){
+      konsum<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.betrag.konsum, type, node_id)))
+      konsum <- as.numeric(konsum$value)
+      konsum[is.na(konsum)]<-0
       
-      men <-  ((res$type==ELTYPE$Ehemann)
-               | (res$type==ELTYPE$Lebenspartner)
-               | (res$type==ELTYPE$Sohn)
-               | (res$type==ELTYPE$Vater)
-               | (res$type==ELTYPE$Schwiegervater)
-      )
+      investition<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.betrag.investition, type, node_id)))
+      investition<-investition$value
+      investition[is.na(investition)]<-0
       
-      res[women,"value"] <- "frau"
-      res[women,"estimatedFlag"] <- "correct"
-      res[men,"value"] <- "mann"      
-      res[men,"estimatedFlag"] <- "correct"
+      freq<-resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.frequenz, type, node_id)
+      freq <- freq$value      
+      freq[freq==""]="none"
+      
+      betrag <- konsum + investition
+      cost <- character(length(freq)) 
+      if (length(freq)>0){
+      for (iterDoc in 1:length(freq)){
+        switch(freq[iterDoc]
+               ,einmalig={cost[iterDoc]<-0}
+               ,woche   ={cost[iterDoc]<-4.3*betrag[iterDoc]}
+               ,monat   ={cost[iterDoc]<-betrag[iterDoc]}
+               ,quartal ={cost[iterDoc]<-betrag[iterDoc]/3}
+               ,halbjahr={cost[iterDoc]<-betrag[iterDoc]/6}
+               ,jahr    ={cost[iterDoc]<-betrag[iterDoc]/12}
+               ,none    ={cost[iterDoc]<-betrag[iterDoc]} # assume monthly
+               ,stop("Error computing i.kosten.monatlich: Incorrect frequency :%s in document of type %s", freq[iterDoc], type)
+          )
+      }
+      }else{
+        cost <- NULL
+      }
+      res<-list()
+      res$value <- cost
+      # not logged yet
+    }    
+    else{
+      res <- resultObj$get_raw(requestedField, type, node_id)
+  
+      # infer gender from type
+      if (requestedField==ELFIELD$person.geschlecht){
+        women <- ((res$type==ELTYPE$Ehefrau) 
+                  | (res$type==ELTYPE$Lebenspartnerin)
+                  | (res$type==ELTYPE$Tochter)
+                  | (res$type==ELTYPE$Mutter)
+                  | (res$type==ELTYPE$Schwiegermutter)
+        )
+        
+        men <-  ((res$type==ELTYPE$Ehemann)
+                 | (res$type==ELTYPE$Lebenspartner)
+                 | (res$type==ELTYPE$Sohn)
+                 | (res$type==ELTYPE$Vater)
+                 | (res$type==ELTYPE$Schwiegervater)
+        )
+        
+        res[women,"value"] <- "frau"
+        res[women,"estimatedFlag"] <- "correct"
+        res[men,"value"] <- "mann"      
+        res[men,"estimatedFlag"] <- "correct"
+      }
+      .dataLog <<- rbind(.dataLog, res)
     }
-    .dataLog <<- rbind(.dataLog, res)
     return(res$value)
   }
   

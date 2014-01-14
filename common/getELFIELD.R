@@ -81,7 +81,8 @@ getELFIELD <- function(){
       "Bausparen.Tarif",
       "Bausparen.Summe",
       "Bausparen.MindestSparGuthaben",
-      "kommentarfeld")))  
+      "kommentarfeld",
+      "i.kosten.monatlich")))  
   }
   ELFIELD <<- list()
   ELFIELD[allELDataFields()]<<-allELDataFields()
