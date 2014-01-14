@@ -68,6 +68,7 @@ demographyChartPrepareData <- function(currentYear, name, birthYear, gender_in){
   # make age/gender group unique such that there is only one entry per age/gender group
   if (length(name>1)){
     uniqueName = c(name[1])
+    # little hack: unique age is 0,5,10,15... for male and 1,6,11,16... for female to encode both in one variable
     uniqueAge = c( ((currentYear - birthYear[1]) %/% 5)*5 + (gender_in[1]=="w") )
     uniqueBirthYear = c(birthYear[1])
     uniqueGender_in = c(gender_in[1])
