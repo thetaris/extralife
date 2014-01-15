@@ -21,7 +21,7 @@ shinyUI(bootstrapPage(
                     textInput("myincomelevel", "", value="")
                 ),
                 div(id="alterContIncome",  
-                    p(paste("Du hast noch kein Einkommen erfasst :-( Wie soll ich da eine Graphik erstellen."))
+                    p(paste("Du hast noch kein Einkommen erfasst."))
                 )              
                 
       ) 
@@ -32,7 +32,7 @@ shinyUI(bootstrapPage(
                     textInput("myexpenselevel", "", value="")
                 ),
                 div(id="alterContExpense",  
-                    p(paste("Du hast noch keine Ausgaben erfasst :-( Wie soll ich da eine Graphik erstellen."))
+                    p(paste("Du hast noch keine Ausgaben erfasst."))
                 )                
                 
       )      
@@ -43,7 +43,7 @@ shinyUI(bootstrapPage(
                   textInput("myassetlevel", "", value="")
                 ),
                 div(id="alterContAsset",  
-                    p(paste("Du hast noch keine Vermögenswerte erfasst :-( Wie soll ich da eine Graphik erstellen."))
+                    p(paste("Du hast noch keine Vermögenswerte erfasst."))
                 )
                 
       )
@@ -54,7 +54,7 @@ shinyUI(bootstrapPage(
                   textInput("mycreditlevel", "", value="")
                 ),
                 div(id="alterContCredit",  
-                    p(paste("Du hast noch keine Kredite erfasst :-( Wie soll ich da eine Graphik erstellen."))
+                    p(paste("Du hast noch keine Kredite erfasst."))
                 )
                 
       )      
