@@ -78,7 +78,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       konsum[is.na(konsum)]<-0
       
       investition<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.betrag.investition, type, node_id)))
-      investition<-investition$value
+      investition<-as.numeric(investition$value)
       investition[is.na(investition)]<-0
       
       freq<-resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.frequenz, type, node_id)

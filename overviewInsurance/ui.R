@@ -23,7 +23,7 @@ shinyUI(basicPage(
       ))
       ,width="100%"),
     
-#    plotOutput("distPlot")
+
     div(style="width:800px", 
         tabsetPanel(
            tabPanel("Übersicht"
