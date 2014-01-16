@@ -295,6 +295,8 @@ getCashItm<-function (dataObj = NULL, file = NULL){
   bewertung[!is.na(tmp_wertEinkommen)] <- "income"
   wert[!is.na(tmp_wertEinkommen)] <- tmp_wertEinkommen[!is.na(tmp_wertEinkommen)]
   
+  wert <- round(wert,2)
+  
   data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung)
 }
 
