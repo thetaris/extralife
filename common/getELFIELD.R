@@ -40,6 +40,8 @@ getELFIELD <- function(){
       "Miete.betrag.ende",
       "Zeitwert.betrag",
       "Zeitwert.datum",
+      "Kredit.Zeitwert.betrag",
+      "Kredit.Zeitwert.datum",
       "Versicherung.tarif",
       "gesetzlicheRente.entgeldpunkte.anzahl",
       "gesetzlicheRente.entgeldpunkte.datum",
@@ -82,7 +84,8 @@ getELFIELD <- function(){
       "Bausparen.Summe",
       "Bausparen.MindestSparGuthaben",
       "kommentarfeld",
-      "i.kosten.monatlich")))  
+      "i.kosten.monatlich", 
+      "i.einkommen.monatlich")))  
   }
   ELFIELD <<- list()
   ELFIELD[allELDataFields()]<<-allELDataFields()

@@ -71,42 +71,62 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
   op <- options(digits.secs = 3)
   
   resultObj$get <- function(requestedField, type = NULL, node_id = NULL){        
-    
-    if (requestedField==ELFIELD$i.kosten.monatlich){
-      konsum<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.betrag.konsum, type, node_id)))
-      konsum <- as.numeric(konsum$value)
-      konsum[is.na(konsum)]<-0
-      
-      investition<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.betrag.investition, type, node_id)))
-      investition<-as.numeric(investition$value)
-      investition[is.na(investition)]<-0
-      
-      freq<-resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.frequenz, type, node_id)
-      freq <- freq$value      
+    toMonthly <- function(betrag, freq){
       freq[freq==""]="none"
-      
-      betrag <- konsum + investition
+      freq[is.na(freq)]="none"      
       cost <- character(length(freq)) 
       if (length(freq)>0){
-      for (iterDoc in 1:length(freq)){
-        switch(freq[iterDoc]
-               ,einmalig={cost[iterDoc]<-0}
-               ,woche   ={cost[iterDoc]<-4.3*betrag[iterDoc]}
-               ,monat   ={cost[iterDoc]<-betrag[iterDoc]}
-               ,quartal ={cost[iterDoc]<-betrag[iterDoc]/3}
-               ,halbjahr={cost[iterDoc]<-betrag[iterDoc]/6}
-               ,jahr    ={cost[iterDoc]<-betrag[iterDoc]/12}
-               ,none    ={cost[iterDoc]<-betrag[iterDoc]} # assume monthly
-               ,stop("Error computing i.kosten.monatlich: Incorrect frequency :%s in document of type %s", freq[iterDoc], type)
+        for (iterDoc in 1:length(freq)){
+          switch(freq[iterDoc]
+                 ,einmalig={cost[iterDoc]<-0}
+                 ,woche   ={cost[iterDoc]<-4.3*betrag[iterDoc]}
+                 ,monat   ={cost[iterDoc]<-betrag[iterDoc]}
+                 ,quartal ={cost[iterDoc]<-betrag[iterDoc]/3}
+                 ,halbjahr={cost[iterDoc]<-betrag[iterDoc]/6}
+                 ,jahr    ={cost[iterDoc]<-betrag[iterDoc]/12}
+                 ,none    ={cost[iterDoc]<-betrag[iterDoc]} # assume monthly
+                 ,stop(sprintf("Error computing i.kosten.monatlich: Incorrect frequency :%s in document of type %s", freq[iterDoc], type))
           )
-      }
+        }
       }else{
         cost <- NULL
       }
       res<-list()
       res$value <- cost
+      return(res)
+    }
+    if (requestedField==ELFIELD$i.kosten.monatlich){
+      konsum<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.betrag.konsum, type, node_id)))
+      konsum <- as.numeric(konsum$value)
+      #konsum[is.na(konsum)]<-0
+      
+      investition<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.betrag.investition, type, node_id)))
+      investition<-as.numeric(investition$value)
+      #investition[is.na(investition)]<-0
+      
+      freq<-resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.frequenz, type, node_id)
+      freq <- freq$value      
+      
+      betrag <- konsum 
+      
+      # add where there are konsum and investition
+      sel = ((!is.na(betrag))& (!is.na(investition)))
+      betrag[sel]<- betrag[sel] + investition[sel]
+      
+      # replace NA with value where there is investition, only
+      betrag[is.na(betrag)]<- investition[is.na(betrag)]
+      
+      res<-toMonthly(betrag, freq)
       # not logged yet
-    }    
+    }else if (requestedField==ELFIELD$i.einkommen.monatlich){
+      brutto<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$einkommen.betrag.brutto, type, node_id)))
+      netto<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$einkommen.betrag.netto, type, node_id)))
+      einkommen <- netto$value
+      einkommen[is.na(einkommen)]<-brutto$value[is.na(einkommen)]
+      freq <- suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$einkommen.betrag.frequenz, type, node_id)))
+      freq <- freq$value      
+      res <- toMonthly(einkommen,freq)
+    }   
     else{
       res <- resultObj$get_raw(requestedField, type, node_id)
   
@@ -255,27 +275,23 @@ getCashItm<-function (dataObj = NULL, file = NULL){
     }
     taxonomy3 = c(taxonomy3, tmp[3])
   }
-  
+  # Active balance: value
   wert = as.numeric(dataObj$get(ELFIELD$zeitwert.betrag))
-  
   bewertung = wert
   bewertung[!is.na(bewertung)] <- "static"
   
-  tmp_wert1 = as.numeric(dataObj$get(ELFIELD$vertrag.zahlung.betrag))
-  tmp_wert2 = as.numeric(dataObj$get(ELFIELD$vertrag.zahlung.betrag.konsum))
-  tmp_wert3 = as.numeric(dataObj$get(ELFIELD$vertrag.zahlung.betrag.investition))
-  
-  tmp_wertAll = tmp_wert1
-  tmp_wertAll[!is.na(tmp_wert2)]<-tmp_wert2[!is.na(tmp_wert2)]
-  tmp_wertAll[!is.na(tmp_wert3)]<-tmp_wert3[!is.na(tmp_wert3)]
-  
-  bewertung[!is.na(tmp_wertAll)] <- "expense"
-  wert[!is.na(tmp_wertAll)] <- tmp_wertAll[!is.na(tmp_wertAll)]
-  
+  # Cost: expense
+  kosten = as.numeric(dataObj$get(ELFIELD$i.kosten.monatlich))  
+  bewertung[!is.na(kosten)] <- "expense"
+  wert[!is.na(kosten)] <- kosten[!is.na(kosten)]
+    
+  # Passive balance: credit
+  credit = as.numeric(dataObj$get(ELFIELD$kredit.zeitwert.betrag))
+  wert[!is.na(credit)] <- credit[!is.na(credit)]
   bewertung[taxonomy2 == "Kredit"] <- "credit"
   
-  
-  tmp_wertEinkommen = as.numeric(dataObj$get(ELFIELD$einkommen.betrag.netto))  
+  # Earnings: income
+  tmp_wertEinkommen = as.numeric(dataObj$get(ELFIELD$i.einkommen.monatlich))  
   bewertung[!is.na(tmp_wertEinkommen)] <- "income"
   wert[!is.na(tmp_wertEinkommen)] <- tmp_wertEinkommen[!is.na(tmp_wertEinkommen)]
   

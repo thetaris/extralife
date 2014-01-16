@@ -44,8 +44,6 @@ getBesitz <- function(dataObj){
   return(besitz)
 }
 
-
-
 getEmpfehlungen <- function(versicherungen, besitz, input){
   
   ####### Recommendations
