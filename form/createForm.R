@@ -122,7 +122,8 @@ simpleField('pferd.equidenpass','Equidenpass:','text'),
 simpleField('hund.hundemarke','Hundemarke:','text'),
 simpleField('bausparen.tarif','Bauspartarif:','text'),
 simpleField('bausparen.summe','Bausparsumme:','text'),
-simpleField('bausparen.mindestsparguthaben','Bausparmindestguthaben:','text')
+simpleField('bausparen.mindestsparguthaben','Bausparmindestguthaben:','text'),
+textareaField('kommentarfeld','Kommentar', rows=3)
 )
 
 f <- file('form/form.html','w', encoding='utf8')
