@@ -44,7 +44,15 @@ options['title']= {'text': 'Generic Title'}
 options['xAxis']= {'categories': true}
 options['legend']= {'enabled': false}
 options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '70%' } }
-options['tooltip'] = {'valueSuffix':' \u20AC'  }
+options['tooltip'] = {formatter: function() {
+  			var s = '<b>'+ this.point.name +'</b>';				
+					s += '<br/>'+ this.y.toMoney(2,',','.') + ' \u20AC';
+				
+            
+				return s;
+			}
+  		
+}
 var series=[]
 options['series'] =series
 var seriesData = []
