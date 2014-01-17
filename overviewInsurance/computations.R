@@ -1,3 +1,5 @@
+source("../common/utilEL.R", encoding="UTF-8")
+
 getVersicherungen <- function(dataObj){
   getData<- function(type)  {
     tmpVertrag = list()
@@ -215,13 +217,6 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$Rechtsstreit$schaden =  5
   
   return(versicherungen) 
-}
-
-renderEuro <- function(betrag){
-  if (is.character(betrag)){
-    betrag <- as.numeric(betrag)
-  }
-  sprintf("%1.2f EUR", betrag)
 }
 
 renderDetail <- function(versicherung){
