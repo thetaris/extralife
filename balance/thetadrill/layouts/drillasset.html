@@ -23,7 +23,7 @@ var options = buildOptions(params.data)
 if(options instanceof Array) {
   options.chart.renderTo = 'container1';
   options.chart.type = 'pie';
-  options.title.text = makeTitle('Vermoegen',options)
+  options.title.text = makeTitle('Verm\u00f6gen',options)
 
   // Pie
   options['plotOptions']= {'series': {'dataLabels': { 'enabled': true },'shadow': false },'pie': {'size': '80%' } }

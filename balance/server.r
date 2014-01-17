@@ -5,6 +5,7 @@ library(rjson)
 source("../bu/balance.R")
 source("../common/readDGSData.R")
 source('../common/getELFIELD.R')
+source("../common/utilEL.R", encoding="UTF-8")
 
 makeAggregateString<- function(categorynames) {
   aggregateString = 'wert~'
@@ -55,6 +56,7 @@ shinyServer(function(input, output,session) {
   
   CashItm = getCashItm(dataObj)
   categorynames=colnames(CashItm)
+  #categorynames =categorynames[grepl("^taxonomy.*", categorynames)]
   categorynames =categorynames[grepl("^taxonomy.*", categorynames)]
   aggregateString = makeAggregateString(categorynames);
   
@@ -89,8 +91,21 @@ shinyServer(function(input, output,session) {
   
   # overview 
 
-  htmlStatic = paste('<table><tr onclick="jumpAsset()" ><td>Summe der Verm&ouml;genswerte</td><td>',sumassets,'</td></tr><tr onclick="jumpCredit()"><td>Summe der Kredite</td><td>',sumcredit,'</td></tr><tr><td>Netto Verm&ouml;gen</td><td>', sumstatic, '</td></tr></table>')
-  htmlFlow   = paste('<table><tr onclick="jumpIncome()" ><td>Summe der Einnahmen</td><td>',sumincome,'</td></tr onclick="jumpExpense()"><tr><td>Summe der Ausgaben</td><td>',sumexpense,'</td></tr><tr><td>&Uuml;berschuss</td><td>', sumflow, '</td></tr></table>')
+  htmlStatic = paste('<table style="white-space: nowrap"><tr onclick="jumpAsset()" ><td><a>Summe der Verm&ouml;genswerte</a></td><td>'
+                     ,renderEuro(sumassets)
+                     ,'</td></tr><tr onclick="jumpCredit()"><td><a>Summe der Kredite</a></td><td>'
+                     ,renderEuro(sumcredit)
+                     ,'</td></tr><tr><td>Netto Verm&ouml;gen</td><td>'
+                     ,renderEuro(sumstatic)
+                     , '</td></tr></table>')
+  
+  htmlFlow   = paste('<table style="white-space: nowrap"><tr onclick="jumpIncome()" ><td><a>Summe der Einnahmen</a></td><td>'
+                     ,renderEuro(sumincome)
+                     ,'</td></tr><tr onclick="jumpExpense()"><td><a>Summe der Ausgaben</a></td><td>'
+                     ,renderEuro(sumexpense)
+                     ,'</td></tr><tr><td>&Uuml;berschuss</td><td>'
+                     ,renderEuro(sumflow)
+                     , '</td></tr></table>')
   
   output$ovFlowHtml <-renderText({ htmlFlow})
   output$ovStatHtml <-renderText({ htmlStatic})
@@ -115,8 +130,10 @@ shinyServer(function(input, output,session) {
     
     toShow = assets
     filterstr = input$myassetlevel   
-    toShow =filterTableData(toShow,filterstr,categorynames)   
-    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+    toShow =filterTableData(toShow,filterstr,categorynames)     
+    #colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+    toShow = toShow[,3:5]
+    colnames(toShow) <- c("Kategorie","Objekt","Wert in \u20AC")
     head(toShow,n=nrow(toShow))
  
   })
@@ -147,8 +164,13 @@ shinyServer(function(input, output,session) {
     filterstr = input$mycreditlevel
     print(filterstr)
     toShow =filterTableData(toShow,filterstr,categorynames)
-    print(toShow)
-    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+
+    #print(toShow)
+    #colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+    
+    toShow = toShow[,3:5]
+    colnames(toShow) <- c("Kategorie","Objekt","Wert in \u20AC")
+    
     head(toShow,n=nrow(toShow))
     
     
@@ -175,7 +197,10 @@ shinyServer(function(input, output,session) {
     toShow = income
     filterstr = input$myincomelevel
     toShow =filterTableData(toShow,filterstr,categorynames)
-    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+    #colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+    toShow = toShow[,3:5]
+    colnames(toShow) <- c("Kategorie","Objekt","Wert in \u20AC")
+    
     head(toShow,n=nrow(toShow))
   })
 
@@ -200,7 +225,10 @@ shinyServer(function(input, output,session) {
     toShow = expense
     filterstr = input$myexpenselevel
     toShow =filterTableData(toShow,filterstr,categorynames)
-    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+    #colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+    toShow = toShow[,3:5]
+    colnames(toShow) <- c("Kategorie","Objekt","Wert in \u20AC")
+    
     head(toShow,n=nrow(toShow))
   })
 
