@@ -83,7 +83,19 @@ shinyServer(function(input, output,session) {
   
   # overview 
   
-  htmlStatic = paste('<table rules="rows" style="white-space: nowrap" width="500px"><tr onclick="jumpAsset()" ><td><a>Summe der Verm&ouml;genswerte</a></td><td>'
+  htmlFlow   = paste('<h3>monatliche Ausgaben und Einnahmen</h3>
+                     <table rules="rows" style="white-space: nowrap" width="500px">                     
+                     <tr onclick="jumpIncome()" ><td><a>Summe der Einnahmen</a></td><td>'
+                     ,renderEuro(sumincome)
+                     ,'</td></tr><tr onclick="jumpExpense()"><td><a>Summe der Ausgaben</a></td><td>'
+                     ,renderEuro(sumexpense)
+                     ,'</td></tr><tr><td>&Uuml;berschuss</td><td>'
+                     ,renderEuro(sumflow)
+                     , '</td></tr></table>')
+
+  htmlStatic = paste('<h3>Verm&ouml;gens&uuml;bersicht</h3>
+                     <table rules="rows" style="white-space: nowrap" width="500px">
+                     <tr onclick="jumpAsset()" ><td><a>Summe der Verm&ouml;genswerte</a></td><td>'
                      ,renderEuro(sumassets)
                      ,'</td></tr><tr onclick="jumpCredit()"><td><a>Summe der Kredite</a></td><td>'
                      ,renderEuro(sumcredit)
@@ -91,13 +103,6 @@ shinyServer(function(input, output,session) {
                      ,renderEuro(sumstatic)
                      , '</td></tr></table>')
   
-  htmlFlow   = paste('<table rules="rows" style="white-space: nowrap" width="500px"><tr onclick="jumpIncome()" ><td><a>Summe der Einnahmen</a></td><td>'
-                     ,renderEuro(sumincome)
-                     ,'</td></tr><tr onclick="jumpExpense()"><td><a>Summe der Ausgaben</a></td><td>'
-                     ,renderEuro(sumexpense)
-                     ,'</td></tr><tr><td>&Uuml;berschuss</td><td>'
-                     ,renderEuro(sumflow)
-                     , '</td></tr></table>')
   
   output$ovFlowHtml <-renderText({ htmlFlow})
   output$ovStatHtml <-renderText({ htmlStatic})
