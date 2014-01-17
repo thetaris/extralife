@@ -17,7 +17,7 @@ shinyUI(bootstrapPage(
       ,tabPanel("Einnahmen",
                 div(id="tableContIncome",
                     showOutput("myChartIncome", "thetadrill"),
-                    tableOutput("myIncomeTable"),
+                    uiOutput("myIncomeTable"),
                     textInput("myincomelevel", "", value="")
                 ),
                 div(id="alterContIncome",  
@@ -28,7 +28,7 @@ shinyUI(bootstrapPage(
       ,tabPanel("Ausgaben",
                 div(id="tableContExpense",
                     showOutput("myChartExpense", "thetadrill"),
-                    tableOutput("myExpenseTable"),
+                    uiOutput("myExpenseTable"),
                     textInput("myexpenselevel", "", value="")
                 ),
                 div(id="alterContExpense",  
@@ -39,7 +39,7 @@ shinyUI(bootstrapPage(
       ,tabPanel("Vermögen",
                 div(id="tableContAsset",
                   showOutput("myChartAssets", "thetadrill"),              
-                  tableOutput("myAssetTable"),
+                  uiOutput("myAssetTable"),
                   textInput("myassetlevel", "", value="")
                 ),
                 div(id="alterContAsset",  
@@ -50,7 +50,7 @@ shinyUI(bootstrapPage(
       ,tabPanel("Kredite",
                 div(id="tableContCredit",
                   showOutput("myChartCredit", "thetadrill"), 
-                  tableOutput("myCreditTable"),
+                    uiOutput("myCreditTable"),
                   textInput("mycreditlevel", "", value="")
                 ),
                 div(id="alterContCredit",  

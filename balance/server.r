@@ -26,24 +26,19 @@ prepChartData <- function(data, pBewertung,aggregateString ){
 }
 
 filterTableData <- function(data,filterstr,categories) {
- print(filterstr)
- 
+  
   if(nchar(filterstr)>0) {
     filters = fromJSON(filterstr)
-    print(filters)
     
     if(length(filters)>0 && length(categories)>0 ) {
       flength=min(length(filters),length(categories))
-      print(flength)  
       #CashItm[CashItm['taxonomy1']=="Mein Besitz", ]
       for (i in 1:flength) {
-        print('vor')
         data = data[data[categories[i]]== filters[i],]
-        print(data)
-        }
+      }
     }
   }
- 
+  
   return(data)
 }
 
@@ -51,18 +46,15 @@ shinyServer(function(input, output,session) {
   #dataObj = isolate(DGSData(session=session))
   #dataObj = isolate(DGSData(file="../test/testdata2.json"))
   dataObj = isolate(DGSData(session))
-
-  #dataObj = isolate(DGSData(sid="NDvJD2-LPQ42nt4JcHM4TMG-OWXY18ZraNEb3rV7Qd4"))
   
   CashItm = getCashItm(dataObj)
   categorynames=colnames(CashItm)
-  #categorynames =categorynames[grepl("^taxonomy.*", categorynames)]
   categorynames =categorynames[grepl("^taxonomy.*", categorynames)]
   aggregateString = makeAggregateString(categorynames);
   
-
   
- 
+  
+  
   
   assets = prepChartData(CashItm, "static",aggregateString)
   credit = prepChartData(CashItm, "credit",aggregateString)
@@ -90,8 +82,8 @@ shinyServer(function(input, output,session) {
   sumflow = sumincome-sumexpense
   
   # overview 
-
-  htmlStatic = paste('<table style="white-space: nowrap"><tr onclick="jumpAsset()" ><td><a>Summe der Verm&ouml;genswerte</a></td><td>'
+  
+  htmlStatic = paste('<table rules="rows" style="white-space: nowrap" width="500px"><tr onclick="jumpAsset()" ><td><a>Summe der Verm&ouml;genswerte</a></td><td>'
                      ,renderEuro(sumassets)
                      ,'</td></tr><tr onclick="jumpCredit()"><td><a>Summe der Kredite</a></td><td>'
                      ,renderEuro(sumcredit)
@@ -99,7 +91,7 @@ shinyServer(function(input, output,session) {
                      ,renderEuro(sumstatic)
                      , '</td></tr></table>')
   
-  htmlFlow   = paste('<table style="white-space: nowrap"><tr onclick="jumpIncome()" ><td><a>Summe der Einnahmen</a></td><td>'
+  htmlFlow   = paste('<table rules="rows" style="white-space: nowrap" width="500px"><tr onclick="jumpIncome()" ><td><a>Summe der Einnahmen</a></td><td>'
                      ,renderEuro(sumincome)
                      ,'</td></tr><tr onclick="jumpExpense()"><td><a>Summe der Ausgaben</a></td><td>'
                      ,renderEuro(sumexpense)
@@ -121,7 +113,25 @@ shinyServer(function(input, output,session) {
     return(theChart$copy())
   })
   
-  output$myAssetTable <- renderTable({
+  
+  renderCatTable<-function(toShow){    
+      tmp = list(tags$th(tags$h4("Kategorie")), tags$th(tags$h4("Objekt")), tags$th(tags$h4("Wert")))    
+      res = tags$tr(tmp)
+      
+      for (iter in 1:nrow(toShow))
+      {
+        tmp = list(tags$th(toShow[iter,"Kategorie 3"], align="left")
+                   ,tags$th(toShow[iter,"Objekt"], align="left")
+                   ,tags$th(renderEuro( toShow[iter,"Wert in \u20AC"]), align="right")
+                   )    
+        
+        res = list(res, tags$tr(tmp))
+      }              
+      res = tags$table(res, rules="rows", cellpadding="5%", align="left", width="600px", style="white-space: nowrap")
+    return(res)
+  }  
+  
+  output$myAssetTable <- renderUI({
     if(is.character(assets)) {
       res = data.frame(character(0))
       colnames(res) <- c("")
@@ -131,11 +141,8 @@ shinyServer(function(input, output,session) {
     toShow = assets
     filterstr = input$myassetlevel   
     toShow =filterTableData(toShow,filterstr,categorynames)     
-    #colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
-    toShow = toShow[,3:5]
-    colnames(toShow) <- c("Kategorie","Objekt","Wert in \u20AC")
-    head(toShow,n=nrow(toShow))
- 
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")    
+    return(renderCatTable(toShow))
   })
   
   
@@ -149,31 +156,20 @@ shinyServer(function(input, output,session) {
     theChart$addParams(data=credit)
     return(theChart$copy())
   })
-  output$myCreditTable <- renderTable({
-    print('rendertable')
-    print(credit)
+  output$myCreditTable <- renderUI({
     if(is.character(credit)) {
       res = data.frame(character(0))
       colnames(res) <- c("")
-      print(res)
       return(head(res,n=0))
     } 
     
     toShow = credit
-    print(toShow)
     filterstr = input$mycreditlevel
-    print(filterstr)
     toShow =filterTableData(toShow,filterstr,categorynames)
-
-    #print(toShow)
-    #colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+        
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
     
-    toShow = toShow[,3:5]
-    colnames(toShow) <- c("Kategorie","Objekt","Wert in \u20AC")
-    
-    head(toShow,n=nrow(toShow))
-    
-    
+    return(renderCatTable(toShow))    
   })
   
   
@@ -187,7 +183,7 @@ shinyServer(function(input, output,session) {
     theChart$addParams(data=income)
     return(theChart$copy())
   })
-  output$myIncomeTable <- renderTable({
+  output$myIncomeTable <- renderUI({
     if(is.character(income)) {
       res = data.frame( character(0))
       colnames(res) <- c("")
@@ -197,13 +193,11 @@ shinyServer(function(input, output,session) {
     toShow = income
     filterstr = input$myincomelevel
     toShow =filterTableData(toShow,filterstr,categorynames)
-    #colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
-    toShow = toShow[,3:5]
-    colnames(toShow) <- c("Kategorie","Objekt","Wert in \u20AC")
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
     
-    head(toShow,n=nrow(toShow))
+    return(renderCatTable(toShow))
   })
-
+  
   
   # expense
   output$myChartExpense <- renderChart({
@@ -215,7 +209,7 @@ shinyServer(function(input, output,session) {
     theChart$addParams(data=expense)
     return(theChart$copy())
   })
-  output$myExpenseTable <- renderTable({
+  output$myExpenseTable <- renderUI({
     if(is.character(expense)) {
       res = data.frame(character(0))
       colnames(res) <- c("")
@@ -225,13 +219,10 @@ shinyServer(function(input, output,session) {
     toShow = expense
     filterstr = input$myexpenselevel
     toShow =filterTableData(toShow,filterstr,categorynames)
-    #colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
-    toShow = toShow[,3:5]
-    colnames(toShow) <- c("Kategorie","Objekt","Wert in \u20AC")
-    
-    head(toShow,n=nrow(toShow))
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+    return(renderCatTable(toShow))
   })
-
+  
   
 })
 
