@@ -17,14 +17,14 @@ getVersicherungen <- function(dataObj){
       )
       
     }
-      
+    
     return(tmpVertrag)
   }
-      
+  
   versicherungen <- list()
   
   ######## Tables with Contracts
- 
+  
   versicherungen$haftpflicht         = getData(type=ELTYPE$Privathaftpflichtversicherung)  
   versicherungen$Krankheit           = getData(type=ELTYPE$Krankenversicherung._)
   versicherungen$Invaliditaet        = getData(type=ELTYPE$Invaliditaetsversicherung._)
@@ -33,7 +33,7 @@ getVersicherungen <- function(dataObj){
   versicherungen$KFZHaftpflicht      = getData(type=ELTYPE$KFZ.Haftpflichtversicherung)
   versicherungen$SchadenAmEigentum   = getData(type=ELTYPE$Hausratversicherung)
   versicherungen$Rechtsstreit        = getData(type=c( ELTYPE$Rechtsschutzversicherung, ELTYPE$Berufsverband ))
-    
+  
   return(versicherungen)
 }
 
@@ -72,7 +72,13 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$haftpflicht$titel  = "private Haftpflicht"
   versicherungen$haftpflicht$status  = switch(absicherung,ok=0,1)
   versicherungen$haftpflicht$schaden = 8
+  versicherungen$haftpflicht$linkBdV$URL = "https://www.bundderversicherten.de/Haftpflicht"
+  versicherungen$haftpflicht$linkBdV$text = "Private Haftpflicht"
+  versicherungen$haftpflicht$linkCosmos$HTML= list(tags$a("gut (04/2010): CosmosDirekt",href="http://ad.zanox.com/ppc/?26999506C810390156T&ULP=[[XXX]]", target="_blank")
+                                           ,tags$img(src="http://ad.zanox.com/ppv/?26999506C810390156", align="bottom", width="1", height="1", border="0", hspace="1")
+  )
   
+    
   # Krankheit
   sel = nrow(versicherungen$Krankheit$vertraegeTabelle)
   if (sel==0){
@@ -87,7 +93,7 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$Krankheit$absicherung = absicherung
   versicherungen$Krankheit$empfehlung  = empfehlung
   versicherungen$Krankheit$abdeckung   = abdeckung
-
+  
   versicherungen$Krankheit$link  = "linkToKrankheit"
   versicherungen$Krankheit$titel  = "Krankheit"
   versicherungen$Krankheit$status  = switch(absicherung,ok=0,1)
@@ -104,13 +110,13 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
     abdeckung = 5
     empfehlung = "Nichts zu tun."    
   } 
-  detailsURL = "/absicherung"
+  detailsURL = "/activateReport?report=1510&active=true"
   
   versicherungen$Invaliditaet$absicherung = absicherung
   versicherungen$Invaliditaet$abdeckung   = abdeckung
   versicherungen$Invaliditaet$detailsURL  = detailsURL
   versicherungen$Invaliditaet$empfehlung  = empfehlung
-
+  
   versicherungen$Invaliditaet$link  = "linkToInvaliditaet"
   versicherungen$Invaliditaet$titel  = "Invalidität"
   versicherungen$Invaliditaet$status  = switch(absicherung,ok=0,1)
@@ -135,7 +141,12 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$Tod$titel  = "Tod"
   versicherungen$Tod$status  = switch(absicherung,ok=0,1)
   versicherungen$Tod$schaden = 7
-    
+  versicherungen$Tod$linkBdV$URL = "https://www.bundderversicherten.de/Lebensversicherung/Risikoleben"
+  versicherungen$Tod$linkBdV$text = "Risikolebensversicherung"
+  versicherungen$Tod$linkCosmos$HTML= list(tags$a("Testsieger (4/2013): CosmosDirekt",href="http://ad.zanox.com/ppc/?26999293C615999878T&ULP=[[XXX]]", target="_blank")
+                                          ,tags$img(src="http://ad.zanox.com/ppv/?26999293C615999878", align="bottom", width="1", height="1", border="0", hspace="1")
+                                                  )
+  
   # SchadenAmAuto
   sel = nrow(versicherungen$SchadenAmAuto$vertraegeTabelle)
   if (sel==0){
@@ -170,7 +181,7 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$KFZHaftpflicht$absicherung = absicherung
   versicherungen$KFZHaftpflicht$abdeckung   = abdeckung
   versicherungen$KFZHaftpflicht$empfehlung  = empfehlung
-
+  
   versicherungen$KFZHaftpflicht$link  = "linkToKFZHaftpflicht"
   versicherungen$KFZHaftpflicht$titel  = "KFZ Haftpflicht"
   versicherungen$KFZHaftpflicht$status  = switch(absicherung,ok=0,1)
@@ -190,7 +201,7 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$SchadenAmEigentum$absicherung = absicherung
   versicherungen$SchadenAmEigentum$abdeckung   = abdeckung
   versicherungen$SchadenAmEigentum$empfehlung  = empfehlung
-
+  
   versicherungen$SchadenAmEigentum$link  = "linkToSchadenamEigentum"
   versicherungen$SchadenAmEigentum$titel  = "Schaden am Eigentum"
   versicherungen$SchadenAmEigentum$status  = switch(absicherung,ok=0,1)
@@ -210,7 +221,7 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$Rechtsstreit$absicherung = absicherung
   versicherungen$Rechtsstreit$abdeckung   = abdeckung
   versicherungen$Rechtsstreit$empfehlung  = empfehlung
-
+  
   versicherungen$Rechtsstreit$link  = "linkToRechtsstreit"
   versicherungen$Rechtsstreit$titel  = "Rechtsstreit"
   versicherungen$Rechtsstreit$status  = switch(absicherung,ok=0,1)
@@ -232,7 +243,7 @@ renderDetail <- function(versicherung){
           tmp <- list(tags$th(vertraegeTabelle[iterVertrag, "Vertragsname"], align="left")
                       ,tags$th(vertraegeTabelle[iterVertrag, "Versicherungsnehmer"], align="right")
                       ,tags$th(renderEuro(vertraegeTabelle[iterVertrag, "Kosten"]), align="right")    
-                     # ,tags$th((vertraegeTabelle[iterVertrag, "Kosten"]), align="right")    
+                      # ,tags$th((vertraegeTabelle[iterVertrag, "Kosten"]), align="right")    
           )            
           res <- list(res, tags$tr(tmp))
         }     
@@ -242,29 +253,42 @@ renderDetail <- function(versicherung){
       res <- tags$table(res, rules="rows", cellpadding="10%", align="center")      
       return(res)
     }
-  
-    renderPage <- function(absicherung, empfehlung, details=NULL){
+    
+    renderPage <- function(versicherung){
+      absicherung=versicherung$absicherung
+      empfehlung=versicherung$empfehlung
+      details=versicherung$detailsURL                          
+      linkBdV=versicherung$linkBdV
+      linkCosmos = versicherung$linkCosmos
+      
       page <- list()
       page<-list(page,tags$h3(sprintf("Absicherung: %s", absicherung)))
-      page<-list(page,tags$h3("Empfehlung:")
-                   ,tags$p(empfehlung)
-                )
+      page<-list(page,tags$h3("Empfehlung")
+                 ,tags$p(empfehlung)
+      )
       if (!is.null(details)){
-                 page<-list(page,tags$a("Details", href=details))
+        page<-list(page,tags$a("Details", href=details))
+      }
+      if ((!is.null(linkBdV)) | (!is.null(linkCosmos))){
+        page<-list(page,tags$h3("Weiterführende Informationen"))
+        if (!is.null(linkBdV)){
+          page<-list(page,tags$div("Bund der Versicherten: ", tags$a(linkBdV$text, href=linkBdV$URL, target="_blank")))
+        }
+        if (!is.null(linkCosmos)){
+          page<-list(page,div("Stiftung Warentest: ", linkCosmos$HTML))
+          
+        }
       }
       return(page)
     }
-          
+    
     # create table in variable res    
     
     res <- renderContracts(versicherung$vertraegeTabelle)
     
     res<-list(res
-              ,renderPage(absicherung=versicherung$absicherung
-                          ,empfehlung=versicherung$empfehlung
-                          ,details=versicherung$detailsURL                          
-                          )
-              )
+              ,renderPage(versicherung)
+    )
     return(res)
   })
 }
