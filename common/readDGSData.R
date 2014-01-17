@@ -276,28 +276,33 @@ getCashItm<-function (dataObj = NULL, file = NULL){
     taxonomy3 = c(taxonomy3, tmp[3])
   }
   # Active balance: value
-  wert = as.numeric(dataObj$get(ELFIELD$zeitwert.betrag))
+  wert = round(as.numeric(dataObj$get(ELFIELD$zeitwert.betrag)),2)
   bewertung = wert
   bewertung[!is.na(bewertung)] <- "static"
+  res_static <- data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung, stringsAsFactors=F)
   
   # Cost: expense
-  kosten = as.numeric(dataObj$get(ELFIELD$i.kosten.monatlich))  
-  bewertung[!is.na(kosten)] <- "expense"
-  wert[!is.na(kosten)] <- kosten[!is.na(kosten)]
-    
+  wert = round(as.numeric(dataObj$get(ELFIELD$i.kosten.monatlich)),2)
+  bewertung = wert
+  bewertung[!is.na(bewertung)] <- "expense"  
+  res_expense <- data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung, stringsAsFactors=F)
+  
   # Passive balance: credit
-  credit = as.numeric(dataObj$get(ELFIELD$kredit.zeitwert.betrag))
-  wert[!is.na(credit)] <- credit[!is.na(credit)]
+  wert = round(as.numeric(dataObj$get(ELFIELD$kredit.zeitwert.betrag)),2)
+  bewertung = rep(NA,length(wert))
   bewertung[taxonomy2 == "Kredit"] <- "credit"
+  res_credit <- data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung, stringsAsFactors=F)
   
   # Earnings: income
-  tmp_wertEinkommen = as.numeric(dataObj$get(ELFIELD$i.einkommen.monatlich))  
-  bewertung[!is.na(tmp_wertEinkommen)] <- "income"
-  wert[!is.na(tmp_wertEinkommen)] <- tmp_wertEinkommen[!is.na(tmp_wertEinkommen)]
+  wert = round(as.numeric(dataObj$get(ELFIELD$i.einkommen.monatlich)),2)
+  bewertung = wert
+  bewertung[!is.na(bewertung)] <- "income"  
+  res_income <- data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung, stringsAsFactors=F)    
   
-  wert <- round(wert,2)
-  
-  data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung)
+  res <- rbind(res_static, res_expense, res_credit, res_income)
+  res <- res[!is.na(res$bewertung),]
+  res[is.na(res$wert),"wert"]<-0
+  return(res)
 }
 
 
