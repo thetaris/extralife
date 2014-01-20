@@ -5,7 +5,7 @@ shinyUI(bootstrapPage(
   
   # Show a plot of the generated distribution
   mainPanel(
-    tags$div(style="width:1000px",
+    tags$div(style="width:800px",
     tabsetPanel(
       tabPanel("Übersicht",
                div(id="ovTop"),
