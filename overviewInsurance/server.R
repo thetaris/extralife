@@ -5,6 +5,7 @@ source('../common/getELFIELD.R')
 source('../common/readDGSData.R')
 
 source("computations.R", encoding="UTF-8")
+source("renderDetail.R", encoding="UTF-8")
 #eval(parse("computations.R", encoding="UTF-8"))
 
 # Define server logic required to generate and plot a random distribution
@@ -16,14 +17,14 @@ shinyServer(function(input, output, session) {
   
   versicherungen <- getVersicherungen(dataObj)
   besitz <- getBesitz(dataObj)
-  versicherungen <- getEmpfehlungen(versicherungen, besitz, input)
+  familie <- getFamilie(dataObj)
   
   for (iterContracts in names(versicherungen)){
     #does not work in shiny:
     #output[iterContracts] <- renderDetail(versicherungen[iterContracts])    
 
     # -> build string and eval command
-    cmdStr <- sprintf("output$%s <- renderDetail(versicherungen$%s)",  iterContracts, iterContracts)
+    cmdStr <- sprintf("output$%s <- renderDetail(versicherungen, besitz, familie, input, '%s')",  iterContracts, iterContracts)
     eval(parse(text=cmdStr))    
   }
     
@@ -54,6 +55,7 @@ shinyServer(function(input, output, session) {
         return(tags$img(src="http://thetava.com/Shiny_icons/Warning_Icon_32.png"))
       }
     }
+    versicherungen <- getEmpfehlungen(versicherungen, besitz, familie, input)
         
     tmp = list(tags$th(tags$h4("Risiko")), tags$th(tags$h4("möglicher Schaden")), tags$th(tags$h4("Abdeckung")), tags$th(tags$h4("Status")))    
     res = tags$tr(tmp)

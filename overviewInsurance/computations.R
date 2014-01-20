@@ -39,14 +39,22 @@ getVersicherungen <- function(dataObj){
 
 getBesitz <- function(dataObj){
   besitz <- list()
-  besitz$title    <- dataObj$get(requestedField = ELFIELD$title, type=ELTYPE$Mein.Besitz)
-  besitz$zeitwert <- dataObj$get(requestedField = ELFIELD$zeitwert.betrag, type=ELTYPE$Mein.Besitz)
-  besitz$node_id  <- dataObj$get(requestedField = ELFIELD$node_id, type=ELTYPE$Mein.Besitz)
-  
+  besitz$title    <- dataObj$get(requestedField = ELFIELD$title, type=ELTYPE$Mein.Besitz._)
+  besitz$zeitwert <- dataObj$get(requestedField = ELFIELD$zeitwert.betrag, type=ELTYPE$Mein.Besitz._)
+  besitz$node_id  <- dataObj$get(requestedField = ELFIELD$node_id, type=ELTYPE$Mein.Besitz._)
+  besitz$type     <- dataObj$get(requestedField = ELFIELD$type_id, type=ELTYPE$Mein.Besitz._)
   return(besitz)
 }
 
-getEmpfehlungen <- function(versicherungen, besitz, input){
+getFamilie <- function(dataObj){
+  familie = list()
+  familie$name <- dataObj$get(requestedField = ELFIELD$title, type=ELTYPE$Meine.Familie._)
+  familie$rel  <- dataObj$get(requestedField = ELFIELD$type_id, type=ELTYPE$Meine.Familie._)
+  
+  return(familie)
+}
+
+getEmpfehlungen <- function(versicherungen, besitz, familie, input){
   
   ####### Recommendations
   # Haftpflicht
@@ -62,7 +70,8 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   } else if (sel>1){
     absicherung = "überversichert"
     abdeckung = 5
-    empfehlung = "Jeder Haushalt benötigt nur eine Haftpflichtversicherung. Melden Sie einer Versicherung alle Personen des Haushalts und kündigen Sie die andere."
+    empfehlung = "Jeder Haushalt benötigt nur eine Haftpflichtversicherung. 
+    Melde einer Deiner Versicherungen alle Personen des Haushalts und kündige die andere."
   }  
   versicherungen$haftpflicht$absicherung = absicherung
   versicherungen$haftpflicht$abdeckung   = abdeckung
@@ -72,19 +81,19 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$haftpflicht$titel  = "private Haftpflicht"
   versicherungen$haftpflicht$status  = switch(absicherung,ok=0,1)
   versicherungen$haftpflicht$schaden = 8
-  versicherungen$haftpflicht$linkBdV$URL = "https://www.bundderversicherten.de/Haftpflicht"
-  versicherungen$haftpflicht$linkBdV$text = "Private Haftpflicht"
+  versicherungen$haftpflicht$linkBdV$URL = "https://www.bundderversicherten.de/files/bulletins/pdf/44_M_PH_NMG.pdf"
+  versicherungen$haftpflicht$linkBdV$text = "Merkblatt Haftpflichtversicherung"
   versicherungen$haftpflicht$linkCosmos$HTML= list(tags$a("gut (04/2010): CosmosDirekt",href="http://ad.zanox.com/ppc/?26999506C810390156T&ULP=[[XXX]]", target="_blank")
-                                           ,tags$img(src="http://ad.zanox.com/ppv/?26999506C810390156", align="bottom", width="1", height="1", border="0", hspace="1")
+                                                   ,tags$img(src="http://ad.zanox.com/ppv/?26999506C810390156", align="bottom", width="1", height="1", border="0", hspace="1")
   )
   
-    
-  # Krankheit
+  
+  # Krankheit 
   sel = nrow(versicherungen$Krankheit$vertraegeTabelle)
   if (sel==0){
     absicherung = "keine"
     abdeckung = 0
-    empfehlung = "Sie haben keine Krankenversicherung eingetragen. Jeder sollt eine Krankenversicherung haben."
+    empfehlung = "Jeder sollt eine Krankenversicherung haben, schließe bitte eine gesetzliche oder private Krankenversicherung ab."
   } else if (sel>0){
     absicherung = "ok"
     abdeckung = 4
@@ -98,13 +107,33 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$Krankheit$titel  = "Krankheit"
   versicherungen$Krankheit$status  = switch(absicherung,ok=0,1)
   versicherungen$Krankheit$schaden = 6
+  versicherungen$Krankheit$linkBdV$URL = c("https://www.bundderversicherten.de/files/bulletins/pdf/39_M_Wechsel_GKV.pdf"
+                                           ,"https://www.bundderversicherten.de/downloads/broschueren/BdV_PKV-Broschuere.pdf"
+                                           ,"https://www.bundderversicherten.de/files/bulletins/pdf/52_M_PKV_Zusatz_NMG.pdf"
+  )
+  versicherungen$Krankheit$linkBdV$text = c("Merkblatt gesetzliche Krankenvollversicherung",
+                                            "Merkblatt private Krankenvollversicherung",
+                                            "Merkblatt private Krankenzusatzversicherung")
+  versicherungen$Krankheit$linkCosmos$HTML= NULL
   
   # Invaliditaet
   sel = nrow(versicherungen$Invaliditaet$vertraegeTabelle)
   if (sel==0){
-    absicherung = "keine"
-    abdeckung = 0
-    empfehlung = "Sie haben keine Versicherung eingetragen. Jeder sollt eine Versicherung haben."#
+    # keinen Partner, keine Kinder, wenig Absicherung
+    if ((input$variable=="wenig") & (!((familie$rel %in% ELTYPE$Kinder._)|(familie$rel %in% ELTYPE$Partner._)))){
+      absicherung = "ok"
+      abdeckung = 0
+      empfehlung = "Du bist nicht gut für den Fall einer chronischen Erkrankung vorbereitet. 
+      Im Notfall bist Du vermutlich auf staatliche Unterstützung angewiesen und kannst Deinen 
+      Lebensstandart nicht halten. Da Du aber für Dich selbst verantwortlich bist und keine Kinder 
+      oder Partner zu versorgen hast, kannst Du diese Versicherung einsparen."      
+    }
+    else{
+      
+      absicherung = "keine"
+      abdeckung = 0
+      empfehlung = "Jeder sollte für den Fall der Invalidität vorsorgen. Bitte schließe eine Berufsunfähigkeitsversicherung (BU) ab."#
+    }
   } else if (sel>0){
     absicherung = "ok"
     abdeckung = 5
@@ -122,12 +151,33 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$Invaliditaet$status  = switch(absicherung,ok=0,1)
   versicherungen$Invaliditaet$schaden = 7
   
+  versicherungen$Invaliditaet$linkBdV$URL = c("https://www.bundderversicherten.de/files/bulletins/pdf/97_M_BU_NMG.pdf"
+                                              ,"https://www.bundderversicherten.de/files/bulletins/pdf/68_M_U_NMG.pdf")
+  versicherungen$Invaliditaet$linkBdV$text = c("Merkblatt BU"
+                                               ,"Merkblatt Unfallversicherung")
+  versicherungen$Invaliditaet$linkCosmos$HTML= NULL
+  
   #  Tod
   sel = nrow(versicherungen$Tod$vertraegeTabelle)
   if (sel==0){
     absicherung = "keine"
     abdeckung = 0
-    empfehlung = "Sie haben keine Versicherung eingetragen. Jeder sollt eine Versicherung haben."
+    
+    if (sum(familie$rel %in% ELTYPE$Kinder._)){
+      if (sum(familie$rel %in% ELTYPE$Partner._)){
+        empfehlung = "Du solltest eine Risikolebensversicherung abschließen um Deinen Partner und Deine Kinder im Notfall abzusichern."
+      }else{
+        empfehlung = "Du solltest eine Risikolebensversicherung abschließen um Deine Kinder im Notfall abzusichern." 
+      }            
+    } else if (sum(familie$rel %in% ELTYPE$Partner._)){
+      empfehlung = "Du solltest eine Risikolebensversicherung abschließen um Deinen Partner im Notfall abzusichern."
+    } else {
+      absicherung = "ok"
+      abdeckung = 0
+      empfehlung = "Nichts zu tun."
+      
+    }    
+    
   } else if (sel>0){
     absicherung = "ok"
     abdeckung = 5
@@ -141,22 +191,39 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$Tod$titel  = "Tod"
   versicherungen$Tod$status  = switch(absicherung,ok=0,1)
   versicherungen$Tod$schaden = 7
-  versicherungen$Tod$linkBdV$URL = "https://www.bundderversicherten.de/Lebensversicherung/Risikoleben"
-  versicherungen$Tod$linkBdV$text = "Risikolebensversicherung"
+  versicherungen$Tod$linkBdV$URL = "https://www.bundderversicherten.de/files/bulletins/pdf/95_M_RLV_NMG.pdf"
+  versicherungen$Tod$linkBdV$text = "Merkblatt Risikolebensversicherung"
   versicherungen$Tod$linkCosmos$HTML= list(tags$a("Testsieger (4/2013): CosmosDirekt",href="http://ad.zanox.com/ppc/?26999293C615999878T&ULP=[[XXX]]", target="_blank")
-                                          ,tags$img(src="http://ad.zanox.com/ppv/?26999293C615999878", align="bottom", width="1", height="1", border="0", hspace="1")
-                                                  )
+                                           ,tags$img(src="http://ad.zanox.com/ppv/?26999293C615999878", align="bottom", width="1", height="1", border="0", hspace="1")
+  )
   
   # SchadenAmAuto
   sel = nrow(versicherungen$SchadenAmAuto$vertraegeTabelle)
-  if (sel==0){
-    absicherung = "keine";
-    abdeckung = 0
-    empfehlung = "Sie haben keine Versicherung eingetragen. Jeder sollt eine Versicherung haben."
-  } else if (sel>0){
+  if (sel<sum(besitz$type %in% ELTYPE$Automobil)){    
+    
+    abdeckung = sel/sum(besitz$type %in% ELTYPE$Automobil)
+    if (is.na(abdeckung)){
+      abdeckung = 0
+    }
+    
+    if (input$variable == "wenig"){
+      absicherung = "ok"
+      
+      empfehlung = "Eine Kaskoversicherung für Dein Auto ist nicht unbedingt notwendig. Hier brauchst Du nichts tun."      
+    } else {
+      absicherung = "unzureichend"
+      
+      empfehlung = "Eine Kaskoversicherung ist für einen umfassenden Versicherungschutz wichtig. Du solltest eine KFZ Kaskoversicherung abschließen."            
+    }
+    
+  } else if (sel==sum(besitz$type %in% ELTYPE$Automobil)){
     absicherung = "ok"
     abdeckung = 5
     empfehlung = "Nichts zu tun."
+  } else if (sel>sum(besitz$type %in% ELTYPE$Automobil)){
+    absicherung = "überversichert."
+    abdeckung = 5
+    empfehlung = "was ist da passiert? Du hast mehr Kaskoversicherungen eingetragen als Autos."    
   }
   versicherungen$SchadenAmAuto$absicherung = absicherung
   versicherungen$SchadenAmAuto$abdeckung   = abdeckung
@@ -166,18 +233,35 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$SchadenAmAuto$titel  = "Schaden am Auto"
   versicherungen$SchadenAmAuto$status  = switch(absicherung,ok=0,1)
   versicherungen$SchadenAmAuto$schaden =  6
+  versicherungen$SchadenAmAuto$linkBdV$URL = c("https://www.bundderversicherten.de/files/bulletins/pdf/50_M_Kfz_NMG.pdf"
+  )
+  versicherungen$SchadenAmAuto$linkBdV$text = c("Merkblatt KFZ Versicherung"
+  )
+  versicherungen$SchadenAmAuto$linkCosmos$HTML= NULL
+  
   
   # KFZHaftpflicht
+  
   sel = nrow(versicherungen$KFZHaftpflicht$vertraegeTabelle)
-  if (sel==0){
-    absicherung = "keine"
-    abdeckung = 0
-    empfehlung = "Sie haben keine Versicherung eingetragen. Jeder sollt eine Versicherung haben."
-  } else if (sel>0){
+  if (sel<sum(besitz$type %in% ELTYPE$Automobil)){    
+    abdeckung = sel/sum(besitz$type %in% ELTYPE$Automobil)
+    if (is.na(abdeckung)){
+      abdeckung = 0
+    }
+    absicherung = "unzureichend"
+    
+    empfehlung = "Eine KFZ Haftpflichtversicherung ist für jedes Auto zwingend vorgeschrieben. Bitte schließe eine KFZ Haftpflichtversicherung ab."            
+    
+  } else if (sel==sum(besitz$type %in% ELTYPE$Automobil)){
     absicherung = "ok"
     abdeckung = 5
     empfehlung = "Nichts zu tun."
+  } else if (sel>sum(besitz$type %in% ELTYPE$Automobil)){
+    absicherung = "überversichert."
+    abdeckung = 5
+    empfehlung = "was ist da passiert? Du hast mehr KFZ Haftpflichtversicherungen eingetragen als Autos."    
   }
+  
   versicherungen$KFZHaftpflicht$absicherung = absicherung
   versicherungen$KFZHaftpflicht$abdeckung   = abdeckung
   versicherungen$KFZHaftpflicht$empfehlung  = empfehlung
@@ -186,13 +270,24 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$KFZHaftpflicht$titel  = "KFZ Haftpflicht"
   versicherungen$KFZHaftpflicht$status  = switch(absicherung,ok=0,1)
   versicherungen$KFZHaftpflicht$schaden =  8
+  versicherungen$KFZHaftpflicht$linkBdV$URL = c("https://www.bundderversicherten.de/files/bulletins/pdf/50_M_Kfz_NMG.pdf"
+  )
+  versicherungen$KFZHaftpflicht$linkBdV$text = c("Merkblatt KFZ Versicherung"
+  )
+  versicherungen$KFZHaftpflicht$linkCosmos$HTML= NULL
   
   # SchadenAmEigentum
   sel=nrow(versicherungen$SchadenAmEigentum$vertraegeTabelle)
   if (sel==0){
-    absicherung = "keine"
-    abdeckung = 0
-    empfehlung = "Sie haben keine Versicherung eingetragen. Jeder sollt eine Versicherung haben."#
+    if ((input$variable=="wenig")|(input$variable=="mittel")){
+      absicherung = "ok"
+      abdeckung = 0
+      empfehlung = "Du hast keine Hausratsversicherung eingetragen. Diese Versicherung ist nicht zwingend notwendig und Du kannst sie einsparen."      
+    }else{
+      absicherung = "keine"
+      abdeckung = 0
+      empfehlung = "Du hast keine Versicherung eingetragen. Um einem guten Versicherungsschutz zu erreichen solltest Du eine Hausratsversicherung abschließen."
+    }
   } else if (sel>0){
     absicherung = "ok"
     abdeckung = 5
@@ -206,16 +301,28 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$SchadenAmEigentum$titel  = "Schaden am Eigentum"
   versicherungen$SchadenAmEigentum$status  = switch(absicherung,ok=0,1)
   versicherungen$SchadenAmEigentum$schaden =  5
+  versicherungen$SchadenAmEigentum$linkBdV$URL = c("https://www.bundderversicherten.de/files/bulletins/pdf/46_M_H_NMG.pdf"
+  )
+  versicherungen$SchadenAmEigentum$linkBdV$text = c("Merkblatt Hausratsversicherung"
+  )
+  versicherungen$SchadenAmEigentum$linkCosmos$HTML= NULL
   
   # Rechtsstreit
   sel=nrow(versicherungen$Rechtsstreit$vertraegeTabelle)
   if (sel==0){
-    absicherung = "keine"
-    abdeckung = 0
-    empfehlung = "Sie haben keine Versicherung eingetragen. Jeder sollt eine Versicherung haben."
+    if ((input$variable=="wenig")|(input$variable=="mittel")){
+      absicherung = "ok"
+      abdeckung = 0
+      empfehlung = "Du hast keine Rechtsschutzversicherung eingetragen. Diese Versicherung ist 
+                    nicht zwingend notwendig und Du kannst sie einsparen."      
+    }else{
+      absicherung = "keine"
+      abdeckung = 0
+      empfehlung = "Um einem guten Versicherungsschutz zu erreichen solltest Du eine Rechtsschutzversicherung abschließen."
+    }
   } else if (sel>0){
     absicherung = "ok"
-    abdeckung = 4
+    abdeckung = 5
     empfehlung = "Nichts zu tun."
   }
   versicherungen$Rechtsstreit$absicherung = absicherung
@@ -226,69 +333,12 @@ getEmpfehlungen <- function(versicherungen, besitz, input){
   versicherungen$Rechtsstreit$titel  = "Rechtsstreit"
   versicherungen$Rechtsstreit$status  = switch(absicherung,ok=0,1)
   versicherungen$Rechtsstreit$schaden =  5
+  versicherungen$Rechtsstreit$linkBdV$URL = c("https://www.bundderversicherten.de/files/bulletins/pdf/58_M_R_NMG.pdf"
+  )
+  versicherungen$Rechtsstreit$linkBdV$text = c("Merkblatt Rechtsschutzversicherung"
+  )
+  versicherungen$Rechtsstreit$linkCosmos$HTML= NULL
   
   return(versicherungen) 
 }
 
-renderDetail <- function(versicherung){
-  renderUI({
-    
-    renderContracts <- function(vertraegeTabelle){
-      tmp <- list(tags$th(tags$h4("Vertrag")), tags$th(tags$h4("Versicherungsnehmer")), tags$th(tags$h4("monatl. Kosten")))    
-      res <- tags$tr(tmp)
-      
-      if (nrow(vertraegeTabelle)>0){
-        for (iterVertrag in 1:nrow(vertraegeTabelle))
-        {
-          tmp <- list(tags$th(vertraegeTabelle[iterVertrag, "Vertragsname"], align="left")
-                      ,tags$th(vertraegeTabelle[iterVertrag, "Versicherungsnehmer"], align="right")
-                      ,tags$th(renderEuro(vertraegeTabelle[iterVertrag, "Kosten"]), align="right")    
-                      # ,tags$th((vertraegeTabelle[iterVertrag, "Kosten"]), align="right")    
-          )            
-          res <- list(res, tags$tr(tmp))
-        }     
-      }else{
-        res <- list(res, tags$tr(tags$th("keine")))
-      }
-      res <- tags$table(res, rules="rows", cellpadding="10%", align="center")      
-      return(res)
-    }
-    
-    renderPage <- function(versicherung){
-      absicherung=versicherung$absicherung
-      empfehlung=versicherung$empfehlung
-      details=versicherung$detailsURL                          
-      linkBdV=versicherung$linkBdV
-      linkCosmos = versicherung$linkCosmos
-      
-      page <- list()
-      page<-list(page,tags$h3(sprintf("Absicherung: %s", absicherung)))
-      page<-list(page,tags$h3("Empfehlung")
-                 ,tags$p(empfehlung)
-      )
-      if (!is.null(details)){
-        page<-list(page,tags$a("Details", href=details))
-      }
-      if ((!is.null(linkBdV)) | (!is.null(linkCosmos))){
-        page<-list(page,tags$h3("Weiterführende Informationen"))
-        if (!is.null(linkBdV)){
-          page<-list(page,tags$div("Bund der Versicherten: ", tags$a(linkBdV$text, href=linkBdV$URL, target="_blank")))
-        }
-        if (!is.null(linkCosmos)){
-          page<-list(page,div("Stiftung Warentest: ", linkCosmos$HTML))
-          
-        }
-      }
-      return(page)
-    }
-    
-    # create table in variable res    
-    
-    res <- renderContracts(versicherung$vertraegeTabelle)
-    
-    res<-list(res
-              ,renderPage(versicherung)
-    )
-    return(res)
-  })
-}
