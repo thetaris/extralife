@@ -244,7 +244,7 @@ getEmpfehlungen <- function(versicherungen, besitz, familie, input){
   
   sel = nrow(versicherungen$KFZHaftpflicht$vertraegeTabelle)
   if (sel<sum(besitz$type %in% ELTYPE$Automobil)){    
-    abdeckung = sel/sum(besitz$type %in% ELTYPE$Automobil)
+    abdeckung = round(5*sel/sum(besitz$type %in% ELTYPE$Automobil))
     if (is.na(abdeckung)){
       abdeckung = 0
     }
