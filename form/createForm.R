@@ -4,7 +4,7 @@
 # This script creates the html form that is used for online
 # editing of documents.
 # This is a static script. Its output must be manually moved to Drupal.
-require(shiny)
+require(shiny, quietly=TRUE)
 
 inputFrame <- function(text, inputTag, postfix='') {
   textTag <- tags$div(text, class='form_label_ro')
@@ -128,6 +128,4 @@ simpleField('bausparen.mindestsparguthaben','Bausparmindestguthaben:','text'),
 textareaField('kommentarfeld','Kommentar', rows=3)
 )
 
-f <- file('form/form.html','w', encoding='utf8')
-write(as.character(form), f)
-close(f)
+write(as.character(form), stdout())
