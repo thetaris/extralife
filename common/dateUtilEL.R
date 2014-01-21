@@ -26,6 +26,7 @@ addDate <- function(Date_in, year_add = 0, months_add = 0, days_add = 0){
   
   years_in = years_in + year_add + tmp_months %/% 12  
   months_in = tmp_months %% 12
+  months_in[months_in==0]=12
   
   as.Date(ISOdate(years_in , months_in, days_in)) + days_add  
 }
