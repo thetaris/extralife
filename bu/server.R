@@ -40,8 +40,8 @@ shinyServer(function(input, output, session) {
    # p$addParams(dom = 'risk')
   
     
-    p$chart(width = 700)    
-    p$chart(height = 300)    
+#     p$chart(width = 700)    
+#     p$chart(height = 300)    
     return(p)
   })
   
@@ -127,7 +127,8 @@ shinyServer(function(input, output, session) {
     Names[1] = 'gesund'
     Names[2] = 'berufsunfaehig'
     
-    Einkommen = dataObj$get(requestedField=ELFIELD$i.einkommen.monatlich, type=ELTYPE$Arbeitsvertrag)
+    Einkommen = dataObj$get(requestedField=ELFIELD$i.einkommen.monatlich)
+    Einkommen[is.na(Einkommen)]=0
     Einkommen = sum(Einkommen)
     
     Arbeitsvertrag = c(Einkommen, Einkommen, 0)
