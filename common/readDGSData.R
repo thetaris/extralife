@@ -80,16 +80,20 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
         cost <- character(length(freq)) 
         if (length(freq)>0){
           for (iterDoc in 1:length(freq)){
-            switch(freq[iterDoc]
-                   ,einmalig={cost[iterDoc]<-0}
-                   ,woche   ={cost[iterDoc]<-4.3*betrag[iterDoc]}
-                   ,monat   ={cost[iterDoc]<-betrag[iterDoc]}
-                   ,quartal ={cost[iterDoc]<-betrag[iterDoc]/3}
-                   ,halbjahr={cost[iterDoc]<-betrag[iterDoc]/6}
-                   ,jahr    ={cost[iterDoc]<-betrag[iterDoc]/12}
-                   ,none    ={cost[iterDoc]<-betrag[iterDoc]} # assume monthly
-                   ,stop(sprintf("Error computing i.kosten.monatlich: Incorrect frequency :%s in document of type %s", freq[iterDoc], type))
-            )
+            if (is.na(betrag[iterDoc])){
+              cost[iterDoc]<-NA
+            } else {
+              switch(freq[iterDoc]
+                     ,einmalig={cost[iterDoc]<-0}
+                     ,woche   ={cost[iterDoc]<-4.3*betrag[iterDoc]}
+                     ,monat   ={cost[iterDoc]<-betrag[iterDoc]}
+                     ,quartal ={cost[iterDoc]<-betrag[iterDoc]/3}
+                     ,halbjahr={cost[iterDoc]<-betrag[iterDoc]/6}
+                     ,jahr    ={cost[iterDoc]<-betrag[iterDoc]/12}
+                     ,none    ={cost[iterDoc]<-betrag[iterDoc]} # assume monthly
+                     ,stop(sprintf("Error computing i.kosten.monatlich: Incorrect frequency :%s in document of type %s", freq[iterDoc], type))
+              )
+            }
           }
         }else{
           cost <- NULL
@@ -133,7 +137,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
     }   
     else{
       res <- resultObj$get_raw(requestedField, type, node_id)
-  
+      
       # infer gender from type
       if (requestedField==ELFIELD$person.geschlecht){
         women <- ((res$type==ELTYPE$Ehefrau) 
