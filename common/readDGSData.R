@@ -77,7 +77,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       }else{
         freq[freq==""]="none"
         freq[is.na(freq)]="none"      
-        cost <- character(length(freq)) 
+        cost <- numeric(length(freq)) 
         if (length(freq)>0){
           for (iterDoc in 1:length(freq)){
             if (is.na(betrag[iterDoc])){
@@ -102,38 +102,60 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
         res$value <- cost
         return(res)
       }
-    }
-    if (requestedField==ELFIELD$i.kosten.monatlich){
-      konsum<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.betrag.konsum, type, node_id)))
-      konsum <- as.numeric(konsum$value)
-      #konsum[is.na(konsum)]<-0
+    } # end toMonthky
+    
+    getMonthly<-function(field, freq, type, node_id){
+      betrag <- suppressWarnings(resultObj$get_raw(requestedField=field, type, node_id))
+      betrag <- as.numeric(betrag$value)
       
-      investition<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.betrag.investition, type, node_id)))
-      investition<-as.numeric(investition$value)
-      #investition[is.na(investition)]<-0
-      
-      freq<-resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.frequenz, type, node_id)
-      freq <- freq$value      
-      
-      betrag <- konsum 
-      
-      # add where there are konsum and investition
-      sel = ((!is.na(betrag))& (!is.na(investition)))
-      betrag[sel]<- betrag[sel] + investition[sel]
-      
-      # replace NA with value where there is investition, only
-      betrag[is.na(betrag)]<- investition[is.na(betrag)]
-      
+      freq<-resultObj$get_raw(requestedField=freq, type, node_id)
+      freq <- freq$value  
       res<-toMonthly(betrag, freq)
+    } # end getMonthly
+    
+    addnoNA<-function(listSum){
+      if (is.null(listSum)){
+        return(null)
+      }else{
+        tmp<-listSum[[1]]
+        for (iterList in listSum){
+          print(tmp)
+          sel<-is.na(tmp$value)
+          tmp$value[sel]<-iterList$value[sel]
+          sel_plus <- (!sel)&(!is.na(iterList$value))
+          tmp$value[sel_plus]<-tmp$value[sel_plus] + iterList$value[sel_plus]
+        }
+      }
+      return(tmp)
+    }# end addnoNA
+    
+    if (requestedField==ELFIELD$i.kosten.monatlich){
+            
+      konsum            <- getMonthly(field=ELFIELD$vertrag.zahlung.betrag.konsum
+                                      , freq=ELFIELD$vertrag.zahlung.frequenz, type, node_id)
+      investition       <- getMonthly(field=ELFIELD$vertrag.zahlung.betrag.investition
+                                      , freq=ELFIELD$vertrag.zahlung.frequenz, type, node_id)
+      miete             <- getMonthly(field=ELFIELD$miete.betrag.kalt
+                                      , freq=ELFIELD$miete.betrag.frequenz, type, node_id)
+      miete_nebenkosten <- getMonthly(field=ELFIELD$miete.betrag.nebenkosten
+                                      , freq=ELFIELD$miete.betrag.frequenz, type, node_id)
+                    
+      
+      res<-addnoNA(list(konsum, investition, miete, miete_nebenkosten))
       # not logged yet
     }else if (requestedField==ELFIELD$i.einkommen.monatlich){
-      brutto<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$einkommen.betrag.brutto, type, node_id)))
-      netto<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$einkommen.betrag.netto, type, node_id)))
-      einkommen <- netto$value
-      einkommen[is.na(einkommen)]<-brutto$value[is.na(einkommen)]
-      freq <- suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$einkommen.betrag.frequenz, type, node_id)))
-      freq <- freq$value      
-      res <- toMonthly(einkommen,freq)
+      brutto            <- getMonthly(field=ELFIELD$einkommen.betrag.brutto
+                                     , freq=ELFIELD$einkommen.betrag.frequenz, type, node_id)
+
+      netto            <- getMonthly(field=ELFIELD$einkommen.betrag.netto
+                                     , freq=ELFIELD$einkommen.betrag.frequenz, type, node_id)
+      
+      einkommen <- netto
+      einkommen[is.na(res)]<-brutto
+      
+      
+      
+      res<-einkommen
     }   
     else{
       res <- resultObj$get_raw(requestedField, type, node_id)
