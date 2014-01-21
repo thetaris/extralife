@@ -10,6 +10,14 @@ fillZeros <- function(age){
     fillZeros <- c(rep(0, age-1))
 }
 
+cumProb <- function(prob,age){
+  cumP = NULL
+  cumP[age-15+1]=prob[age-15+1]
+  for (i in age-15+2:length(prob)){
+    cumP[i]=cumP[i-1]+(1-cumP[i-1])*prob[i]
+  }
+  return (cumP)
+}
 
 plotDisability_rCharts <- function(disabilityID){
   
@@ -223,4 +231,4 @@ plotDisability_rCharts <- function(disabilityID){
   
   }
 
-plotDisability_rCharts(disabilityID)
+#plotDisability_rCharts(disabilityID)

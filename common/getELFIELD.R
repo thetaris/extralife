@@ -29,6 +29,7 @@ getELFIELD <- function(){
       "Einkommen.betrag.frequenz",
       "Einkommen.betrag.start",
       "Einkommen.betrag.ende",
+      "Arbeitsvertrag.Beruf",
       "Arbeitsvertrag.Arbeitgeber",
       "Arbeitsvertrag.Zeitanteil",
       "Rente.Traeger",

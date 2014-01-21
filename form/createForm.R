@@ -72,6 +72,7 @@ simpleField('einkommen.betrag.netto','Nettoeinkommen:','number'),
 selectField('einkommen.betrag.frequenz','Frequenz deines Einkommens:',frequencyKey, frequencyName),
 simpleField('einkommen.betrag.start','Beginn des Einkommens:','date'),
 simpleField('einkommen.betrag.ende','Befristung des Einkommens:','date'),
+selectField('arbeitsvertrag.beruf','Tätigkeit',c('na','1','2', '3', '4'),c('--','akademische Tätigkeit','einfachere Bürotätigkeit', 'leichte körperliche Arbeit', 'schwere körperliche Arbeit'))
 simpleField('arbeitsvertrag.arbeitgeber','Arbeitgeber:','text'),
 simpleField('arbeitsvertrag.zeitanteil','Beschäftigung:','number',postfix='%'),
 simpleField('rente.traeger','Rententräger:','text'),
