@@ -98,9 +98,9 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
         }else{
           cost <- NULL
         }
-        res<-list()
-        res$value <- cost
-        return(res)
+        tmpres<-list()
+        tmpres$value <- cost
+        return(tmpres)
       }
     } # end toMonthky
     
@@ -108,9 +108,10 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       betrag <- suppressWarnings(resultObj$get_raw(requestedField=field, type, node_id))
       betrag <- as.numeric(betrag$value)
       
-      freq<-resultObj$get_raw(requestedField=freq, type, node_id)
-      freq <- freq$value  
-      res<-toMonthly(betrag, freq)
+      freqenz<-resultObj$get_raw(requestedField=freq, type, node_id)
+      freqenz <- freqenz$value  
+      tmpres<-toMonthly(betrag, freqenz)
+      return(tmpres)
     } # end getMonthly
     
     addnoNA<-function(listSum){
@@ -119,7 +120,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       }else{
         tmp<-listSum[[1]]
         for (iterList in listSum){
-          print(tmp)
+          
           sel<-is.na(tmp$value)
           tmp$value[sel]<-iterList$value[sel]
           sel_plus <- (!sel)&(!is.na(iterList$value))
@@ -150,9 +151,9 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       netto            <- getMonthly(field=ELFIELD$einkommen.betrag.netto
                                      , freq=ELFIELD$einkommen.betrag.frequenz, type, node_id)
       
-      einkommen <- netto
-      einkommen[is.na(einkommen)]<-brutto
-      
+      einkommen <- list()
+      einkommen$value <- netto$value
+      einkommen$value[is.na(einkommen$value)]<-brutto$value[is.na(einkommen$value)]
       
       
       res<-einkommen
@@ -184,7 +185,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       .dataLog <<- rbind(.dataLog, res)
     }
     return(res$value)
-  }
+  } # end $get
   
   resultObj$get_raw <- function(requestedField, type = NULL, node_id = NULL){    
     # define a helper function
@@ -240,12 +241,17 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
     }
     estimatedFlag <- sanitize(FALSE, n)
     
-    if (sys.nframe()>1){
-      caller        <- rep(as.character(deparse(sys.calls()[[sys.nframe()-1]])),n)
-      
-    }else{
-      caller <- rep('console', n)
-    }      
+#     does not work yet!!!
+#
+#     if (sys.nframe()>1){
+#       caller        <- rep(as.character(deparse(sys.calls()[[sys.nframe()-1]])),n)
+#       caller        <- caller[1:n]      
+#     }else{
+#       caller <- rep('console', n)
+#     }   
+#     
+    ##############?????
+    caller <- title
     
     timeStamp    <- sanitize(format(Sys.time(), "%y-%m-%d %H:%M:%OS"),n)    
     
