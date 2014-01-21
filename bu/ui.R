@@ -51,6 +51,7 @@ shinyUI(pageWithSidebar(
        ,tabPanel("Details in 3 Jahren", plotOutput("detailsInThree"))
        ,tabPanel("Bedarfsermittler", verbatimTextOutput("detailsInThreeTable"))
        )
-  )
+  , addBugMuncher()
+     )
   
 ))

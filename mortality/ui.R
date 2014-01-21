@@ -23,7 +23,9 @@ shinyUI(bootstrapPage(
       ,tabPanel("Verwendete Daten"
                 ,dataTableOutput("dataUsed")
               )
-    ))
+    )
+    , addBugMuncher()
+    )
     
   )
 ))

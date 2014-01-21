@@ -1,5 +1,6 @@
 library(shiny)
 
+source("../common//utilEL.R")
 
 shinyUI(bootstrapPage(
   
@@ -58,7 +59,8 @@ shinyUI(bootstrapPage(
                 )
                 
       )      
-
+      
     )
+    , addBugMuncher()
     )
   )))
