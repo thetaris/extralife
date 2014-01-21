@@ -20,9 +20,8 @@ cumProb <- function(prob,age){
 }
 
 plotDisability_rCharts <- function(disabilityID){
-  
-  require(rCharts)
-  library(car)
+    
+  #library(car)
   #get current working directory
   wd <- getwd()
   #file name
