@@ -72,28 +72,32 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
   
   resultObj$get <- function(requestedField, type = NULL, node_id = NULL){        
     toMonthly <- function(betrag, freq){
-      freq[freq==""]="none"
-      freq[is.na(freq)]="none"      
-      cost <- character(length(freq)) 
-      if (length(freq)>0){
-        for (iterDoc in 1:length(freq)){
-          switch(freq[iterDoc]
-                 ,einmalig={cost[iterDoc]<-0}
-                 ,woche   ={cost[iterDoc]<-4.3*betrag[iterDoc]}
-                 ,monat   ={cost[iterDoc]<-betrag[iterDoc]}
-                 ,quartal ={cost[iterDoc]<-betrag[iterDoc]/3}
-                 ,halbjahr={cost[iterDoc]<-betrag[iterDoc]/6}
-                 ,jahr    ={cost[iterDoc]<-betrag[iterDoc]/12}
-                 ,none    ={cost[iterDoc]<-betrag[iterDoc]} # assume monthly
-                 ,stop(sprintf("Error computing i.kosten.monatlich: Incorrect frequency :%s in document of type %s", freq[iterDoc], type))
-          )
-        }
+      if (is.null(betrag)){
+        return(NULL)
       }else{
-        cost <- NULL
+        freq[freq==""]="none"
+        freq[is.na(freq)]="none"      
+        cost <- character(length(freq)) 
+        if (length(freq)>0){
+          for (iterDoc in 1:length(freq)){
+            switch(freq[iterDoc]
+                   ,einmalig={cost[iterDoc]<-0}
+                   ,woche   ={cost[iterDoc]<-4.3*betrag[iterDoc]}
+                   ,monat   ={cost[iterDoc]<-betrag[iterDoc]}
+                   ,quartal ={cost[iterDoc]<-betrag[iterDoc]/3}
+                   ,halbjahr={cost[iterDoc]<-betrag[iterDoc]/6}
+                   ,jahr    ={cost[iterDoc]<-betrag[iterDoc]/12}
+                   ,none    ={cost[iterDoc]<-betrag[iterDoc]} # assume monthly
+                   ,stop(sprintf("Error computing i.kosten.monatlich: Incorrect frequency :%s in document of type %s", freq[iterDoc], type))
+            )
+          }
+        }else{
+          cost <- NULL
+        }
+        res<-list()
+        res$value <- cost
+        return(res)
       }
-      res<-list()
-      res$value <- cost
-      return(res)
     }
     if (requestedField==ELFIELD$i.kosten.monatlich){
       konsum<-suppressWarnings((resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.betrag.konsum, type, node_id)))
