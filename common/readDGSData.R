@@ -151,7 +151,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
                                      , freq=ELFIELD$einkommen.betrag.frequenz, type, node_id)
       
       einkommen <- netto
-      einkommen[is.na(res)]<-brutto
+      einkommen[is.na(einkommen)]<-brutto
       
       
       
