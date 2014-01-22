@@ -119,6 +119,8 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
         return(null)
       }else{
         tmp<-listSum[[1]]
+        tmp$value = tmp$value*0
+        
         for (iterList in listSum){
           
           sel<-is.na(tmp$value)
