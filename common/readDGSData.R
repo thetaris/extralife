@@ -179,14 +179,19 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       ratenkreditEnde <-  resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.ende
                                         , type, node_id)
       
+      # not exact due to discrete payments
       ratenkreditLaufzeitMonate <- as.numeric(as.Date(ratenkreditEnde$value) - Sys.Date(), units="days")/30
       ratenkreditLaufzeitMonate[ratenkreditLaufzeitMonate<0]=0
       ratenkreditLaufzeitMonate[is.na(ratenkreditLaufzeitMonate)]=0
       
       ratenkreditSumme = list()
       ratenkreditSumme$value = ratenkredit$value * ratenkreditLaufzeitMonate
-            
-      res<-addnoNA(list(ratenkreditSumme, hypothek)) 
+      
+      ratenkredit.restzahlung.betrag <- resultObj$get_raw(requestedField=ELFIELD$ratenkredit.restzahlung.betrag
+                                                                                     , type, node_id)
+      ratenkredit.restzahlung.betrag$value    <- as.numeric(ratenkredit.restzahlung.betrag$value)
+      
+      res<-addnoNA(list(ratenkreditSumme, hypothek, ratenkredit.restzahlung.betrag)) 
     }else if (requestedField==ELFIELD$i.wert){
       # vermögen
       zeitwert          <- resultObj$get_raw(requestedField=ELFIELD$zeitwert.betrag

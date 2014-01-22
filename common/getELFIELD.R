@@ -41,6 +41,7 @@ getELFIELD <- function(){
       "Miete.betrag.ende",
       "Zeitwert.betrag",
       "Zeitwert.datum",
+      "ratenkredit.restzahlung.betrag",
       "Kredit.Zeitwert.betrag",
       "Kredit.Zeitwert.datum",
       "Versicherung.tarif",

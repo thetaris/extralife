@@ -88,6 +88,7 @@ selectField('miete.betrag.frequenz','Zahlungsfrequenz:',frequencyKey, frequencyN
 simpleField('miete.betrag.ende','Mietende:','date'),
 numberField('zeitwert.betrag','Zeitwert:','number',postfix='€'),
 simpleField('zeitwert.datum','festgestellt am','date'),
+numberField('ratenkredit.restzahlung.betrag','Restzahlung:','number',postfix='€'),
 numberField('kredit.zeitwert.betrag','Zeitwert:','number',postfix='€'),
 simpleField('kredit.zeitwert.datum','festgestellt am','date'),
 simpleField('versicherung.tarif','Versicherungstarif:','text'),
