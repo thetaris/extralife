@@ -52,8 +52,10 @@ shinyUI(basicPage(
                 , tags$h3("Dein Arbeitslohn bis zur Rente")
                 , chartOutput("overview","nvd3"))
        ,tabPanel("Risiko"
-                 , tags$h3("Deine Wahrscheinlichkeit berufsunfähig zu werden nach Alter")
-                 , chartOutput("risk","nvd3"))
+                 ,div(style="width:770px"
+                     , tags$h3("Deine Wahrscheinlichkeit berufsunfähig zu werden nach Alter")
+                     , chartOutput("risk","nvd3"))
+                 )
        )
   , addBugMuncher()
      )
