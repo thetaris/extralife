@@ -4,7 +4,7 @@ library(rCharts)
 source("../common/utilEL.R")
 
 # Define UI for application that plots random distributions 
-shinyUI(bootstrapPage(
+shinyUI(basicPage(
   
   # Application title
   headerPanel("Risiko: Invalidität"),
@@ -46,12 +46,16 @@ shinyUI(bootstrapPage(
 #  ),
   
   # Show a plot of the generated distribution
-  mainPanel(
+  div(style="width:770px", mainPanel(
      tabsetPanel(
-       tabPanel("Übersicht", chartOutput("overview","nvd3"))
-       ,tabPanel("Risiko", chartOutput("risk","nvd3"))
+       tabPanel("Übersicht"
+                , tags$h3("Dein Arbeitslohn bis zur Rente")
+                , chartOutput("overview","nvd3"))
+       ,tabPanel("Risiko"
+                 , tags$h3("Deine Wahrscheinlichkeit berufsunfähig zu werden nach Alter")
+                 , chartOutput("risk","nvd3"))
        )
   , addBugMuncher()
      )
-  
+  )
 ))

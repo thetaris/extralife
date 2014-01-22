@@ -40,7 +40,7 @@ shinyServer(function(input, output, session) {
    # p$addParams(dom = 'risk')
   
     
-#     p$chart(width = 700)    
+     p$chart(width = 700)    
 #     p$chart(height = 300)    
     return(p)
   })
