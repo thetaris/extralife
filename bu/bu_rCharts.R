@@ -49,5 +49,5 @@ colnames(phase) = c('Name', 'Lebensabschnitt', 'Dauer')
 
 n1 <- nPlot(Dauer ~ Name, data = phase, group = 'Lebensabschnitt', type = 'multiBarChart')
 n1$yAxis(tickFormat = "#!function(d) {return (d/1000000).toFixed(2) + ' Mio';}!#")
-n1$chart(width = 450) 
+n1$set(width = 450) 
 
