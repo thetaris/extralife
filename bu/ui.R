@@ -33,7 +33,7 @@ shinyUI(basicPage(
           )
           ,tabPanel("Risiko"
                     ,div(style="width:770px; overflow:visible;"
-                         , tags$h3("Deine Wahrscheinlichkeit berufsunfähig zu werden nach Alter")
+                         , tags$h3("Wie viele Personen in Deiner Situation werden in welchem Alter berufsunfähig sein?")
                          , chartOutput("risk","nvd3"))
           )
         )
