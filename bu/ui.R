@@ -46,13 +46,13 @@ shinyUI(basicPage(
 #  ),
   
   # Show a plot of the generated distribution
-  div(style="width:770px", mainPanel(
+  div(style="width:770px; overflow:visible;", mainPanel(
      tabsetPanel(
        tabPanel("Übersicht"
                 , tags$h3("Dein Arbeitslohn bis zur Rente")
                 , chartOutput("overview","nvd3"))
        ,tabPanel("Risiko"
-                 ,div(style="width:770px"
+                 ,div(style="width:770px; overflow:visible;"
                      , tags$h3("Deine Wahrscheinlichkeit berufsunfähig zu werden nach Alter")
                      , chartOutput("risk","nvd3"))
                  )
