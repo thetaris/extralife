@@ -7,7 +7,6 @@ source("../common/utilEL.R")
 shinyUI(basicPage(
   
   # Application title
-  headerPanel("Risiko: Invalidität"),
   
 #   # Sidebar with a slider input for number of observations
 #  sidebarPanel(
@@ -46,8 +45,9 @@ shinyUI(basicPage(
 #  ),
   
   # Show a plot of the generated distribution
-  div(style="width:770px; overflow:visible;", mainPanel(
-     tabsetPanel(
+  div(style="width:770px; overflow:visible;"
+      , mainPanel(tags$h1("Risiko Invalidität")
+     , tabsetPanel(
        tabPanel("Übersicht"
                 , tags$h3("Dein Arbeitslohn bis zur Rente")
                 , chartOutput("overview","nvd3"))
