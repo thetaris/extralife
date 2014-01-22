@@ -40,8 +40,8 @@ shinyServer(function(input, output, session) {
    # p$addParams(dom = 'risk')
   
     
-     p$chart(width = 700)    
-     #p$chart(height = 300)    
+     p$set(width = 700)    
+     p$set(height = 300)    
     return(p)
   })
   
@@ -175,8 +175,8 @@ shinyServer(function(input, output, session) {
     
     n1 <- nPlot(Dauer ~ Name, data = phase, group = 'Lebensabschnitt', type = 'multiBarChart')
     n1$yAxis(tickFormat = "#!function(d) {return (d/1000000).toFixed(2) + ' Mio';}!#")
-    n1$chart(width = 450)
-    #n1$chart(height = 300)    
+    n1$set(width = 450)
+    n1$set(height = 300)    
     n1$chart(stacked = 'true')
     return(n1)
     
