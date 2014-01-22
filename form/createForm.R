@@ -59,7 +59,7 @@ simpleField('vertrag.zahlung.betrag.konsum','Vertragliche Zahlung:','number',pos
 simpleField('vertrag.zahlung.betrag.investition','Vertragliche Zahlung:','number',postfix='(Investition)'),
 simpleField('vertrag.zahlung.start','Vertragsbeginn:','date'),
 selectField('vertrag.zahlung.frequenz','Zahlungsfrequenz:',frequencyKey, frequencyName),
-simpleField('verttrag.zahlung.ende','Vertragsende:','date'),
+simpleField('vertrag.zahlung.ende','Vertragsende:','date'),
 simpleField('mietvertrag.mieter','Dein Mieter:','text'),
 textareaField('mietvertrag.adresse', 'Die Adresse der Wohnung:'),
 simpleField('vermietung.betrag.kalt','Kaltmiete:','number'),

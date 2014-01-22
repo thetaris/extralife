@@ -16,7 +16,7 @@ getELFIELD <- function(){
       "Vertrag.Zahlung.betrag.investition",
       "Vertrag.Zahlung.start",
       "Vertrag.Zahlung.frequenz",
-      "Verttrag.Zahlung.ende",
+      "Vertrag.Zahlung.ende",
       "Mietvertrag.Mieter",
       "Mietvertrag.Adresse",
       "Vermietung.betrag.kalt",
@@ -86,7 +86,9 @@ getELFIELD <- function(){
       "Bausparen.MindestSparGuthaben",
       "kommentarfeld",
       "i.kosten.monatlich", 
-      "i.einkommen.monatlich")))  
+      "i.einkommen.monatlich",
+      "i.wert",
+      "i.kredit")))  
   }
   ELFIELD <<- list()
   ELFIELD[allELDataFields()]<<-allELDataFields()

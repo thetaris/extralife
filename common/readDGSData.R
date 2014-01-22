@@ -150,15 +150,56 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       brutto            <- getMonthly(field=ELFIELD$einkommen.betrag.brutto
                                      , freq=ELFIELD$einkommen.betrag.frequenz, type, node_id)
 
-      netto            <- getMonthly(field=ELFIELD$einkommen.betrag.netto
+      netto             <- getMonthly(field=ELFIELD$einkommen.betrag.netto
                                      , freq=ELFIELD$einkommen.betrag.frequenz, type, node_id)
       
       einkommen <- list()
       einkommen$value <- netto$value
       einkommen$value[is.na(einkommen$value)]<-brutto$value[is.na(einkommen$value)]
       
+      vermietung      <- getMonthly(field=ELFIELD$vermietung.betrag.kalt
+                                    , freq=ELFIELD$vermietung.betrag.frequenz, type, node_id)
       
-      res<-einkommen
+      res<-addnoNA(list(einkommen, vermietung)) 
+    }else if (requestedField==ELFIELD$i.kredit){
+      # kredit
+      hypothek          <- resultObj$get_raw(requestedField=ELFIELD$kredit.zeitwert.betrag
+                                             , type, node_id)
+      hypothek$value    <- as.numeric(hypothek$value)
+      
+      ratenkredit       <- getMonthly(field=ELFIELD$vertrag.zahlung.betrag.investition
+                                      , freq=ELFIELD$vertrag.zahlung.frequenz, type, node_id)
+      ratenkredit$value <- as.numeric(ratenkredit$value)
+      
+      ratenTyp          <- resultObj$get_raw(requestedField=ELFIELD$type_id
+                                             , type, node_id)
+      
+      ratenkredit$value[ratenTyp$value!=ELTYPE$Ratenkredit] = NA
+      
+      ratenkreditEnde <-  resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.ende
+                                        , type, node_id)
+      
+      ratenkreditLaufzeitMonate <- as.numeric(as.Date(ratenkreditEnde$value) - Sys.Date(), units="days")/30
+      ratenkreditLaufzeitMonate[ratenkreditLaufzeitMonate<0]=0
+      ratenkreditLaufzeitMonate[is.na(ratenkreditLaufzeitMonate)]=0
+      
+      ratenkreditSumme = list()
+      ratenkreditSumme$value = ratenkredit$value * ratenkreditLaufzeitMonate
+            
+      res<-addnoNA(list(ratenkreditSumme, hypothek)) 
+    }else if (requestedField==ELFIELD$i.wert){
+      # vermögen
+      zeitwert          <- resultObj$get_raw(requestedField=ELFIELD$zeitwert.betrag
+                                      , type, node_id)
+      
+      kaufpreis         <- resultObj$get_raw(requestedField=ELFIELD$kauf.wert
+                                      ,  type, node_id)
+      
+      wert <- list()
+      wert$value <- as.numeric(zeitwert$value)
+      wert$value[is.na(wert$value)]<-kaufpreis$value[is.na(wert$value)]
+                  
+      res<-wert
     }   
     else{
       res <- resultObj$get_raw(requestedField, type, node_id)
@@ -314,7 +355,8 @@ getCashItm<-function (dataObj = NULL, file = NULL){
     taxonomy3 = c(taxonomy3, tmp[3])
   }
   # Active balance: value
-  wert = round(as.numeric(dataObj$get(ELFIELD$zeitwert.betrag)),2)
+  wert = round(as.numeric(dataObj$get(ELFIELD$i.wert)),2)
+  
   bewertung = wert
   bewertung[!is.na(bewertung)] <- "static"
   res_static <- data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung, stringsAsFactors=F)
@@ -326,9 +368,9 @@ getCashItm<-function (dataObj = NULL, file = NULL){
   res_expense <- data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung, stringsAsFactors=F)
   
   # Passive balance: credit
-  wert = round(as.numeric(dataObj$get(ELFIELD$kredit.zeitwert.betrag)),2)
-  bewertung = rep(NA,length(wert))
-  bewertung[taxonomy2 == "Kredit"] <- "credit"
+  wert = round(as.numeric(dataObj$get(ELFIELD$i.kredit)),2)
+  bewertung = wert
+  bewertung[!is.na(bewertung)] <- "credit"
   res_credit <- data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung, stringsAsFactors=F)
   
   # Earnings: income
