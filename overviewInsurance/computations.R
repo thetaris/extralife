@@ -27,7 +27,9 @@ getVersicherungen <- function(dataObj){
   
   versicherungen$haftpflicht         = getData(type=ELTYPE$Privathaftpflichtversicherung)  
   versicherungen$Krankheit           = getData(type=ELTYPE$Krankenversicherung._)
-  versicherungen$Invaliditaet        = getData(type=ELTYPE$Invaliditaetsversicherung._)
+  versicherungen$Invaliditaet        = getData(type=c(ELTYPE$Unfallversicherung
+                                                      , ELTYPE$Berufsunfaehigkeitsversicherung
+                                                      , ELTYPE$Private.Erwerbsunfaehigkeitsversicherung))
   versicherungen$Tod                 = getData(type=ELTYPE$Lebensversicherung._)
   versicherungen$SchadenAmAuto       = getData(type=ELTYPE$KFZ.Kaskoversicherung)
   versicherungen$KFZHaftpflicht      = getData(type=ELTYPE$KFZ.Haftpflichtversicherung)
