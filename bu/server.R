@@ -41,7 +41,7 @@ shinyServer(function(input, output, session) {
   
     
      p$chart(width = 700)    
-     p$chart(height = 300)    
+     #p$chart(height = 300)    
     return(p)
   })
   
