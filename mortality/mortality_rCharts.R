@@ -88,7 +88,7 @@ mortalityHistogram <- function(birthDay, sex, name){
   
   hist$addParams(dom = 'mortality')
   
-  hist$xAxis(axisLabel = "Wie viele Menschen in Deiner Situation erreichen welches Alter?")
+  hist$xAxis(axisLabel = sprintf("Wie viele Menschen in %ss Situation erreichen welches Alter?", name))
   return(hist)
 }
 
