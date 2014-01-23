@@ -1,3 +1,5 @@
+library(car)
+
 disabilityID <-data.frame(
   age = c(35, 20, 16,50),
   gender = c("m", "f", "m","f"),
