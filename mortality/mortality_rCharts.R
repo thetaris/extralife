@@ -86,7 +86,9 @@ mortalityHistogram <- function(birthDay, sex, name){
   
   hist$yAxis(tickFormat = "#!function(d) {return (100*d).toFixed(0) + '%';}!#")
   
-  hist$addParams(dom = 'mortality')      
+  hist$addParams(dom = 'mortality')
+  
+  hist$xAxis(axisLabel = "Wie viele Menschen in Deiner Situation erreichen welches Alter?")
   return(hist)
 }
 

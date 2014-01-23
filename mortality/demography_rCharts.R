@@ -10,6 +10,8 @@ demographyChart <- function(currentYear, name, birthYear, gender_in){
   
   pf$yAxis(tickFormat="#!function(d) {if (d>0) {res = d/1000 + ' Mio. Frauen'} else {res = -d/1000 + ' Mio. Männer'} return res;}!#" )
   pf$yAxis(showMaxMin = F)
+  pf$yAxis(axisLabel = "Anzahl der Menschen ja Altersgruppe")
+  pf$xAxis(axisLabel = "Altersgruppe")
   pf$addParams(dom = 'demography')    
   return(pf)
 }
