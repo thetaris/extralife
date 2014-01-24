@@ -16,17 +16,18 @@ runtest<-function(testMarkdown, openBrowser = TRUE){
   opts_knit$set(root.dir = getwd())   
   for (testDataFile in dataFiles){
     # set value of ELtestDataFile for usage in report
-    ELtestDataFile <- sprintf("../test/data/%s",testDataFile)
+    ELtestDataFile <- normalizePath(sprintf("../test/data/%s",testDataFile))
     
     testDataFileName = sub(".json", "", testDataFile)
-    outputfile <- sprintf("../test/reports/%s_%s.html",testMarkdown, testDataFileName)
-    inputfile <- sprintf("../test/%s.Rmd", testMarkdown)
+    outputfile <- normalizePath(sprintf("../test/reports/%s_%s.html",testMarkdown, testDataFileName), mustWork=F)
+    inputfile <- normalizePath(sprintf("../test/%s.Rmd", testMarkdown))
     
     # remember current variables 
     runnerVarsGlobal = ls(all.names =TRUE, envir = .GlobalEnv)
     runnerVarsLocal  = ls(all.names =TRUE)
     
-    knit2html(inputfile, output=outputfile, quiet=TRUE, envir=new.env())
+    print(sprintf("Knit %s with %s", testMarkdown, testDataFile))
+    knit2html(inputfile, output=outputfile, quiet=TRUE, envir=new.env(), encoding="UTF-8")
     
     # remove variables created parsing the test
     newVarsLocal  = ls(all.names =TRUE)
