@@ -10,9 +10,10 @@ shinyUI(bootstrapPage(
     tabsetPanel(
       tabPanel("Übersicht",
                div(id="ovTop"),
-               htmlOutput("ovFlowHtml"),
+               #htmlOutput("ovFlowHtml"),
+               uiOutput("ovFlowHtml"),
                div(id="ovSep"),
-               htmlOutput("ovStatHtml")
+               uiOutput("ovStatHtml")
             
       )
       ,tabPanel("Einnahmen",

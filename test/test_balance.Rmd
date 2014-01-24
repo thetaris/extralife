@@ -1,0 +1,202 @@
+Test Overview Insurance
+========================================================
+**Configuration**
+
+should be foldable
+```{r, comment = NA}
+str(ELtestDataFile)
+require(rjson)
+str(suppressWarnings(fromJSON(file=ELtestDataFile)))
+```
+
+**Init**
+
+Include Header.
+```{r results='asis', echo=FALSE, comment = NA}
+# read header fixing nvd3 bug
+source("../test/reportHeader.R")
+source("../test/reportHeaderNvd3.R")
+
+## load the package
+library(shiny)
+library(rjson)
+
+source("../common/readDGSData.R", encoding="UTF-8")
+source('../common/getELFIELD.R', encoding="UTF-8")
+source("../common/utilEL.R", encoding="UTF-8")
+
+source("../balance/computations.R", encoding="UTF-8")
+source("../balance/render.R", encoding="UTF-8")
+```
+
+**Data transformation**
+
+```{r echo=FALSE, comment = NA}
+
+dataObj = isolate(DGSData(file=ELtestDataFile))    
+  
+  CashItm = getCashItm(dataObj)
+  categorynames=colnames(CashItm)
+  categorynames =categorynames[grepl("^taxonomy.*", categorynames)]
+  aggregateString = makeAggregateString(categorynames);      
+    
+  assets = prepChartData(CashItm, "static",aggregateString)
+  credit = prepChartData(CashItm, "credit",aggregateString)
+  income = prepChartData(CashItm, "income",aggregateString)
+  expense = prepChartData(CashItm, "expense",aggregateString)
+  
+  sumassets = sum(assets['wert'])
+  sumcredit = sum(credit['wert'])
+  sumincome = sum(income['wert'])
+  sumexpense = sum(expense['wert'])
+```
+
+**Overview**
+
+```{r results = 'asis', comment = NA, echo=FALSE}
+  write(as.character(tags$h1(sprintf("Übersicht:") )), stdout())
+  write(as.character(htmlFlow(sumincome,sumexpense)), stdout())
+  write(as.character(htmlStatic(sumassets, sumcredit)), stdout())
+  
+```
+
+```{r results = 'asis', comment = NA, echo=FALSE}
+
+output = list()
+input = list()
+input$myassetlevel = ""
+input$myincomelevel= ""
+input$myexpenselevel= ""
+input$mycreditlevel= ""
+
+  
+  output$myAssetTable <- renderUI({
+    if(is.character(assets)) {
+      res = data.frame(character(0))
+      colnames(res) <- c("")
+      return(head(res,n=0))      
+    }
+    
+    toShow = assets
+    filterstr = input$myassetlevel   
+    toShow =filterTableData(toShow,filterstr,categorynames)     
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")    
+    return(renderCatTable(toShow))
+  })
+  
+  
+  
+  output$myCreditTable <- renderUI({
+    if(is.character(credit)) {
+      res = data.frame(character(0))
+      colnames(res) <- c("")
+      return(head(res,n=0))
+    } 
+    
+    toShow = credit
+    filterstr = input$mycreditlevel
+    toShow =filterTableData(toShow,filterstr,categorynames)
+        
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+    
+    return(renderCatTable(toShow))    
+  })
+  
+  
+
+  output$myIncomeTable <- renderUI({
+    if(is.character(income)) {
+      res = data.frame( character(0))
+      colnames(res) <- c("")
+      return(head(res,n=0))
+    } 
+    
+    toShow = income
+    filterstr = input$myincomelevel
+    toShow =filterTableData(toShow,filterstr,categorynames)
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+    
+    return(renderCatTable(toShow))
+  })
+  
+  
+  output$myExpenseTable <- renderUI({
+    if(is.character(expense)) {
+      res = data.frame(character(0))
+      colnames(res) <- c("")
+      return(head(res,n=0))
+    }
+    
+    toShow = expense
+    filterstr = input$myexpenselevel
+    toShow =filterTableData(toShow,filterstr,categorynames)
+    colnames(toShow) <- c("Kategorie 1","Kategorie 2","Kategorie 3","Objekt","Wert in \u20AC")
+    return(renderCatTable(toShow))
+  })
+
+for (iterNames in names(output)){  
+  write(as.character(tags$h1(iterNames)), stdout())  
+  write(as.character(tags$div(style="width=740px",output[[iterNames]]())), stdout())
+  write(as.character(tags$br("")), stdout())
+}
+
+  
+```
+
+```{r results = 'asis', comment = NA, echo=FALSE}
+
+# output = list()
+# 
+#   output$myChartAssets <- function(){    
+#     # lokal subdir thetadrill
+#     theChart <- rCharts$new()
+#     theChart$setLib('thetadrill')
+#     theChart$setTemplate(script = "thetadrill/layouts/drillasset.html")
+#     theChart$addParams(data=assets)    
+#     return(theChart)
+#   }
+#      
+#   # credit etc
+#   output$myChartCredit <- function(){
+#     
+#     # lokal subdir thetadrill
+#     theChart <- rCharts$new()
+#     theChart$setLib('thetadrill')
+#     theChart$setTemplate(script = "thetadrill/layouts/drillcredit.html")
+#     theChart$addParams(data=credit)
+#     return(theChart)
+#   }
+# 
+#   # income
+#   output$myChartIncome <- function(){
+#     
+#     # lokal subdir thetadrill
+#     theChart <- rCharts$new()
+#     theChart$setLib('thetadrill')
+#     theChart$setTemplate(script = "thetadrill/layouts/drillincome.html")
+#     theChart$addParams(data=income)
+#     return(theChart)
+#   }
+# 
+#   # expense
+#   output$myChartExpense <- function(){
+#     
+#     # lokal subdir thetadrill
+#     theChart <- rCharts$new()
+#     theChart$setLib('thetadrill')
+#     theChart$setTemplate(script = "thetadrill/layouts/drillexpense.html")
+#     theChart$addParams(data=expense)
+#     return(theChart)
+#   }
+# 
+# for (iterNames in names(output)){  
+#   write(as.character(tags$h1(iterNames)), stdout())  
+#   write(as.character(tags$p(output[[iterNames]]$print('container4', include_assets = TRUE, cdn = TRUE))), stdout())
+#   write(as.character(tags$br("")), stdout())
+# }
+
+```
+
+
+
+Done.
