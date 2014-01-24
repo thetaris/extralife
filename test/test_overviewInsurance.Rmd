@@ -1,0 +1,75 @@
+Test Overview Insurance
+========================================================
+**Configuration**
+
+should be foldable
+```{r, comment = NA}
+str(ELtestDataFile)
+require(rjson)
+str(suppressWarnings(fromJSON(file=ELtestDataFile)))
+```
+
+**Init**
+
+Include Header.
+```{r results='asis', echo=FALSE, comment = NA}
+# read header fixing nvd3 bug
+source("../test/reportHeader.R")
+source("../test/reportHeaderNvd3.R")
+
+## load the package
+library(shiny)
+library(rjson)
+
+source('../common/getELTYPE.R')
+source('../common/readDGSData.R')
+
+source("../overviewInsurance/computations.R", encoding="UTF-8")
+source("../overviewInsurance/renderDetail.R", encoding="UTF-8")
+```
+
+**Data transformation**
+
+```{r echo=FALSE, comment = NA}
+
+dataObj = isolate(DGSData(file=ELtestDataFile))    
+
+versicherungen <- getVersicherungen(dataObj)
+besitz <- getBesitz(dataObj)
+familie <- getFamilie(dataObj)
+```
+
+**Overview**
+
+```{r results = 'asis', comment = NA}
+for (iterRisiko in c("wenig", "mittel", "viel")){
+  input$variable<-iterRisiko
+  write(as.character(tags$h1(sprintf("Übersicht: %s Absicherung",iterRisiko) )), stdout())
+  write(as.character(renderOverview(versicherungen, besitz, familie, input)()), stdout())
+  }
+```
+
+**Tabs**
+
+```{r results = 'asis', comment = NA}
+input<-list()
+input$variable<-"wenig"
+for (iterContracts in names(versicherungen)){
+  #does not work in shiny:
+  #output[iterContracts] <- renderDetail(versicherungen[iterContracts])    
+  
+  # -> build string and eval command
+  cmdStr <- sprintf("res <- renderDetail(versicherungen, besitz, familie, input, '%s')", iterContracts)
+  eval(parse(text=cmdStr))    
+  
+  write(as.character(tags$h1(iterContracts)), stdout())
+  
+  write(as.character(res()), stdout()) 
+  
+  }
+```
+
+
+
+
+Done.
