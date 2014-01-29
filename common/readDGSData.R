@@ -106,7 +106,9 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
     
     getMonthly<-function(field, freq, type, node_id){
       betrag <- suppressWarnings(resultObj$get_raw(requestedField=field, type, node_id))
+      sel = (betrag$value=="")
       betrag <- as.numeric(betrag$value)
+      betrag[sel]<-0
       
       freqenz<-resultObj$get_raw(requestedField=freq, type, node_id)
       freqenz <- freqenz$value  
@@ -115,6 +117,8 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
     } # end getMonthly
     
     addnoNA<-function(listSum){
+      # takes a list of vectors and adds the vector values as if NA is 0
+      # but returns NA if all summands in the list were NA
       if (is.null(listSum)){
         return(null)
       }else{
@@ -385,8 +389,10 @@ getCashItm<-function (dataObj = NULL, file = NULL){
   res_income <- data.frame(titel, taxonomy1, taxonomy2, taxonomy3, wert, bewertung, stringsAsFactors=F)    
   
   res <- rbind(res_static, res_expense, res_credit, res_income)
+  # clear rows without bewertung
   res <- res[!is.na(res$bewertung),]
-  res[is.na(res$wert),"wert"]<-0
+  # set all values to 0 where NA
+  res[is.na(res$wert),"wert"]<-rep(0,length(is.na(res$wert)))
   return(res)
 }
 

@@ -1,0 +1,41 @@
+Test Overview Insurance
+========================================================
+**Configuration**
+
+should be foldable
+```{r, comment = NA}
+str(ELtestDataFile)
+require(rjson)
+str(suppressWarnings(fromJSON(file=ELtestDataFile)))
+```
+
+**Init**
+
+Include Header.
+```{r results='asis', echo=FALSE, comment = NA}
+# read header fixing nvd3 bug
+source("../test/reportHeader.R")
+
+## load the package
+library(rjson)
+
+source('../common/getELTYPE.R')
+source('../common/readDGSData.R')
+
+```
+
+**Data transformation**
+
+```{r echo=FALSE, comment = NA}
+
+dataObj = isolate(DGSData(file=ELtestDataFile))    
+
+tryCatch({
+  cashItm = getCashItm(dataObj)
+  print(cashItm)
+  })
+
+```
+
+
+Done.
