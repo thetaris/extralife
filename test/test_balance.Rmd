@@ -25,8 +25,9 @@ source("../common/readDGSData.R", encoding="UTF-8")
 source('../common/getELFIELD.R', encoding="UTF-8")
 source("../common/utilEL.R", encoding="UTF-8")
 
-source("../balance/computations.R", encoding="UTF-8")
-source("../balance/render.R", encoding="UTF-8")
+source("../balance/server.R", encoding="UTF-8")
+#source("../balance/computations.R", encoding="UTF-8")
+#source("../balance/render.R", encoding="UTF-8")
 ```
 
 **Data transformation**
@@ -45,10 +46,10 @@ dataObj = isolate(DGSData(file=ELtestDataFile))
   income = prepChartData(CashItm, "income",aggregateString)
   expense = prepChartData(CashItm, "expense",aggregateString)
   
-  sumassets = sum(assets['wert'])
-  sumcredit = sum(credit['wert'])
-  sumincome = sum(income['wert'])
-  sumexpense = sum(expense['wert'])
+  sumassets = sumNoNA(assets['wert'])
+  sumcredit = sumNoNA(credit['wert'])
+  sumincome = sumNoNA(income['wert'])
+  sumexpense = sumNoNA(expense['wert'])
 ```
 
 **Overview**
