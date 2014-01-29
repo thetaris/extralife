@@ -42,9 +42,9 @@ getVersicherungen <- function(dataObj){
 getBesitz <- function(dataObj){
   besitz <- list()
   besitz$title    <- dataObj$get(requestedField = ELFIELD$title, type=ELTYPE$Mein.Besitz._)
-  besitz$zeitwert <- dataObj$get(requestedField = ELFIELD$zeitwert.betrag, type=ELTYPE$Mein.Besitz._)
-  besitz$node_id  <- dataObj$get(requestedField = ELFIELD$node_id, type=ELTYPE$Mein.Besitz._)
-  besitz$type     <- dataObj$get(requestedField = ELFIELD$type_id, type=ELTYPE$Mein.Besitz._)
+  besitz$zeitwert <- as.numeric(dataObj$get(requestedField = ELFIELD$i.wert, type=ELTYPE$Mein.Besitz._))
+  besitz$node_id  <- as.numeric(dataObj$get(requestedField = ELFIELD$node_id, type=ELTYPE$Mein.Besitz._))
+  besitz$type     <- as.numeric(dataObj$get(requestedField = ELFIELD$type_id, type=ELTYPE$Mein.Besitz._))
   return(besitz)
 }
 
@@ -219,9 +219,15 @@ getEmpfehlungen <- function(versicherungen, besitz, familie, input){
     }
     
   } else if (sel==sum(besitz$type %in% ELTYPE$Automobil)){
-    absicherung = "ok"
-    abdeckung = 5
-    empfehlung = "Nichts zu tun."
+    if (!any(besitz$type %in% ELTYPE$Automobil)){      
+      absicherung = "ok"
+      abdeckung = 0
+      empfehlung = "Nichts zu tun."
+    }else{
+      absicherung = "ok"
+      abdeckung = 5
+      empfehlung = "Nichts zu tun."      
+    }
   } else if (sel>sum(besitz$type %in% ELTYPE$Automobil)){
     absicherung = "überversichert."
     abdeckung = 5
@@ -234,7 +240,16 @@ getEmpfehlungen <- function(versicherungen, besitz, familie, input){
   versicherungen$SchadenAmAuto$link  = "linkToSchadenamAuto"
   versicherungen$SchadenAmAuto$titel  = "Schaden am Auto"
   versicherungen$SchadenAmAuto$status  = switch(absicherung,ok=0,1)
-  versicherungen$SchadenAmAuto$schaden =  6
+  
+  tmp = besitz$zeitwert[besitz$type %in% ELTYPE$Automobil]
+  
+  if (length(tmp>0)){
+    schaden = ceiling(log(sum(tmp))/log(10))
+  }else{
+    schaden = 0
+  }
+  
+  versicherungen$SchadenAmAuto$schaden =  schaden
   versicherungen$SchadenAmAuto$linkBdV$URL = c("https://www.bundderversicherten.de/files/bulletins/pdf/50_M_Kfz_NMG.pdf"
   )
   versicherungen$SchadenAmAuto$linkBdV$text = c("Merkblatt KFZ Versicherung"
@@ -243,6 +258,7 @@ getEmpfehlungen <- function(versicherungen, besitz, familie, input){
   
   
   # KFZHaftpflicht
+  schaden=8
   
   sel = nrow(versicherungen$KFZHaftpflicht$vertraegeTabelle)
   if (sel<sum(besitz$type %in% ELTYPE$Automobil)){    
@@ -255,9 +271,16 @@ getEmpfehlungen <- function(versicherungen, besitz, familie, input){
     empfehlung = "Eine KFZ Haftpflichtversicherung ist für jedes Auto zwingend vorgeschrieben. Bitte schließe eine KFZ Haftpflichtversicherung ab."            
     
   } else if (sel==sum(besitz$type %in% ELTYPE$Automobil)){
-    absicherung = "ok"
-    abdeckung = 5
-    empfehlung = "Nichts zu tun."
+    if (!any(besitz$type %in% ELTYPE$Automobil)){      
+      absicherung = "ok"
+      abdeckung = 0
+      empfehlung = "Nichts zu tun."
+      schaden=0
+    }else{
+      absicherung = "ok"
+      abdeckung = 5
+      empfehlung = "Nichts zu tun."
+    }
   } else if (sel>sum(besitz$type %in% ELTYPE$Automobil)){
     absicherung = "überversichert."
     abdeckung = 5
@@ -271,7 +294,7 @@ getEmpfehlungen <- function(versicherungen, besitz, familie, input){
   versicherungen$KFZHaftpflicht$link  = "linkToKFZHaftpflicht"
   versicherungen$KFZHaftpflicht$titel  = "KFZ Haftpflicht"
   versicherungen$KFZHaftpflicht$status  = switch(absicherung,ok=0,1)
-  versicherungen$KFZHaftpflicht$schaden =  8
+  versicherungen$KFZHaftpflicht$schaden =  schaden
   versicherungen$KFZHaftpflicht$linkBdV$URL = c("https://www.bundderversicherten.de/files/bulletins/pdf/50_M_Kfz_NMG.pdf"
   )
   versicherungen$KFZHaftpflicht$linkBdV$text = c("Merkblatt KFZ Versicherung"
@@ -302,7 +325,16 @@ getEmpfehlungen <- function(versicherungen, besitz, familie, input){
   versicherungen$SchadenAmEigentum$link  = "linkToSchadenamEigentum"
   versicherungen$SchadenAmEigentum$titel  = "Schaden am Eigentum"
   versicherungen$SchadenAmEigentum$status  = switch(absicherung,ok=0,1)
-  versicherungen$SchadenAmEigentum$schaden =  5
+  
+  tmp = besitz$zeitwert[besitz$type %in% ELTYPE$Hausrat._]
+  
+  if (length(tmp>0)){
+    schaden = ceiling(log(sum(tmp[!is.na(tmp)]))/log(10))
+  }else{
+    schaden = 0
+  }
+  
+  versicherungen$SchadenAmEigentum$schaden =  schaden
   versicherungen$SchadenAmEigentum$linkBdV$URL = c("https://www.bundderversicherten.de/files/bulletins/pdf/46_M_H_NMG.pdf"
   )
   versicherungen$SchadenAmEigentum$linkBdV$text = c("Merkblatt Hausratsversicherung"

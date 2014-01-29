@@ -5,11 +5,13 @@ renderUI({
     space = tags$a(".")
     
     res = list();
-    for (iter in 1:logSum){
-      res = list(symbol, res)        
-      if ( ((iter %% 3) == 0) & (iter<logSum) ){
-        res = list(space, res)
-      }
+    if (any(logSum>0)){
+      for (iter in 1:logSum){
+        res = list(symbol, res)        
+        if ( ((iter %% 3) == 0) & (iter<logSum) ){
+          res = list(space, res)
+        }
+      }      
     }
     return(tags$div(res))
   }
@@ -31,7 +33,8 @@ renderUI({
   tmp = list(tags$th(tags$h4("Risiko")), tags$th(tags$h4("möglicher Schaden")), tags$th(tags$h4("Abdeckung")), tags$th(tags$h4("Status")))    
   res = tags$tr(tmp)
   
-  for (iterRisk in names(versicherungen))
+  #for (iterRisk in names(versicherungen))
+  for (iterRisk in order(sapply(versicherungen, function(x) -x$schaden, USE.NAMES = T)))
   {
     tmp = list(tags$th(div(id= versicherungen[[iterRisk]]$link
                            ,tags$a( versicherungen[[iterRisk]]$titel)), align="left")
@@ -77,7 +80,7 @@ renderDetail <- function(versicherungen, besitz, familie, input, type){
       res <- tags$tr(tmp)
       
       if (nrow(vertraegeTabelle)>0){
-        for (iterVertrag in 1:nrow(vertraegeTabelle))
+        for (iterVertrag in 1:nrow(vertraegeTabelle))        
         {
           tmp <- list(tags$th(vertraegeTabelle[iterVertrag, "Vertragsname"], align="left")
                       ,tags$th(vertraegeTabelle[iterVertrag, "Versicherungsnehmer"], align="right")
