@@ -20,6 +20,19 @@ prepChartData <- function(data, pBewertung,aggregateString ){
   result  
 }
 
+sumNoNA<-function(input){  
+  if (is.null(input)|all(is.na(input))){
+    return(0)
+  } else if (input=="NoData") {
+    return(0)
+  } else if (is.na(sum(input))){
+    return(0)
+  } else{
+    return(sum(input))      
+  }
+    
+}
+
 filterTableData <- function(data,filterstr,categories) {
   
   if(nchar(filterstr)>0) {

@@ -25,10 +25,10 @@ shinyServer(function(input, output,session) {
   income = prepChartData(CashItm, "income",aggregateString)
   expense = prepChartData(CashItm, "expense",aggregateString)
   
-  sumassets = sum(assets['wert'])
-  sumcredit = sum(credit['wert'])
-  sumincome = sum(income['wert'])
-  sumexpense = sum(expense['wert'])
+  sumassets = sumNoNA(assets['wert'])
+  sumcredit = sumNoNA(credit['wert'])
+  sumincome = sumNoNA(income['wert'])
+  sumexpense = sumNoNA(expense['wert'])
   
   
   output$ovFlowHtml <-renderUI(htmlFlow(sumincome,sumexpense))
