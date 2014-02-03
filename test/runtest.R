@@ -115,7 +115,7 @@ compareReports<-function(outputfile="testcases_overview.html", openBrowser = TRU
   #cat(result)
 }
 
-runtestAll<-function(outputfile="testcases_overview.html", openBrowser = TRUE){
+runtestAll<-function(testFiles = NULL, outputfile="testcases_overview.html", openBrowser = TRUE){
   # runtestAll(outputfile="testcases_overview.html", openBrowser = TRUE)
   #   runtestAll calles runtest for each "test.Rmd" file under "extralife/test"
   #   and finally calles compareReports() to present differences to the reference
@@ -123,14 +123,21 @@ runtestAll<-function(outputfile="testcases_overview.html", openBrowser = TRUE){
   #
   # example:
   # 
+  # run all tests with all datafiles:
   #   runtestAll()
+  #
+  # run only one test with all datafiles:
+  #   runtestAll("test_balance")
+  
   pathOut <- '../test/reports'
   for (filename in list.files(pathOut, '*.html')) {
     file.remove(sprintf('%s/%s', pathOut, filename))
   }
   print("Old reports deleted.")
   
-  testFiles <- list.files(path="../test", pattern = "^test.*Rmd$")
+  if (is.null(testFiles)){
+    testFiles <- list.files(path="../test", pattern = "^test.*Rmd$")
+  }
   for (iterTestFile in testFiles){
     print(sprintf("Running Testcase: %s", iterTestFile))
     runtest(sub(".Rmd","",iterTestFile), openBrowser = FALSE)
