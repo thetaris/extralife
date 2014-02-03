@@ -183,7 +183,11 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
       ratenkreditEnde <-  resultObj$get_raw(requestedField=ELFIELD$vertrag.zahlung.ende
                                         , type, node_id)
       
-      # not exact due to discrete payments
+      # credit which has no date is estimated as 36 month to pay            
+      ratenkreditEnde$value[ratenkreditEnde$value==""] <- format.Date(addDate( Sys.Date() , months_add=36))
+      
+      
+      # not exact due to discrete payments      
       ratenkreditLaufzeitMonate <- as.numeric(as.Date(ratenkreditEnde$value) - Sys.Date(), units="days")/30
       ratenkreditLaufzeitMonate[ratenkreditLaufzeitMonate<0]=0
       ratenkreditLaufzeitMonate[is.na(ratenkreditLaufzeitMonate)]=0
