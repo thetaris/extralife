@@ -1,5 +1,6 @@
 source("../common/getELTYPE.R", encoding="UTF-8")
 source("../common/getELFIELD.R")
+soucce("../common//dateUtilEL.R")
 
 
 readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL){
