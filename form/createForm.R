@@ -5,6 +5,7 @@
 # editing of documents.
 # This is a static script. Its output must be manually moved to Drupal.
 require(shiny, quietly=TRUE)
+source("../common/getELENUM.R", encoding="UTF-8")
 
 inputFrame <- function(text, inputTag, postfix='') {
   textTag <- tags$div(text, class='form_label_ro')
@@ -32,7 +33,10 @@ textareaField <- function(field, text, rows=5) {
             tags$textarea(`data-name`=field, rows=rows))
 }
 
-selectField <- function(field, text, values, optionNames) {
+selectField <- function(field, text, enum) {  
+  values = sapply(enum, function(x) x$value)
+  optionNames = sapply(enum, function(x) x$key)
+  
   inputFrame(text, 
                tags$select(`data-name`=field,
                   tags$section(lapply(data.frame(rbind(values, optionNames)), 
@@ -48,7 +52,7 @@ frequencyName <- c('Einmalig', 'Woche','Monat','Quartal','Halbjahr','Jahr')
 
 form <- tags$div(
 simpleField('person.geburtsdatum','Geburtsdatum:','date'),
-selectField('person.geschlecht','Geschlecht',c('na','mann','frau'),c('--','männlich','weiblich')),
+selectField('person.geschlecht','Geschlecht',ELENUM$person.geschlecht),
 textareaField('adresse', 'Adresse:'),
 numberField('kauf.wert','Kaufpreis:','number',postfix='€'),
 simpleField('kauf.datum','Kaufdatum:','date'),
@@ -58,21 +62,21 @@ simpleField('vertrag.zahlung.betrag','Vertragliche Zahlung:','number'),
 simpleField('vertrag.zahlung.betrag.konsum','Vertragliche Zahlung:','number',postfix='€'),
 simpleField('vertrag.zahlung.betrag.investition','Vertragliche Zahlung:','number',postfix='€'),
 simpleField('vertrag.zahlung.start','Vertragsbeginn:','date'),
-selectField('vertrag.zahlung.frequenz','Zahlungsfrequenz:',frequencyKey, frequencyName),
+selectField('vertrag.zahlung.frequenz','Zahlungsfrequenz:',ELENUM$vertrag.zahlung.frequenz),
 simpleField('vertrag.zahlung.ende','Vertragsende:','date'),
 simpleField('mietvertrag.mieter','Dein Mieter:','text'),
 textareaField('mietvertrag.adresse', 'Die Adresse der Wohnung:'),
 simpleField('vermietung.betrag.kalt','Kaltmiete:','number'),
 simpleField('vermietung.betrag.nebenkosten','Nebenkosten:','number'),
 simpleField('vermietung.betrag.start','Vermietet seit:','date'),
-selectField('vermietung.betrag.frequenz','Zahlungsfrequenz:',frequencyKey, frequencyName),
+selectField('vermietung.betrag.frequenz','Zahlungsfrequenz:',ELENUM$vermietung.betrag.frequenz),
 simpleField('vermietung.betrag.ende','Befristung:','date'),
 simpleField('einkommen.betrag.brutto','Bruttoeinkommen:','number'),
 simpleField('einkommen.betrag.netto','Nettoeinkommen:','number'),
-selectField('einkommen.betrag.frequenz','Frequenz deines Einkommens:',frequencyKey, frequencyName),
+selectField('einkommen.betrag.frequenz','Frequenz deines Einkommens:',ELENUM$einkommen.betrag.frequenz),
 simpleField('einkommen.betrag.start','Beginn des Einkommens:','date'),
 simpleField('einkommen.betrag.ende','Befristung des Einkommens:','date'),
-selectField('arbeitsvertrag.beruf','Tätigkeit',c('na','1','2', '3', '4'),c('--','akademische Tätigkeit','einfachere Bürotätigkeit', 'leichte körperliche Arbeit', 'schwere körperliche Arbeit')),
+selectField('arbeitsvertrag.beruf','Tätigkeit', ELENUM$arbeitsvertrag.beruf),
 simpleField('arbeitsvertrag.arbeitgeber','Arbeitgeber:','text'),
 simpleField('arbeitsvertrag.zeitanteil','Beschäftigung:','number',postfix='%'),
 simpleField('rente.traeger','Rententräger:','text'),
@@ -84,7 +88,7 @@ simpleField('mietvertrag.vermieter','Vermieter:','text'),
 simpleField('miete.betrag.kalt','Kaltmiete:','number'),
 simpleField('miete.betrag.nebenkosten','Nebenkosten:','number'),
 simpleField('miete.betrag.start','Mietbeginn:','date'),
-selectField('miete.betrag.frequenz','Zahlungsfrequenz:',frequencyKey, frequencyName),
+selectField('miete.betrag.frequenz','Zahlungsfrequenz:',ELENUM$miete.betrag.frequenz),
 simpleField('miete.betrag.ende','Mietende:','date'),
 numberField('zeitwert.betrag','Zeitwert:','number',postfix='€'),
 simpleField('zeitwert.datum','festgestellt am','date'),
