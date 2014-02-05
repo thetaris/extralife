@@ -60,7 +60,7 @@ plotDisability_rCharts <- function(disabilityID){
         maleG1 <- c(cumProb(dfDataSet1$Gruppe.1/1000*1/1.45,
                             disabilityID$age[i])[startIndex:n1]
         )
-        names(maleG1)<-c(rep("Male Group 1", length(maleG1)))
+        names(maleG1)<-c(rep("Mann mit akad. Tätigkeit", length(maleG1)))
         ageMale <-dfDataSet1$X[startIndex:n1]
         
         ageDataMale<-c(ageDataMale,ageMale)
@@ -74,7 +74,7 @@ plotDisability_rCharts <- function(disabilityID){
           maleG2 <- c(cumProb(dfDataSet1$Gruppe.2/1000*1/1.45,
                               disabilityID$age[i])[startIndex:n1]
           )
-          names(maleG2)<-c(rep("Male Group 2", length(maleG2)))
+          names(maleG2)<-c(rep("Mann mit Bürotätigkeit", length(maleG2)))
           ageMale <-dfDataSet1$X[startIndex:n1]
           
           ageDataMale<-c(ageDataMale,ageMale)
@@ -88,7 +88,7 @@ plotDisability_rCharts <- function(disabilityID){
             maleG3 <- c(cumProb(dfDataSet1$Gruppe.3/1000*1/1.4,
                                 disabilityID$age[i])[startIndex:n1]
             )
-            names(maleG3)<-c(rep("Male Group 3", length(maleG3)))
+            names(maleG3)<-c(rep("Mann mit leichter körperlicher Tätigkeit", length(maleG3)))
             ageMale <-dfDataSet1$X[startIndex:n1]
             
             ageDataMale<-c(ageDataMale,ageMale)
@@ -102,7 +102,7 @@ plotDisability_rCharts <- function(disabilityID){
               maleG4 <- c(cumProb(dfDataSet1$Gruppe.4/1000*1/1.4,
                                   disabilityID$age[i])[startIndex:n1]
               )
-              names(maleG4)<-c(rep("Male Group 4", length(maleG4)))
+              names(maleG4)<-c(rep("Mann mit schwerer körperlicher Tätigkeit", length(maleG4)))
               ageMale <-dfDataSet1$X[startIndex:n1]
               
               ageDataMale<-c(ageDataMale,ageMale)
@@ -122,7 +122,7 @@ plotDisability_rCharts <- function(disabilityID){
           femaleG1 <- c(cumProb(dfDataSet2$Gruppe.1/1000*1/1.45,
                                 disabilityID$age[i])[startIndex:n2]
           )
-          names(femaleG1)<-c(rep("Female Group 1", length(femaleG1)))
+          names(femaleG1)<-c(rep("Frau mit akad. Tätigkeit", length(femaleG1)))
           ageFemale <-dfDataSet2$X[startIndex:n2]
           
           ageDataFemale<-c(ageDataFemale,ageFemale)
@@ -135,7 +135,7 @@ plotDisability_rCharts <- function(disabilityID){
             femaleG2 <- c(cumProb(dfDataSet2$Gruppe.2/1000*1/1.45,
                                   disabilityID$age[i])[startIndex:n2]
             )
-            names(femaleG2)<-c(rep("Female Group 2", length(femaleG2)))
+            names(femaleG2)<-c(rep("Frau mit Bürotätigkeit", length(femaleG2)))
             ageFemale <-dfDataSet2$X[startIndex:n2]
             
             ageDataFemale<-c(ageDataFemale,ageFemale)
@@ -148,7 +148,7 @@ plotDisability_rCharts <- function(disabilityID){
               femaleG3 <- c(cumProb(dfDataSet2$Gruppe.3/1000*1/1.42,
                                     disabilityID$age[i])[startIndex:n2]
               )
-              names(femaleG3)<-c(rep("Female Group 3", length(femaleG3)))
+              names(femaleG3)<-c(rep("Frau mit leichter körperlicher Tätigkeit", length(femaleG3)))
               ageFemale <-dfDataSet2$X[startIndex:n2]
               
               ageDataFemale<-c(ageDataFemale,ageFemale)
@@ -161,7 +161,7 @@ plotDisability_rCharts <- function(disabilityID){
                 femaleG4 <- c(cumProb(dfDataSet2$Gruppe.4/1000*1/1.42,
                                       disabilityID$age[i])[startIndex:n2]
                 )
-                names(femaleG4)<-c(rep("Female Group 4", length(femaleG4)))
+                names(femaleG4)<-c(rep("Frau mit schwerer körperlicher Tätigkeit", length(femaleG4)))
                 ageFemale <-dfDataSet2$X[startIndex:n2]
                 
                 ageDataFemale<-c(ageDataFemale,ageFemale)
@@ -199,9 +199,9 @@ plotDisability_rCharts <- function(disabilityID){
   
   dp$chart(tooltipContent = "#! function(key, x, y) { 
            return  '<h3>' + key + '</h3>' +
-           '<p>'+'at age ' + x + '</p>'+
+           '<p>'+'im Alter von ' + x + ' Jahren</p>'+
            '<p>'  + y + 
-           ' disability probability'+'</p>'
+           ' berufsunfähig'+'</p>'
            
            
 } !#")

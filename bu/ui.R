@@ -35,6 +35,8 @@ shinyUI(basicPage(
                     ,div(style="width:770px; overflow:visible;"
                          , tags$h3("Wie viele Personen in Deiner Situation werden in welchem Alter berufsunfähig sein?")
                          , chartOutput("risk","nvd3"))
+                         , tags$div(align="center", tags$h4("Wahrscheinlichkeit basierend auf Alter, Geschlecht und Tätigkeit"))
+                         , tags$div(align="center", uiOutput("dataProf"))
           )
         )
         , addBugMuncher()

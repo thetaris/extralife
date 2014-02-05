@@ -4,7 +4,7 @@ library(rCharts)
 source('../common/readDGSData.R')
 
 source('balance.R')
-source('CashFlowAndBalanceSheetStackBarPlot.R')
+source('CashFlowAndBalanceSheetStackBarPlot.R', encoding="UTF-8")
 source('CashFlowAndBalanceSheetLinePlot1.R')
 source('gauge.R')
 
@@ -20,22 +20,65 @@ shinyServer(function(input, output, session) {
   # get data from JSON service
   dataObj = isolate(DGSData(session=session))
   #dataObj = isolate(DGSData(file="../test/testdata2.json"))
+
+  Geburtsdatum <- as.Date(dataObj$get(requestedField=ELFIELD$person.geburtsdatum, type=ELTYPE$Ich))
+  gender <- dataObj$get(requestedField=ELFIELD$person.geschlecht, type=ELTYPE$Ich)
   
-  output$risk <- renderChart2({
-    Geburtsdatum <- as.Date(dataObj$get(requestedField=ELFIELD$person.geburtsdatum, type=ELTYPE$Ich))
-    gender <- dataObj$get(requestedField=ELFIELD$person.geschlecht, type=ELTYPE$Ich)
-    
-    age = max(floor(as.numeric(Sys.Date()- Geburtsdatum, units="days")/365.24),0)
-    gender[gender=="mann"]="m"
-    gender[gender=="frau"]="f"
-    profession_group =  dataObj$get(requestedField=ELFIELD$arbeitsvertrag.beruf, type=ELTYPE$Arbeitsvertrag)
-        
-    profession_group[is.na(profession_group)] = 2        
-    if (length(profession_group)>1){
-      profession_group = max(profession_group)
+  age = max(floor(as.numeric(Sys.Date()- Geburtsdatum, units="days")/365.24),0)
+  gender[gender=="mann"]="m"
+  gender[gender=="frau"]="f"
+  profession_group =  dataObj$get(requestedField=ELFIELD$arbeitsvertrag.beruf, type=ELTYPE$Arbeitsvertrag)
+  
+  # set default value
+  if (is.null(profession_group)){
+    profession_group = ELENUM$arbeitsvertrag.beruf$Buerotaetigkeit$value 
+  }
+  profession_group[is.na(profession_group)] = ELENUM$arbeitsvertrag.beruf$Buerotaetigkeit$value
+  
+  if (length(profession_group)>1){
+    profession_group = max(profession_group)
+  }
+
+  # create fields for person selector
+  profs <- unlist(lapply(ELENUM$arbeitsvertrag.beruf, function(x) x$key), use.names=F)
+  values <- unlist(lapply(ELENUM$arbeitsvertrag.beruf, function(x) x$value), use.names=F)  
+  
+  output$dataProf <-renderUI({
+    res = list()
+    selected <- profs[values == profession_group & !is.na(values)]
+      
+    res1 = selectInput("dataAge", "", c(23:65), selected=age )
+    if (any(gender=="m")){
+      res2 = selectInput("dataGender", "", c("Mann", "Frau"), selected="Mann" )  
+    }else{
+      res2 = selectInput("dataGender", "", c("Mann", "Frau"), selected="Frau" ) 
     }
     
-    disabilityID <-data.frame(age, gender, profession_group)          
+    res3 = selectInput("dataProf", "", profs, selected=selected ) 
+    
+    res = tags$table(tags$tr(tags$td(res1), tags$td(res2), tags$td(res3)))
+    
+    return(res)
+  })  
+  
+  output$risk <- renderChart2({
+    # dirty hack due to encoding problems (HTML and UTF-8), compare only first character
+    # should be: 
+    # selected <- values[profs == input$dataProf & !is.na(values)]
+    selectedProf <- values[substr(profs,1,1) == substr(input$dataProf,1,1) & !is.na(values)]
+
+    if (is.null(selectedProf) | length(selectedProf)==0){
+      selectedProf = profession_group
+    }
+    
+    selectedAge <- as.numeric(input$dataAge)
+    if (any(input$dataGender=="Mann")){
+      selectedGender <- "m"  
+    }else{
+      selectedGender <- "f"  
+    }    
+    
+    disabilityID <-data.frame(age = selectedAge, gender= selectedGender, profession_group=selectedProf)          
     p <- plotDisability_rCharts(disabilityID[1,])
    # p$addParams(dom = 'risk')
   
