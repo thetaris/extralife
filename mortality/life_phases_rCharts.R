@@ -65,6 +65,7 @@ n1$chart(tooltip = "#!function(key, x, y, e, graph){ return '<h3>'+ x + '</h3>' 
           + ' Jahre</p>' ;}!#")
 
 #n1$chart(width = 700)
+n1$chart(showControls = F)         
 
 n1$yAxis(tickFormat = "#!function(d) {return d3.time.format('%Y')( new Date( (new Date()).getTime() + d * 86400000*365.24 ));}!#")
 n1$yAxis(axisLabel = "Kalenderjahr")
