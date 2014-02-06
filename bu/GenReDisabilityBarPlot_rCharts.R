@@ -228,6 +228,7 @@ plotDisability_rCharts <- function(disabilityID){
   dp$chart(reduceXTicks = TRUE)
   dp$xAxis(staggerLabels = FALSE)
   dp$yAxis(tickFormat = "#! function(d) {return d +'%'} !#", showMaxMin=FALSE) 
+  dp$chart(showControls = F)
   dp
   
   }

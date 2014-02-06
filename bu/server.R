@@ -169,7 +169,7 @@ shinyServer(function(input, output, session) {
     
     Names = c(character())
     Names[1] = 'gesund'
-    Names[2] = 'berufsunfaehig'
+    Names[2] = 'berufsunfähig'
     
     Einkommen = dataObj$get(requestedField=ELFIELD$i.einkommen.monatlich)
     Einkommen[is.na(Einkommen)]=0
@@ -222,6 +222,7 @@ shinyServer(function(input, output, session) {
     n1$set(width = 450)
     n1$set(height = 300)    
     n1$chart(stacked = 'true')
+    n1$chart(showControls = F)         
     return(n1)
     
     ##################################################################################################
