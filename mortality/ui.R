@@ -14,7 +14,7 @@ shinyUI(bootstrapPage(
       ,tabPanel("Vergleich mit Deutschland"
                 ,tags$h3("In welchen Altersgruppen sind wir?")
                 ,sliderInput("year", "Wähle ein Jahr", 
-                             min=2009, max=2060, value=2013, animate=animationOptions(interval=4000, loop=T))
+                             min=2009, max=2060, value=as.numeric(format.Date(Sys.Date(), "%Y")), animate=animationOptions(interval=4000, loop=T))
                 ,showOutput("demography", "nvd3")
               )
       
