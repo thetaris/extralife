@@ -5,7 +5,7 @@
 # editing of documents.
 # This is a static script. Its output must be manually moved to Drupal.
 require(shiny, quietly=TRUE)
-source("../common/getELENUM.R", encoding="UTF-8")
+source("common/getELENUM.R", encoding="UTF-8")
 
 inputFrame <- function(text, inputTag, postfix='') {
   textTag <- tags$div(text, class='form_label_ro')
