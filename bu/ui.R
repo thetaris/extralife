@@ -17,7 +17,7 @@ shinyUI(basicPage(
   # Show a plot of the generated distribution
   mainPanel(
     tags$table(
-      list(tags$td(tags$h2("Risiko Invalidität "))
+      list(tags$td(tags$h2("Risiko Invalidität"))
            ,tags$td("Wer?")      
            ,tags$td(selectInput("Person"," ", choices=list("ich" = "ich"
                                                         ))
@@ -28,12 +28,12 @@ shinyUI(basicPage(
     div(style="width:790px", 
         tabsetPanel(
           tabPanel("Übersicht"
-                   , tags$h3("Dein Arbeitslohn bis zur Rente")
+                   , tags$h4("Dein Arbeitslohn bis zur Rente")
                    , chartOutput("overview","nvd3")
           )
           ,tabPanel("Risiko"
                     ,div(style="width:770px; overflow:visible;"
-                         , tags$h3("Wie viele Personen in Deiner Situation werden in welchem Alter berufsunfähig sein?")
+                         , tags$h4("Wie viele Personen in Deiner Situation werden in welchem Alter berufsunfähig sein?")
                          , chartOutput("risk","nvd3"))
                          , tags$div(align="center", tags$h4("Wahrscheinlichkeit basierend auf Alter, Geschlecht und Tätigkeit"))
                          , tags$div(align="center", uiOutput("dataProf"))
