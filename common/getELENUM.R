@@ -1,5 +1,3 @@
-source("../common/getELFIELD.R")
-
 getELENUM <- function() {
   addToList <- function(field, keys, values){
     tmplist <- list()

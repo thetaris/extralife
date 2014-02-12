@@ -1,5 +1,3 @@
-source("../common/utilEL.R", encoding="UTF-8")
-
 getVersicherungen <- function(dataObj){
   getData<- function(type)  {
     tmpVertrag = list()

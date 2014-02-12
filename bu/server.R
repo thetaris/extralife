@@ -1,7 +1,8 @@
 library(shiny)
 library(rCharts)
 
-source('../common/readDGSData.R')
+source("../common/INIT.R", chdir=T, encoding="UTF-8")
+
 
 source('balance.R')
 source('CashFlowAndBalanceSheetStackBarPlot.R', encoding="UTF-8")
@@ -10,8 +11,6 @@ source('gauge.R')
 
 source('GenReDisabilityBarPlot_rCharts.R')
 
-source('../common/dateUtilEL.R')
-source('../common/getELENUM.R')
 
 # Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output, session) {

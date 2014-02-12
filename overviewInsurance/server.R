@@ -1,8 +1,6 @@
 library(shiny)
 library(rCharts)
-source('../common/getELTYPE.R', encoding="UTF-8")
-source('../common/getELFIELD.R')
-source('../common/readDGSData.R')
+source("../common/INIT.R", chdir=T, encoding="UTF-8")
 
 source("computations.R", encoding="UTF-8")
 source("renderDetail.R", encoding="UTF-8")

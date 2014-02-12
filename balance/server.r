@@ -2,9 +2,7 @@ require(shiny)
 require(rCharts)
 library(rjson)
 
-source("../common/readDGSData.R", encoding="UTF-8")
-source('../common/getELFIELD.R', encoding="UTF-8")
-source("../common/utilEL.R", encoding="UTF-8")
+source("../common/INIT.R", encoding="UTF-8", chdir=T)
 
 source("../balance/computations.R", encoding="UTF-8")
 source("../balance/render.R", encoding="UTF-8")

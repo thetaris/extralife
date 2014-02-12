@@ -1,8 +1,6 @@
 library(shiny)
 library(rCharts)
 
-source("../common//utilEL.R")
-
 # Define UI for application that plots random distributions 
 shinyUI(basicPage(
   

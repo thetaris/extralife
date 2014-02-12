@@ -1,7 +1,5 @@
 library(shiny)
 
-source("../common//utilEL.R")
-
 shinyUI(bootstrapPage(
   
   # Show a plot of the generated distribution

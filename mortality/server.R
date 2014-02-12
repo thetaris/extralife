@@ -3,8 +3,7 @@ library(rjson)
 
 library(rCharts)
 
-source('../common/getELTYPE.R')
-source('../common/readDGSData.R')
+source("../common/INIT.R", chdir=T, encoding="UTF-8")
 
 source('prepareData.R')
 source('mortality_rCharts.R')

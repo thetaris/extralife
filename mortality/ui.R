@@ -1,5 +1,5 @@
 library(shiny)
-source("../common/utilEL.R")
+
 # Define UI
 #
 shinyUI(bootstrapPage(

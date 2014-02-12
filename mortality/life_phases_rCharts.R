@@ -1,5 +1,3 @@
-source("../common/dateUtilEL.R")
-
 lebensphasenChart <- function(data_in){
 
 # Data
