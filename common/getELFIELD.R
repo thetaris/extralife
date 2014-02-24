@@ -78,7 +78,7 @@ getELFIELD <- function(){
       "Motorrad.klasse",
       "Fahrrad.rahmennummer",
       "Immobilie.wohnflaeche",
-      "Immobilie.grundstücksflaeche",
+      "Immobilie.grundstuecksflaeche",
       "Immobilie.grundbuchnummer",
       "Pferd.Equidenpass",
       "Hund.Hundemarke",
