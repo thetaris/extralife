@@ -26,7 +26,7 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
       testFile <- sub('^.*test=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
       file <- sprintf("../test/data/%s.json",testFile) 
     } else {
-      file <- paste("http://cloud.thetaris.com/shiny-data/alldata?sid=",sid,sep='') 
+      file <- paste("https://diegraueseite.de/shiny-data/alldata?sid=",sid,sep='') 
     }
   }
   print(file)
@@ -347,7 +347,7 @@ getCashItm<-function (dataObj = NULL, file = NULL){
   bewertung <- character()
   
   # read Taxonomy
-  taxTree = suppressWarnings(fromJSON(file="http://cloud.thetaris.com/shiny-data/taxonomy-tree"))
+  taxTree = suppressWarnings(fromJSON(file="https://diegraueseite.de/shiny-data/taxonomy-tree"))
   dat<-getTaxonomy(taxTree, recursive = TRUE)
   
   if (is.null(dataObj)){
@@ -408,7 +408,7 @@ getTaxonomy <- function(taxTree, recursive = FALSE){
   #
   # example:
   #
-  # > taxTree = fromJSON(file="http://cloud.thetaris.com/shiny-data/taxonomy-tree") 
+  # > taxTree = fromJSON(file="https://diegraueseite.de/shiny-data/taxonomy-tree") 
   # > dat<-getTaxonomy(taxTree, recursive = TRUE)
   #   
   # > dat[dat$type_id==305,]
