@@ -1,9 +1,10 @@
 require(rjson)
+require(RCurl)
 
 getELTYPE <- function() {
   ELTYPE <<- list()
   
-  taxTree <- suppressWarnings(fromJSON(file="https://diegraueseite.de/shiny-data/taxonomy-tree")) 
+  taxTree <- suppressWarnings(fromJSON(getURL("https://diegraueseite.de/shiny-data/taxonomy-tree", ssl.verifypeer=FALSE)))
   #taxTree <- suppressWarnings(fromJSON(file="../test/data/taxonomy.json")) 
   
   process <- function(subTree) {

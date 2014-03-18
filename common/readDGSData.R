@@ -1,7 +1,8 @@
+require(RCurl)
+
 source("../common/getELTYPE.R", encoding="UTF-8")
 source("../common/getELFIELD.R")
 source("../common//dateUtilEL.R")
-
 
 readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL){
   # return data.frame of requested fields from DGS server  
@@ -30,7 +31,7 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
     }
   }
   print(file)
-  data <- suppressWarnings(fromJSON(file=file))
+  data <- suppressWarnings(fromJSON(getURL(file, ssl.verifypeer=FALSE)))
   
   # fill non-existent fields with NULL  
   data2 <- lapply(data, function(j) { j[requestedFields] })
@@ -347,7 +348,7 @@ getCashItm<-function (dataObj = NULL, file = NULL){
   bewertung <- character()
   
   # read Taxonomy
-  taxTree = suppressWarnings(fromJSON(file="https://diegraueseite.de/shiny-data/taxonomy-tree"))
+  taxTree = suppressWarnings(fromJSON(getURL("https://diegraueseite.de/shiny-data/taxonomy-tree", ssl.verifypeer=FALSE)))
   dat<-getTaxonomy(taxTree, recursive = TRUE)
   
   if (is.null(dataObj)){
@@ -408,7 +409,7 @@ getTaxonomy <- function(taxTree, recursive = FALSE){
   #
   # example:
   #
-  # > taxTree = fromJSON(file="https://diegraueseite.de/shiny-data/taxonomy-tree") 
+  # > taxTree = fromJSON(getURL("https://diegraueseite.de/shiny-data/taxonomy-tree", ssl.verifypeer=FALSE))
   # > dat<-getTaxonomy(taxTree, recursive = TRUE)
   #   
   # > dat[dat$type_id==305,]
