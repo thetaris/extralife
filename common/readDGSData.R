@@ -4,6 +4,7 @@ source("../common/getELTYPE.R", encoding="UTF-8")
 source("../common/getELFIELD.R")
 source("../common//dateUtilEL.R")
 
+
 readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL){
   # return data.frame of requested fields from DGS server  
   # 
@@ -25,13 +26,13 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
     
     if ((length(session$clientData$url_search)>0) && (sid==session$clientData$url_search)){
       testFile <- sub('^.*test=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
-      file <- sprintf("../test/data/%s.json",testFile) 
+      data <- suppressWarnings(fromJSON(file = sprintf("../test/data/%s.json",testFile)))
     } else {
       file <- paste("https://diegraueseite.de/shiny-data/alldata?sid=",sid,sep='') 
+      data <- suppressWarnings(fromJSON(getURL(file, ssl.verifypeer=FALSE)))
     }
   }
   print(file)
-  data <- suppressWarnings(fromJSON(getURL(file, ssl.verifypeer=FALSE)))
   
   # fill non-existent fields with NULL  
   data2 <- lapply(data, function(j) { j[requestedFields] })
@@ -409,7 +410,7 @@ getTaxonomy <- function(taxTree, recursive = FALSE){
   #
   # example:
   #
-  # > taxTree = fromJSON(getURL("https://diegraueseite.de/shiny-data/taxonomy-tree", ssl.verifypeer=FALSE))
+  # > taxTree = fromJSON(getURL("https://diegraueseite.de/shiny-data/taxonomy-tree", ssl.verifypeer=FALSE)) 
   # > dat<-getTaxonomy(taxTree, recursive = TRUE)
   #   
   # > dat[dat$type_id==305,]
