@@ -5,11 +5,11 @@ source("../common/getELFIELD.R")
 source("../common//dateUtilEL.R")
 
 
-readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL){
+readDGSData <- function(requestedFields, session = NULL, file = NULL){
   # return data.frame of requested fields from DGS server  
   # 
   # deliver all available data:
-  # readDGSData(ELFIELD$._, sid = "abc") 
+  # readDGSData(ELFIELD$._, ... ) 
   #
   # deliver title
   # readDGSData(requestedFields=c('title'), file = "../test/data/test_simpson_Familie.json") 
@@ -20,15 +20,16 @@ readDGSData <- function(requestedFields, session = NULL, sid = NULL, file = NULL
       if (is.null(sid)){
         stop("Either 'session' or 'sid' has to be supplied as argument.")           
       }
-    } else {    
-      sid <- sub('^.*sid=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
+    } else {
+      sid <- sub('^.*sid=([^&]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
+      domain <- sub('^.*domain=([^&]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
     }   
     
     if ((length(session$clientData$url_search)>0) && (sid==session$clientData$url_search)){
       testFile <- sub('^.*test=([a-zA-Z_/0-9-]*).*$', '\\1', session$clientData$url_search, fixed=FALSE)
       data <- suppressWarnings(fromJSON(file = sprintf("../test/data/%s.json",testFile)))
     } else {
-      file <- paste("https://diegraueseite.de/shiny-data/alldata?sid=",sid,sep='') 
+      file <- paste(domain, "/shiny-data/alldata?sid=",sid,sep='') 
       data <- suppressWarnings(fromJSON(getURL(file, ssl.verifypeer=FALSE)))
     }
   }
