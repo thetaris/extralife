@@ -51,7 +51,7 @@ readDGSData <- function(requestedFields, session = NULL, file = NULL){
   return(result)
 }
 
-DGSData <- function(session = NULL, sid = NULL, file = NULL){
+DGSData <- function(session = NULL, file = NULL){
   # Creating a dataobject with methods for reading data
   #
   # example:
@@ -67,7 +67,7 @@ DGSData <- function(session = NULL, sid = NULL, file = NULL){
   resultObj <- new.env()
   
   # get all data from session
-  resultObj$.data <- readDGSData(ELFIELD$._, session = session, sid = sid, file = file)
+  resultObj$.data <- readDGSData(ELFIELD$._, session = session, file = file)
   
   # log used data: [node_id, title, field, value, estimatedFlag]
   resultObj$.dataLog <- data.frame(matrix(NA, nrow = 0, ncol = 7))
