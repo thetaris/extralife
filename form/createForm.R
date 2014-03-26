@@ -53,6 +53,7 @@ frequencyKey <- c('einmalig', 'woche','monat','quartal','halbjahr','jahr')
 frequencyName <- c('Einmalig', 'Woche','Monat','Quartal','Halbjahr','Jahr')
 
 form <- tags$div(
+simpleField('title','Name:'),
 simpleField('person.geburtsdatum','Geburtsdatum:','date'),
 selectField('person.geschlecht','Geschlecht',ELENUM$person.geschlecht),
 textareaField('adresse', 'Adresse:'),
