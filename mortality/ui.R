@@ -7,6 +7,8 @@ shinyUI(bootstrapPage(
   mainPanel(
     div(style="width:800px", tabsetPanel(
       tabPanel("Übersicht der Lebensphasen"
+               ,tags$button(type="button", style="float:right", class="graypage-open-datasave", "data-entry-task"="1498", "Personen hinzufügen")
+               ,tags$script(type="text/javascript", src="http://nuc-stefan/sites/all/modules/graypagegridster/actions.js")
                ,tags$h3("Wer ist wann in Ausbildung, Arbeit oder Ruhestand?")
                ,showOutput("life_phases", "nvd3")
                )
