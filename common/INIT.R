@@ -4,4 +4,4 @@ source("getELFIELD.R", encoding="UTF-8")
 source("getELENUM.R", encoding="UTF-8")
 source("utilEL.R", encoding="UTF-8")
 source("readDGSData.R", encoding="UTF-8")
- 
+source("elTags.R", encoding="UTF-8")

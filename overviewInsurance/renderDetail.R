@@ -1,7 +1,7 @@
 renderOverview <- function(versicherungen, besitz, familie, input)
 renderUI({
   renderSchaden <- function(logSum){
-    symbol = tags$img(src="/shiny/extralife/images/euro.png", width="25", border="0")
+    symbol = elTags$img(src="euro.png", width="25", border="0")
     space = tags$a(".")
     
     res = list();
@@ -18,14 +18,14 @@ renderUI({
   
   renderAbdeckung <- function(type){
     # type is 0 to 5 (best)
-    return(tags$img(src=sprintf("/shiny/extralife/images/Signal_%i.png",type), width="25"))
+    return(elTags$img(src=sprintf("Signal_%i.png",type), width="25"))
   }
   
   renderStatus <- function(type=0){
     if (type==0) {
-      return(tags$img(src="/shiny/extralife/images/Check_Icon_32.png"))
+      return(elTags$img(src="Check_Icon_32.png"))
     } else {
-      return(tags$img(src="/shiny/extralife/images/Warning_Icon_32.png"))
+      return(elTags$img(src="Warning_Icon_32.png"))
     }
   }
   versicherungen <- getEmpfehlungen(versicherungen, besitz, familie, input)
