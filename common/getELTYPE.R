@@ -30,7 +30,7 @@ getELTYPE <- function() {
          subIds <- process(taxItem$children)
          allIds <- c(allIds, subIds)
          groupName <- paste(taxName, '._', sep='')
-         ELTYPE[[groupName]] <<- subIds
+         ELTYPE[[groupName]] <<- c(taxId, subIds)
       }
     }
     return(allIds)
