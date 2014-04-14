@@ -1,9 +1,43 @@
-source('common/INIT.R', chdir=TRUE, encoding="UTF-8")
+#Balance App
+require(rjson, quietly=TRUE)
 
+json=fromJSON(file='stdin')
+#json=fromJSON('[{"node_id":"123","type_id":305,"title":"test"}]')
+
+result <- list(recom = list())
+recommend <- function(text, status=FALSE, node=NULL, term=NULL) {
+  recom <- list(text = text, 
+                status = is.null(node) && is.null(term),
+                about_node = node,
+                add_term = term)
+  result$recom <<- rbind(result$recom, list(recom))
+}
+
+types = as.numeric(sapply(json, function(iter) {iter$type_id }))
+getAll <- function(list) { json[types %in% c(list)] }
+hasAny <- function(list) { any(types %in% list) }
+
+# Recommendation 624: Hauptausgaben
+ref <- c(ELTYPE$Miete, 
+         ELTYPE$Hausgeld, 
+         ELTYPE$Kindertagesbetreuung,
+         ELTYPE$Hypothek)
+recommend("Bestimme Deine Hauptausgaben", hasAny(ref), term=ref)
+
+# Recommendation 625: Einkommensart
+recommend("Bestimme Deine Einkommensart", hasAny(ELTYPE$Einkommen._), term=(ELTYPE$Einkommen._))
+
+# Recommendation 897: Kaltmiete eintragen
+for (node in getAll(ELTYPE$Mietvertrag)) {
+  if (node$miete.betrag.kalt=="") {
+    recommend("Kaltmiete eintraget", node=node$node_id)
+  } 
+}
+
+# Data access
 fields <-list()
 
 relevantTypes <- c(ELTYPE$Mein.Besitz._, ELTYPE$Meine.Versicherungen._, ELTYPE$Meine.Vertraege._)
-
 
 # generate the following template
 #
@@ -43,8 +77,6 @@ fields[[ELFIELD$ratenkredit.restzahlung.betrag]] <- relevantTypes
 fields[[ELFIELD$kredit.zeitwert.betrag]] <- relevantTypes 
 fields[[ELFIELD$kredit.zeitwert.datum]] <- relevantTypes 
 
+result$dataaccess <- list(types = relevantTypes, fields = fields)
 
-data <- list(types = relevantTypes,
-             fields = fields)
-
-write(toJSON(data),'balance/dataaccess.json')
+cat(toJSON(result))

@@ -1,13 +1,13 @@
-# getInfo Welcome App
+# getInfo Mortality Report
 require(rjson, quietly=TRUE)
 
 json=fromJSON(file='stdin')
 #json=fromJSON('[{"node_id":"123","type_id":305,"title":"test"}]')
 
 result <- list(recom = list())
-recommend <- function(text, status, node=NULL, term=NULL) {
+recommend <- function(text, status=FALSE, node=NULL, term=NULL) {
   recom <- list(text = text, 
-                  status = is.null(node) && is.null(term),
+                  status = status,
                   about_node = node,
                   add_term = term)
   result$recom <<- rbind(result$recom, list(recom))
@@ -16,16 +16,7 @@ recommend <- function(text, status, node=NULL, term=NULL) {
 types = as.numeric(sapply(json, function(iter) {iter$type_id }))
 getAll <- function(list) { json[types %in% c(list)] }
 
-#Recommendations
-types = as.numeric(sapply(json, function(iter) {iter$type_id }))
-getAll <- function(list) { json[types %in% c(list)] }
-hasAny <- function(list) { any(types %in% list) }
-
-if (any(types==ELTYPE$Ich)) {
-  recommend("Eigene Person anlegen.")
-} else {
-  recommend("Eigene Person anlegen.", term=305)
-}
+recommend("Eigene Person anlegen.", any(types==ELTYPE$Ich), term=305)
 
 # Gueltiges Geburtsdatum
 for (node in getAll(ELTYPE$Meine.Familie._)) {
@@ -35,12 +26,20 @@ for (node in getAll(ELTYPE$Meine.Familie._)) {
   } 
 }
 
+
+# Data access
+dataaccess <- list()
+dataaccess$fields <- list()
+dataaccess$fields[[ELFIELD$person.geschlecht]] = ELTYPE$Ich
+dataaccess$fields[[ELFIELD$person.geburtsdatum]] = ELTYPE$Meine.Familie._
+
+dataaccess$types = ELTYPE$Meine.Familie._
+result$dataaccess <- dataaccess
+
+cat(toJSON(result))
 fields <-list()
 fields[[ELFIELD$person.geschlecht]] = ELTYPE$Ich
 fields[[ELFIELD$person.geburtsdatum]] = ELTYPE$Ich
 
-result$dataaccess <- list(types = c(ELTYPE$Meine.Familie, ELTYPE$Ich), fields = fields)
-
-
-
-cat(toJSON(result))
+data <- list(types = c(ELTYPE$Meine.Familie, ELTYPE$Ich),
+             fields = fields)
