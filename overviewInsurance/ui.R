@@ -13,7 +13,7 @@ shinyUI(basicPage(
      
   
   # Show a plot of the generated distribution
-  elTags$datasafe.float(task = "1631", text = "Versicherungn hinzufügen"),
+  elTags$datasafe.float(task = "overviewInsurance", text = "Versicherungn hinzufügen"),
   mainPanel(
     tags$table(
       list(tags$td(tags$h2("Versicherungsanalyse "))

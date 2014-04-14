@@ -6,7 +6,7 @@ shinyUI(bootstrapPage(
   
   mainPanel(
     div(style="width:800px"
-      , elTags$datasafe.float(task = "1628", text = "Personen hinzufügen")
+      , elTags$datasafe.float(task = "mortality", text = "Personen hinzufügen")
       , tabsetPanel(
       tabPanel("Übersicht der Lebensphasen"
                ,tags$h3("Wer ist wann in Ausbildung, Arbeit oder Ruhestand?")

@@ -5,7 +5,7 @@ shinyUI(bootstrapPage(
   # Show a plot of the generated distribution
   mainPanel(
     tags$div(style="width:800px",
-    elTags$datasafe.float(task="1716", text="Posten hinzufügen"),
+    elTags$datasafe.float(task="balance", text="Posten hinzufügen"),
     tabsetPanel(
       tabPanel("Übersicht",
                div(id="ovTop"),
