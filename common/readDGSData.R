@@ -32,7 +32,10 @@ readDGSData <- function(requestedFields, session = NULL, file = NULL){
       file <- paste(domain, "/shiny-data/alldata?sid=",sid,sep='') 
       data <- suppressWarnings(fromJSON(getURL(file, ssl.verifypeer=FALSE)))
     }
+  }else{
+    data <- suppressWarnings(fromJSON(file = file))
   }
+  
   print(file)
   
   # fill non-existent fields with NULL  

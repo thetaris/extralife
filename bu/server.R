@@ -19,7 +19,7 @@ shinyServer(function(input, output, session) {
   
   # get data from JSON service
   dataObj = isolate(DGSData(session=session))
-  #dataObj = isolate(DGSData(file="../test/testdata2.json"))
+  #dataObj = isolate(DGSData(file="../test/data/test_simpson.json"))
 
   Geburtsdatum <- as.Date(dataObj$get(requestedField=ELFIELD$person.geburtsdatum, type=ELTYPE$Ich))
   gender <- dataObj$get(requestedField=ELFIELD$person.geschlecht, type=ELTYPE$Ich)
@@ -77,7 +77,7 @@ shinyServer(function(input, output, session) {
     }else{
       selectedGender <- "f"  
     }    
-    
+        
     disabilityID <-data.frame(age = selectedAge, gender= selectedGender, profession_group=selectedProf)          
     p <- plotDisability_rCharts(disabilityID[1,])
    # p$addParams(dom = 'risk')

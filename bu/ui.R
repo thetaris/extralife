@@ -13,7 +13,7 @@ shinyUI(basicPage(
   
   
   # Show a plot of the generated distribution
-  elTags$datasafe.float(task="1717"),
+  elTags$datasafe.float(text="Daten ändern", task="1717"),
   mainPanel(
     tags$table(
       list(tags$td(tags$h2("Risiko Invalidität"))
