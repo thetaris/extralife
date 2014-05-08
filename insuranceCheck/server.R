@@ -31,12 +31,12 @@ shinyServer(function(input, output, session) {
   besitz <- getBesitz(dataObj)
   familie <- getFamilie(dataObj)
   recom <- getEmpfehlungen(versicherungen, besitz, familie, list("variable"="wenig"))
-   
+  
   
   output$main_plot <- renderTable({
     
     table.title <-  sapply(recom, function(rec) {paste0("<div class = 'secondcolumn'>", HTML(rec$titel), "</div>") })
-   
+    
     exposure <- sapply(recom, function(rec) {as.numeric(rec$schaden)})
     m <- sapply(exposure, formatDigits)
     
@@ -49,7 +49,7 @@ shinyServer(function(input, output, session) {
                        "MÖGLICHER SCHADEN" = m,               
                        
                        STATUS = table.status               
-                       )
+    )
   }, sanitize.text.function = function(x) x, include.rownames=FALSE)
   
   
@@ -60,7 +60,7 @@ shinyServer(function(input, output, session) {
   renderMyempfehlungText <- function(no){
     renderUI({recom[[no]]$empfehlung})
   }
-
+  
   output$mytable_privatehaftpflicht <- renderMyDataTable(1)
   output$mytable_krankheit <- renderMyDataTable(2)
   output$mytable_invaliditaet <- renderMyDataTable(3)

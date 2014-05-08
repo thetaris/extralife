@@ -80,10 +80,10 @@ div.warning
   background-color: gray;
 }
 .personalWarning_ok .warningpic{
-  background-color: #006400;
+  background-color: #538d06;
 }
 .personalWarning_ok .warningtext{
-  background-color: green;
+  background-color: #67ae07;
 }
 
 .personalWarning_überversichert .warningpic,
@@ -126,4 +126,8 @@ div.warning
    font-size: 200%;
    color: white;
    line-height: 100%;
+}
+
+.empfehlung{
+  padding: 10px 0 0 5px;
 }
