@@ -31,7 +31,6 @@ shinyUI(bootstrapPage(
     tags$link(rel="stylesheet", type="text/css", href="details.css"),
     tags$script(src = "action.js", type = "text/javascript"),
     tags$script(src="/sites/all/modules/graypagegridster/actions.js",type="text/javascript")
-    #tags$script(src="datasafe.js",type="text/javascript")
   ),
   
   tags$div(class="header", list("VERSICHERUNGS", tags$b("ANALYSE"))),

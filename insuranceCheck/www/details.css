@@ -17,6 +17,10 @@
   border-width: 0 10px 10px 10px;
 }
 
+.appendix .tab-content .tab-pane{
+  height: 15vh;
+}
+
 .personal{
   display: flex;
   width: 100%;
@@ -142,4 +146,10 @@ div.warning
 .empfehlung,
 .weiteinfo{
   padding: 10px 0 0 5px;
+}
+
+.nodata{
+   text-align: center; 
+   font-size: 200%;
+   padding: 50px 0 0 0;
 }

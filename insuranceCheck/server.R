@@ -53,7 +53,12 @@ shinyServer(function(input, output, session) {
   
   
   renderMyDataTable <- function(no) {
-    renderTable({ recom[[no]]$vertraegeTabelle }, sanitize.text.function = function(x) x, include.rownames=FALSE)
+    if(nrow(recom[[no]]$vertraegeTabelle ) != 0 ){
+      renderTable({ recom[[no]]$vertraegeTabelle }, sanitize.text.function = function(x) x, include.rownames=FALSE)
+    }
+   else{
+     renderUI({HTML("<div class='nodata'> KEINE </div>")})
+   }
   }
   
   renderMyempfehlungText <- function(no){
