@@ -62,7 +62,7 @@ html, body{
    text-align: center; 
 }
 
-button#changedataButton{  
+.recom button.graypage-open-datasave{  
   background-image: url('changedata-button.png') ;
   background-repeat:no-repeat;
   background-position: center;  
@@ -85,25 +85,25 @@ button#changedataButton{
   color : #17CFE6;
 }
 
-.überversichert {
+.red {
   background: url('ueberversichert.png') no-repeat;
   padding: 5px 0 0px 30px;
   margin:  9px 0 0px 10px;
 }
 
-.keine{
-  background: url('keineabsicherung.png') no-repeat;
+.yellow{
+  background: url('yellow.png') no-repeat;
   padding: 5px 0 0px 30px;
   margin:  9px 0 0px 10px;
 }
 
-.zuteuer{
-  background: url('zuteuer.png') no-repeat;
+.grey{
+  background: url('grey.png') no-repeat;
   padding: 5px 0 0px 30px;
   margin:  9px 0 0px 10px;
 }
 
-.ok{
+.green{
   background: url('ok.png') no-repeat;
   padding: 5px 0 0px 30px;
   margin:  9px 0 0px 10px;

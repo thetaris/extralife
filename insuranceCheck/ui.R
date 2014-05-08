@@ -5,7 +5,8 @@ detailTab <- function(type) {
         class = "personal", 
         
         div(class = "personalRecom",  div(class="changedata"), 
-            div(class = "personalreright",  actionButton("addinsurancebutton", label = "VERSICHERUNG HINZUFÜGEN"    ))
+            div(class = "personalreright",   tags$button(class="graypage-open-datasave", "data-entry-task"="insuranceCheck","VERSICHERUNG HINZUFÜGEN") #actionButton("addinsurancebutton", label = "VERSICHERUNG HINZUFÜGEN"    )
+                )
         ),
         
         div(class="warning", htmlOutput(sprintf("warning_%s",type)))
@@ -16,7 +17,7 @@ detailTab <- function(type) {
           tabsetPanel(
             tabPanel("EMPFEHLUNG", div(class="empfehlung", uiOutput(sprintf("RecomText_%s",type)))),
             tabPanel(
-              "WEITERFÜHRENDE INFORMATIONEN"
+              "WEITERFÜHRENDE INFORMATIONEN", div(class="weiteinfo", uiOutput(sprintf("weiteinfoText_%s",type)))
             )
           )
       )
@@ -28,22 +29,22 @@ shinyUI(bootstrapPage(
   tags$head(
     tags$link(rel="stylesheet", type="text/css", href="overview.css"),
     tags$link(rel="stylesheet", type="text/css", href="details.css"),
-    tags$script(src = "action.js", type = "text/javascript")
+    tags$script(src = "action.js", type = "text/javascript"),
+    tags$script(src="/sites/all/modules/graypagegridster/actions.js",type="text/javascript")
+    #tags$script(src="datasafe.js",type="text/javascript")
   ),
   
   tags$div(class="header", list("VERSICHERUNGS", tags$b("ANALYSE"))),
  
   
   
-  tabsetPanel(
-     
-        
+  tabsetPanel(      
         tabPanel(div(class="alloverviewtabs",'ÜBERSICHT'),
                  div(class = "overview", 
                      tableOutput("main_plot"),          
                      #TODO: recomtext needs to get from another code
                      div(class = "recom",  div(class = "recomPart", div(class ="recomHeadline", "DEINE RISIKOPRÄFERENZ: "), div(class ="recomText", "ICH MÖCHTE MÖGLICHST VIEL ABSICHERN")),                    
-                         div(class="changedata", actionButton("changedataButton", label = "DATEN ÄNDERN"))
+                         div(class="changedata", tags$button(class="graypage-open-datasave", "data-entry-task"="insuranceCheck","DATEN ÄNDERN"))
                      )                
                  )             
         ),
@@ -55,11 +56,6 @@ shinyUI(bootstrapPage(
         tabPanel("SCHADEN AM AUTO", detailTab("schadenamauto")),
         tabPanel("KFZ HAFTPFLICHT", detailTab("kfz")), 
         tabPanel("SCHADEN AM EIGENTUM", detailTab("schadenameigentum")),
-        tabPanel("RECHTSSTREIT", detailTab("rechtsstreit")) 
-        
-     
-    
+        tabPanel("RECHTSSTREIT", detailTab("rechtsstreit"))    
   )
-  #)
-  
 ))

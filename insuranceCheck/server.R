@@ -3,7 +3,6 @@ library(rCharts)
 source("../common/INIT.R", chdir=T, encoding="UTF-8")
 
 source("computations.R", encoding="UTF-8")
-source("renderDetail.R", encoding="UTF-8")
 
 formatDigits <- function(t) {
   html <- ""
@@ -41,7 +40,7 @@ shinyServer(function(input, output, session) {
     m <- sapply(exposure, formatDigits)
     
     table.status <- sapply(recom, function(rec) {   
-      HTML(paste0(paste0("<div class=", enc2utf8(rec$absicherung), ">"), rec$absicherung, "</div>") )     
+      HTML(paste0(paste0("<div class=", rec$status, ">"), rec$absicherung, "</div>") )     
     })
     
     mydf <- data.frame(RISIKO = table.title,                      
@@ -61,6 +60,9 @@ shinyServer(function(input, output, session) {
     renderUI({recom[[no]]$empfehlung})
   }
   
+  renderMyweiteinfoText<- function(no){
+    renderUI({recom[[no]]$infoHTML})
+  } 
   output$mytable_privatehaftpflicht <- renderMyDataTable(1)
   output$mytable_krankheit <- renderMyDataTable(2)
   output$mytable_invaliditaet <- renderMyDataTable(3)
@@ -79,43 +81,52 @@ shinyServer(function(input, output, session) {
   output$RecomText_schadenameigentum <- renderMyempfehlungText(7)
   output$RecomText_rechtsstreit <- renderMyempfehlungText(8)
   
+  output$weiteinfoText_privatehaftpflicht <- renderMyweiteinfoText(1)
+  output$weiteinfoText_krankheit <- renderMyweiteinfoText(2)
+  output$weiteinfoText_invaliditaet <- renderMyweiteinfoText(3)
+  output$weiteinfoText_tod <- renderMyweiteinfoText(4)
+  output$weiteinfoText_schadenamauto <- renderMyweiteinfoText(5)
+  output$weiteinfoText_kfz <- renderMyweiteinfoText(6)
+  output$weiteinfoText_schadenameigentum <- renderMyweiteinfoText(7)
+  output$weiteinfoText_rechtsstreit <- renderMyweiteinfoText(8)
+  
   output$warning_privatehaftpflicht <- renderUI({
-    div(class =paste0("personalWarning_", recom[[1]]$absicherung), div(class = "warningpic"),
+    div(class =paste0("personalWarning_", recom[[1]]$status), div(class = "warningpic"),
         div(class = "warningtext", div(class ="recomHeadline","ABSICHERUNG:"), div(class ="recomText",  recom[[1]]$absicherung ))
     )
   })
   output$warning_krankheit <- renderUI({
-    div(class =paste0("personalWarning_", recom[[2]]$absicherung), div(class = "warningpic"),
+    div(class =paste0("personalWarning_", recom[[2]]$status), div(class = "warningpic"),
         div(class = "warningtext", div(class ="recomHeadline","ABSICHERUNG:"), div(class ="recomText",  recom[[2]]$absicherung ))
     )
   })
   output$warning_invaliditaet <- renderUI({
-    div(class =paste0("personalWarning_", recom[[3]]$absicherung), div(class = "warningpic"),
+    div(class =paste0("personalWarning_", recom[[3]]$status), div(class = "warningpic"),
         div(class = "warningtext", div(class ="recomHeadline","ABSICHERUNG:"), div(class ="recomText",  recom[[3]]$absicherung ))
     )
   })
   output$warning_tod<- renderUI({
-    div(class =paste0("personalWarning_", recom[[4]]$absicherung), div(class = "warningpic"),
+    div(class =paste0("personalWarning_", recom[[4]]$status), div(class = "warningpic"),
         div(class = "warningtext", div(class ="recomHeadline","ABSICHERUNG:"), div(class ="recomText",  recom[[4]]$absicherung ))
     )
   })
   output$warning_schadenamauto <- renderUI({
-    div(class =paste0("personalWarning_", recom[[5]]$absicherung), div(class = "warningpic"),
+    div(class =paste0("personalWarning_", recom[[5]]$status), div(class = "warningpic"),
         div(class = "warningtext", div(class ="recomHeadline","ABSICHERUNG:"), div(class ="recomText",  recom[[5]]$absicherung ))
     )
   })
   output$warning_kfz <- renderUI({
-    div(class =paste0("personalWarning_", recom[[6]]$absicherung), div(class = "warningpic"),
+    div(class =paste0("personalWarning_", recom[[6]]$status), div(class = "warningpic"),
         div(class = "warningtext", div(class ="recomHeadline","ABSICHERUNG:"), div(class ="recomText",  recom[[6]]$absicherung ))
     )
   })
   output$warning_schadenameigentum <- renderUI({
-    div(class =paste0("personalWarning_", recom[[7]]$absicherung), div(class = "warningpic"),
+    div(class =paste0("personalWarning_", recom[[7]]$status), div(class = "warningpic"),
         div(class = "warningtext", div(class ="recomHeadline","ABSICHERUNG:"), div(class ="recomText",   recom[[7]]$absicherung))
     )
   })
   output$warning_rechtsstreit <- renderUI({
-    div(class =paste0("personalWarning_", recom[[8]]$absicherung), div(class = "warningpic"),
+    div(class =paste0("personalWarning_", recom[[8]]$status), div(class = "warningpic"),
         div(class = "warningtext", div(class ="recomHeadline","ABSICHERUNG:"), div(class ="recomText",  recom[[8]]$absicherung))
     )
   })
