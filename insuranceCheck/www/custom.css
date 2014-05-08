@@ -1,0 +1,139 @@
+html, body{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+.tabbable{
+  display:flex;
+  flex-grow:1;
+  flex-direction:column;
+}
+
+.tab-content{
+  display:flex;
+  flex-grow:1;
+  flex-direction:column;
+}
+
+.tab-pane.active{
+  display:flex;
+  flex-grow:1;
+  flex-direction:column;
+}
+
+.overview{
+  display: flex;
+  flex-grow:1;
+  flex-direction:row;
+  align-content:stretch;
+}
+
+.overview2{
+  display: flex;
+  flex-grow:1;
+  flex-direction: column;
+  align-content: stretch;
+}
+
+.recom {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  width : 30vw;
+  border-style:solid;
+  border-color:#ccc;
+  border-width: 10px 10px 10px 0px;
+}
+
+.recom .recomPart,
+.recom .changedata,
+.personalRecom .changedata {
+  background-color:#17CFE6;
+  flex-grow: 1;
+}
+
+.recom .changedata,
+.personalRecom .changedata {
+   background-color: #12c0dd;
+   background-image: url('changedata.png') ;
+   background-repeat:no-repeat;
+   background-position: center;
+   text-align: center; 
+}
+
+button#changedataButton{  
+  background-image: url('changedata-button.png') ;
+  background-repeat:no-repeat;
+  background-position: center;  
+  margin: 180px 0 0 0;
+  width: 245px;
+  height: 43px;
+  
+}
+
+.header {
+  font-size: 30px;
+  background: url('analysis-logo.png') no-repeat, url(DIE_GRAUE_SEITE_0.PNG) no-repeat;
+  background-position: 0 0, right;
+  height : 60px;
+  padding: 35px 0 0 70px; 
+  margin:  5px 0 0 20px; 
+}
+
+.header b {
+  color : #17CFE6;
+}
+
+.überversichert {
+  background: url('ueberversichert.png') no-repeat;
+  padding: 5px 0 0px 30px;
+  margin:  9px 0 0px 10px;
+}
+
+.keine{
+  background: url('keineabsicherung.png') no-repeat;
+  padding: 5px 0 0px 30px;
+  margin:  9px 0 0px 10px;
+}
+
+.zuteuer{
+  background: url('zuteuer.png') no-repeat;
+  padding: 5px 0 0px 30px;
+  margin:  9px 0 0px 10px;
+}
+
+.ok{
+  background: url('ok.png') no-repeat;
+  padding: 5px 0 0px 30px;
+  margin:  9px 0 0px 10px;
+}
+
+#main_plot{
+  width: 70vw;
+  overflow: auto; 
+}
+
+#main_plot table {
+  width: 100%;
+}
+
+#main_plot table tr td .thirdcolumn{
+  text-align: right;
+  margin:  9px 0 0px 3px;
+}
+
+#main_plot table tr td .secondcolumn{
+  text-align: left;
+  margin:  9px 0 11px 0px;
+}
+
+/*.tabbable .nav-tabs .active .tabhead*/
+
+.nav-tabs>li>a{
+  font-size: 75%;
+  padding: 0 6px 0 5px;
+}
+.nav{
+  margin-bottom: 0;
+}

@@ -1,0 +1,129 @@
+#main_plot,
+.mytable_all
+{  
+  border: 10px solid #ccc;
+  flex-grow: 1;
+}
+
+.mytable_all table
+{ 
+  width: 100%;
+}
+
+.appendix{
+  flex-grow: 1;
+  border-style:solid;
+  border-color:#ccc;
+  border-width: 0 10px 10px 10px;
+}
+
+.personal{
+  display: flex;
+  width: 100%;
+}
+
+.personalRecom{
+  display : flex;
+  background-color:#17CFE6;
+  width: 50vw;
+  height : 20vh;
+  border-style:solid;
+  border-color:#ccc;
+  border-width: 0 10px 10px 10px;
+}
+
+.personalRecom div {
+  width: 100%;
+}
+
+.personalRecom div.changedata {
+  width: 40%;
+}
+
+.personalRecom div.personalreright{
+  text-align: center; 
+}
+
+button#addinsurancebutton{  
+  background-image: url('addinsurance-button.png') ;
+  background-repeat: no-repeat;
+  background-position: center;  
+  margin: 40px 0 0 0;
+  width: 245px;
+  height: 53px;
+  padding: 0 0 0 40px;
+}
+
+div.warning
+{
+  width: 50vw;
+  border-style:solid;
+  border-color:#ccc;
+  border-width: 0 10px 10px 0px;
+}
+.personalWarning_überversichert,
+.personalWarning_keine,
+.personalWarning_ok
+{
+  display: flex
+}
+.personalWarning_überversichert .warningpic{
+  background-color: #da0e15;
+}
+.personalWarning_überversichert .warningtext{
+  background-color: red;
+}
+.personalWarning_keine .warningpic{
+  background-color: #A9A9A9;
+}
+.personalWarning_keine .warningtext{
+  background-color: gray;
+}
+.personalWarning_ok .warningpic{
+  background-color: #006400;
+}
+.personalWarning_ok .warningtext{
+  background-color: green;
+}
+
+.personalWarning_überversichert .warningpic,
+.personalWarning_keine .warningpic
+{ 
+  background-image: url('ueberversichert1.png');
+  background-repeat:no-repeat;
+  background-position: center;  
+  width: 15vw;
+  height: 20vh;
+}
+.personalWarning_ok .warningpic{
+  background-image: url('ok-large.png');
+  background-repeat:no-repeat;
+  background-position: center;  
+  width: 15vw;
+  height: 20vh;
+}
+
+.personalWarning_überversichert .warningtext,
+.personalWarning_keine .warningtext,
+.personalWarning_ok .warningtext
+{
+  padding: 0px 0px 0px 0px;
+  width:35vw;
+  line-height: 100%;
+}
+
+.recom .recomPart .recomHeadline,
+.personal .warningtext .recomHeadline
+{
+  color: white;
+  font-weight: 900;
+  padding: 30px 0px 0px 30px;
+}
+.recom .recomPart .recomText,
+.personal .warningtext .recomText
+{
+   padding: 20px 0px 0px 30px;
+   font-size: 200%;
+   color: white;
+   line-height: 100%;
+}
