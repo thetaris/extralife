@@ -42,7 +42,7 @@ html, body{
   align-content: stretch;
   width : 30vw;
   border-style:solid;
-  border-color:#ccc;
+  border-color:#e2e8ea;
   border-width: 10px 10px 10px 0px;
 }
 
@@ -75,7 +75,7 @@ html, body{
 .header {
   font-size: 30px;
   background: url('analysis-logo.png') no-repeat, url(DIE_GRAUE_SEITE_0.PNG) no-repeat;
-  background-position: 0 0, right;
+  background-position: 0 13px, right;
   height : 60px;
   padding: 35px 0 0 70px; 
   margin:  5px 0 0 20px; 
@@ -125,7 +125,7 @@ html, body{
 
 #main_plot table tr td .secondcolumn{
   text-align: left;
-  margin:  9px 0 11px 0px;
+  margin:  9px 0 9px 0px;
 }
 
 #main_plot tr:hover {
@@ -135,9 +135,22 @@ html, body{
 /*.tabbable .nav-tabs .active .tabhead*/
 
 .nav-tabs>li>a{
-  font-size: 75%;
+  font-size: 89%;
   padding: 0 6px 0 5px;
+  line-height: 45px;
+  color: black;
 }
 .nav{
   margin-bottom: 0;
+}
+.nav-tabs>.active>a{
+  background-color : #788288;
+}
+
+.nav-tabs>li.active>a{
+  color: white;
+}
+.nav-tabs>.active>a:hover{
+  color: white;
+  background-color : #788288;
 }

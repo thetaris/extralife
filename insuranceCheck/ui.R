@@ -48,11 +48,11 @@ shinyUI(bootstrapPage(
                  )             
         ),
         
-        tabPanel('PRIVATE HAFTPFLICHT', detailTab("privatehaftpflicht")),   
+        tabPanel('HAFTPFLICHT', detailTab("privatehaftpflicht")),   
         tabPanel('KRANKHEIT', detailTab("krankheit")),   
         tabPanel("INVALIDITÄT", detailTab("invaliditaet")), 
         tabPanel("TOD", detailTab("tod")),
-        tabPanel("SCHADEN AM AUTO", detailTab("schadenamauto")),
+        tabPanel("KFZ SCHADEN", detailTab("schadenamauto")),
         tabPanel("KFZ HAFTPFLICHT", detailTab("kfz")), 
         tabPanel("SCHADEN AM EIGENTUM", detailTab("schadenameigentum")),
         tabPanel("RECHTSSTREIT", detailTab("rechtsstreit"))    

@@ -1,7 +1,7 @@
 #main_plot,
 .mytable_all
 {  
-  border: 10px solid #ccc;
+  border: 10px solid #e2e8ea;
   flex-grow: 1;
 }
 
@@ -13,7 +13,7 @@
 .appendix{
   flex-grow: 1;
   border-style:solid;
-  border-color:#ccc;
+  border-color:#e2e8ea;
   border-width: 0 10px 10px 10px;
 }
 
@@ -32,7 +32,7 @@
   width: 50vw;
   height : 20vh;
   border-style:solid;
-  border-color:#ccc;
+  border-color:#e2e8ea;
   border-width: 0 10px 10px 10px;
 }
 
@@ -62,7 +62,7 @@ div.warning
 {
   width: 50vw;
   border-style:solid;
-  border-color:#ccc;
+  border-color:#e2e8ea;
   border-width: 0 10px 10px 0px;
 }
 .personalWarning_yellow,
