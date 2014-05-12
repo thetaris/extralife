@@ -1,4 +1,4 @@
-detailTab <- function(type) {
+detailTab <- function(type, recom_no) {
   div(class ="overview2", 
       div(class="mytable_all", tableOutput(sprintf("mytable_%s",type))),
       div(
@@ -48,13 +48,13 @@ shinyUI(bootstrapPage(
                  )             
         ),
         
-        tabPanel('HAFTPFLICHT', detailTab("privatehaftpflicht")),   
-        tabPanel('KRANKHEIT', detailTab("krankheit")),   
-        tabPanel("INVALIDITÄT", detailTab("invaliditaet")), 
-        tabPanel("TOD", detailTab("tod")),
-        tabPanel("KFZ SCHADEN", detailTab("schadenamauto")),
-        tabPanel("KFZ HAFTPFLICHT", detailTab("kfz")), 
-        tabPanel("SCHADEN AM EIGENTUM", detailTab("schadenameigentum")),
-        tabPanel("RECHTSSTREIT", detailTab("rechtsstreit"))    
+        tabPanel('HAFTPFLICHT', detailTab("privatehaftpflicht", 1)),   
+        tabPanel('KRANKHEIT', detailTab("krankheit", 2)),   
+        tabPanel("INVALIDITÄT", detailTab("invaliditaet", 3)), 
+        tabPanel("TOD", detailTab("tod", 4)),
+        tabPanel("KFZ SCHADEN", detailTab("schadenamauto", 5)),
+        tabPanel("KFZ HAFTPFLICHT", detailTab("kfz", 6)), 
+        tabPanel("SCHADEN AM EIGENTUM", detailTab("schadenameigentum", 7)),
+        tabPanel("RECHTSSTREIT", detailTab("rechtsstreit", 8))    
   )
 ))
