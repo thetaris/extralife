@@ -59,7 +59,7 @@ getFamilie <- function(dataObj){
 getEmpfehlungen <- function(versicherungen, besitz, familie, input){
   # test for empty data and display message if empty using simpson test data
   
-  if (length(familie)==0) {
+  if (length(which(familie$rel==ELTYPE$Ich))==0) {
     dataObj = isolate(DGSData(file = "../test/data/test_simpson.json"))
     versicherungen <- getVersicherungen(dataObj)
     besitz <- getBesitz(dataObj)
