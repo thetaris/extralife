@@ -29,7 +29,7 @@ shinyServer(function(input, output, session) {
   versicherungen <- getVersicherungen(dataObj)
   besitz <- getBesitz(dataObj)
   familie <- getFamilie(dataObj)
-  recom <- getEmpfehlungen(versicherungen, besitz, familie, list("variable"="wenig"))
+  recom <- getEmpfehlungen(versicherungen, besitz, familie, list("variable"="wenig"))  
   
   
   output$main_plot <- renderTable({

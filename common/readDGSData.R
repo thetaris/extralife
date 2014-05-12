@@ -48,10 +48,14 @@ readDGSData <- function(requestedFields, session = NULL, file = NULL){
   #newColnames <- gsub("_", "", requestedFields)
   newColnames <- requestedFields
   
-  # reset the names of the headers  
-  colnames(result) <- newColnames
+  if (length(result)>0){
+    # reset the names of the headers  
+    colnames(result) <- newColnames  
+    return(result)
+  } else{
+    return(NULL)    
+  }
   
-  return(result)
 }
 
 DGSData <- function(session = NULL, file = NULL){
@@ -266,6 +270,11 @@ DGSData <- function(session = NULL, file = NULL){
       
       return(result)
     }
+    
+    if (is.null(.data)){
+      return(NULL)
+    }
+    
     sel = NULL
     # check inputs    
     if (!is.null(type)){

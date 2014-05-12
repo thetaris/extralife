@@ -25,9 +25,9 @@ shinyUI(bootstrapPage(
                ,uiOutput("dataNames")
                 ,showOutput("mortality", "nvd3")                  
               )
-      ,tabPanel("Verwendete Daten"
-                ,dataTableOutput("dataUsed")
-              )
+   #   ,tabPanel("Verwendete Daten"
+  #              ,dataTableOutput("dataUsed")
+  #            )
     )
     , addBugMuncher()
     )
