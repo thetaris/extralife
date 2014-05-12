@@ -18,9 +18,15 @@ shinyServer(function(input, output, session) {
   # only once per session          #
   ##################################
   dataObj = isolate(DGSData(session=session))
-  #dataObj = isolate(DGSData(file="../test/data/test_simpson.json"))
+  #dataObj = isolate(DGSData(file="../test/data/test_simpson.json"))  
   
-  data = prepareDataFamily(dataObj)
+  data = tryCatch( prepareDataFamily(dataObj)
+                   , error = function(e){
+                     dataObj = isolate(DGSData(file = "../test/data/test_simpson.json")) 
+                     family = prepareDataFamily(dataObj)                     
+                     return(family)
+                   }
+                  )
   
   PopulationForecastDE<<-prepareDataDemography()
   
@@ -56,11 +62,5 @@ shinyServer(function(input, output, session) {
     return(n1)
     
   })
-  
-  output$dataUsed = renderDataTable({
-    log <- dataObj$getLog()
-    log <- log[order(log$node_id),c("title","field","value", "estimatedFlag")]
-    return(log)
-  }, options = list(aLengthMenu = c(5, 50, 250), iDisplayLength = 50))
-  
+    
 })

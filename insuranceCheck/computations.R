@@ -57,6 +57,26 @@ getFamilie <- function(dataObj){
 }
 
 getEmpfehlungen <- function(versicherungen, besitz, familie, input){
+  # test for empty data and display message if empty using simpson test data
+  
+  if (length(familie)==0) {
+    dataObj = isolate(DGSData(file = "../test/data/test_simpson.json"))
+    versicherungen <- getVersicherungen(dataObj)
+    besitz <- getBesitz(dataObj)
+    familie <- getFamilie(dataObj)
+    
+    recom <- getEmpfehlungen(versicherungen, besitz, familie, list("variable"="wenig"))  
+    
+    for (iter in names(recom)){
+      recom[[iter]]$absicherung <- "Gibt bitte Deine Daten ein."
+      recom[[iter]]$abdeckung <- 0
+      recom[[iter]]$empfehlung <-  "Gibt bitte Deine Daten ein."
+      recom[[iter]]$status <- "red"
+      #recom$haftpflicht$schaden <- 8
+    }
+    return(recom)
+  }
+  
   
   # API for HTML renderer requires status strings
   StatusColors = list(grau="grey", gelb="yellow", gruen="green", rot="red")
