@@ -6,6 +6,7 @@ getELFIELD <- function(){
       "title",
       "person.geschlecht",
       "person.geburtsdatum",
+      "ich.risiko.praeferenz",
       "adresse", 
       "Kauf.datum",
       "Kauf.wert",
