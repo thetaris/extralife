@@ -7,7 +7,7 @@ json=fromJSON(file='stdin')
 result <- list(recom = list())
 recommend <- function(text, status=FALSE, node=NULL, term=NULL) {
   recom <- list(text = text, 
-                status = is.null(node) && is.null(term),
+                status = status,
                 about_node = node,
                 add_term = term)
   result$recom <<- rbind(result$recom, list(recom))
@@ -27,7 +27,7 @@ if (length(docs)==0) {
   if (is.null(pref) || pref=="") {
     recommend("Risikopräferenz angeben", node=docs[[1]]$node_id)
   } else {
-    recommend("Risikopräferenz ist angegeben", node=docs[[1]]$node_id)
+    recommend("Risikopräferenz ist angegeben", status=TRUE, node=docs[[1]]$node_id)
   }
 }
 
