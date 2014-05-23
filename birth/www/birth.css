@@ -1,0 +1,82 @@
+.birthapp{
+  background-color: #e5ecee;
+}
+
+.header {
+  font-size: 15px;
+  background: url('geburt.png') no-repeat;
+  background-position: 0 13px, right;
+  height : 40px;
+  padding: 32px 0 0 70px; 
+  margin:  5px 0 0 20px; 
+  
+  /*border-style:solid;
+  border-color:#8b8c8c;;
+  border-width: 0 0px 5px 0px;*/
+}
+
+hr {
+  
+  width: 90%;
+  background-color:#8b8c8c;
+  color : #8b8c8c;
+  height: 2px;
+   margin:-0.95em 0px 0 87px;
+}
+.headerline {
+  font-size: 19px;
+  background: url('man.png') no-repeat;
+  height: 120px;
+  background-position: 120px 13px;
+  margin:  0px 0px 0px 125px;
+  padding: 44px 29px 0px 210px; 
+  color: #8b8c8c;
+}
+
+.overview{
+  display: flex;
+  width: 100%;
+  flex-grow:1;
+  flex-direction:row;
+  align-content:stretch;
+   background-color:#17CFE6;
+}
+
+button.graypage-open-datasave{  
+ background-image: url('changedata-button.png') ;
+  background-repeat:no-repeat;
+  background-position: center;  
+  margin: 130px 0 0 0;
+  width: 210px;
+  height: 43px;
+  
+}
+
+.changedata {
+   background-color: #12c0dd;
+   background-image: url('changedata.png') ;
+   background-repeat:no-repeat;
+   background-position: center;
+   text-align: center; 
+   color: white;
+   font-size: 19px;
+   width : 25vw;;
+   margin: 0px 0px 0px 0px;
+   height: 240px;
+   padding: 85px 0px 0px 0px;
+   
+}
+
+.category .mutter,
+.category .vater,
+.category .kind{
+  background: url('familie.png') no-repeat ;
+  background-position: 12px 0px, right;
+  height : 40px;
+  background-color: #e5ecee;
+  padding: 11px 125px 0 90px; 
+  margin:  43px 0 0 50px; 
+  font-size: 20px;
+  color: #8b8c8c;
+}
+
