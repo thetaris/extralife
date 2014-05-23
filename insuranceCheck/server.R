@@ -66,6 +66,9 @@ shinyServer(function(input, output, session) {
   renderMyweiteinfoText<- function(no){
     renderUI({recom[[no]]$infoHTML})
   } 
+  
+  output$risikpreference <- renderUI({"ICH MÖCHTE MÖGLICHST VIEL ABSICHERN"})
+  
   output$mytable_privatehaftpflicht <- renderMyDataTable(1)
   output$mytable_krankheit <- renderMyDataTable(2)
   output$mytable_invaliditaet <- renderMyDataTable(3)

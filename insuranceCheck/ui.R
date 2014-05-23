@@ -43,7 +43,7 @@ shinyUI(bootstrapPage(
                  div(class = "overview", 
                      tableOutput("main_plot"),                        
                      #TODO: recomtext needs to move to the server part and get the content from the recom objetc
-                     div(class = "recom",  div(class = "recomPart", div(class ="recomHeadline", "DEINE RISIKOPRÄFERENZ: "), div(class ="recomText", "ICH MÖCHTE MÖGLICHST VIEL ABSICHERN")),                    
+                     div(class = "recom",  div(class = "recomPart", div(class ="recomHeadline", "DEINE RISIKOPRÄFERENZ: "), div(class ="recomText",uiOutput("risikpreference"))),                    
                          div(class="changedata", tags$button(class="graypage-open-datasave", "data-entry-task"="insuranceCheck#1","DATEN ÄNDERN"))
                      )                
                  )             
