@@ -5,7 +5,8 @@ detailTab <- function(type, recom_no) {
         class = "personal", 
         
         div(class = "personalRecom",  div(class="changedata"), 
-            div(class = "personalreright",   tags$button(class="graypage-open-datasave", "data-entry-task"="insuranceCheck","VERSICHERUNG HINZUFÜGEN") #actionButton("addinsurancebutton", label = "VERSICHERUNG HINZUFÜGEN"    )
+            div(class = "personalreright",   tags$button(class="graypage-open-datasave", 
+                                                         "data-entry-task"=sprintf("insuranceCheck#%d",recom_no),"VERSICHERUNG HINZUFÜGEN") #actionButton("addinsurancebutton", label = "VERSICHERUNG HINZUFÜGEN"    )
                 )
         ),
         
@@ -43,19 +44,19 @@ shinyUI(bootstrapPage(
                      tableOutput("main_plot"),                        
                      #TODO: recomtext needs to move to the server part and get the content from the recom objetc
                      div(class = "recom",  div(class = "recomPart", div(class ="recomHeadline", "DEINE RISIKOPRÄFERENZ: "), div(class ="recomText", "ICH MÖCHTE MÖGLICHST VIEL ABSICHERN")),                    
-                         div(class="changedata", tags$button(class="graypage-open-datasave", "data-entry-task"="insuranceCheck","DATEN ÄNDERN"))
+                         div(class="changedata", tags$button(class="graypage-open-datasave", "data-entry-task"="insuranceCheck#1","DATEN ÄNDERN"))
                      )                
                  )             
         ),
         
-        tabPanel('HAFTPFLICHT', detailTab("privatehaftpflicht", 1)),   
-        tabPanel('KRANKHEIT', detailTab("krankheit", 2)),   
-        tabPanel("INVALIDITÄT", detailTab("invaliditaet", 3)), 
-        tabPanel("TOD", detailTab("tod", 4)),
-        tabPanel("KFZ SCHADEN", detailTab("schadenamauto", 5)),
-        tabPanel("KFZ HAFTPFLICHT", detailTab("kfz", 6)), 
-        tabPanel("SCHADEN AM EIGENTUM", detailTab("schadenameigentum", 7)),
-        tabPanel("RECHTSSTREIT", detailTab("rechtsstreit", 8))    
+        tabPanel('HAFTPFLICHT', detailTab("privatehaftpflicht", 2)),   
+        tabPanel('KRANKHEIT', detailTab("krankheit", 3)),   
+        tabPanel("INVALIDITÄT", detailTab("invaliditaet", 4)), 
+        tabPanel("TOD", detailTab("tod", 5)),
+        tabPanel("KFZ SCHADEN", detailTab("schadenamauto", 6)),
+        tabPanel("KFZ HAFTPFLICHT", detailTab("kfz", 7)), 
+        tabPanel("SCHADEN AM EIGENTUM", detailTab("schadenameigentum", 8)),
+        tabPanel("RECHTSSTREIT", detailTab("rechtsstreit", 9))    
   )
   , addBugMuncher()
 ))
