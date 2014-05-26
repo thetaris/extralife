@@ -3,6 +3,7 @@ $(function() {
     setTimeout(function() {
       $('#main_plot tr ').each(function(index, elt) {
         $(elt).click(function() {
+           index = $(elt).find("td:last").find("div").attr("data-tab-index")
            var tabs = $('.header+.tabbable>.nav.nav-tabs>li ')
       	 	 tabs.each(function() {
       			$(this).removeClass('active')
