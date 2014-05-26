@@ -1,11 +1,12 @@
-detailTab <- function(type) {
+detailTab <- function(type, recom_no) {
   div(class ="overview2", 
       div(class="mytable_all", tableOutput(sprintf("mytable_%s",type))),
       div(
         class = "personal", 
         
         div(class = "personalRecom",  div(class="changedata"), 
-            div(class = "personalreright",   tags$button(class="graypage-open-datasave", "data-entry-task"="insuranceCheck","VERSICHERUNG HINZUFÜGEN") #actionButton("addinsurancebutton", label = "VERSICHERUNG HINZUFÜGEN"    )
+            div(class = "personalreright",   tags$button(class="graypage-open-datasave", 
+                                                         "data-entry-task"=sprintf("insuranceCheck#%d",recom_no),"VERSICHERUNG HINZUFÜGEN") #actionButton("addinsurancebutton", label = "VERSICHERUNG HINZUFÜGEN"    )
                 )
         ),
         
@@ -40,21 +41,22 @@ shinyUI(bootstrapPage(
   tabsetPanel(      
         tabPanel(div(class="alloverviewtabs",'ÜBERSICHT'),
                  div(class = "overview", 
-                     tableOutput("main_plot"),          
-                     #TODO: recomtext needs to get from another code
-                     div(class = "recom",  div(class = "recomPart", div(class ="recomHeadline", "DEINE RISIKOPRÄFERENZ: "), div(class ="recomText", "ICH MÖCHTE MÖGLICHST VIEL ABSICHERN")),                    
-                         div(class="changedata", tags$button(class="graypage-open-datasave", "data-entry-task"="insuranceCheck","DATEN ÄNDERN"))
+                     tableOutput("main_plot"),                        
+                     #TODO: recomtext needs to move to the server part and get the content from the recom objetc
+                     div(class = "recom",  div(class = "recomPart", div(class ="recomHeadline", "DEINE RISIKOPRÄFERENZ: "), div(class ="recomText",uiOutput("risikpreference"))),                    
+                         div(class="changedata", tags$button(class="graypage-open-datasave", "data-entry-task"="insuranceCheck#1","DATEN ÄNDERN"))
                      )                
                  )             
         ),
         
-        tabPanel('HAFTPFLICHT', detailTab("privatehaftpflicht")),   
-        tabPanel('KRANKHEIT', detailTab("krankheit")),   
-        tabPanel("INVALIDITÄT", detailTab("invaliditaet")), 
-        tabPanel("TOD", detailTab("tod")),
-        tabPanel("KFZ SCHADEN", detailTab("schadenamauto")),
-        tabPanel("KFZ HAFTPFLICHT", detailTab("kfz")), 
-        tabPanel("SCHADEN AM EIGENTUM", detailTab("schadenameigentum")),
-        tabPanel("RECHTSSTREIT", detailTab("rechtsstreit"))    
+        tabPanel('HAFTPFLICHT', detailTab("privatehaftpflicht", 2)),   
+        tabPanel('KRANKHEIT', detailTab("krankheit", 3)),   
+        tabPanel("INVALIDITÄT", detailTab("invaliditaet", 4)), 
+        tabPanel("TOD", detailTab("tod", 5)),
+        tabPanel("KFZ SCHADEN", detailTab("schadenamauto", 6)),
+        tabPanel("KFZ HAFTPFLICHT", detailTab("kfz", 7)), 
+        tabPanel("SCHADEN AM EIGENTUM", detailTab("schadenameigentum", 8)),
+        tabPanel("RECHTSSTREIT", detailTab("rechtsstreit", 9))    
   )
+  , addBugMuncher()
 ))

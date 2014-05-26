@@ -66,6 +66,16 @@ getELENUM <- function() {
             , keys = frequencyKey
             , values = frequencyName
   )
+  
+  preferenceName <- c("Möglichst viel absichern",
+                     "Ausgewogene Mischung", 
+                     "Sparen, zahle kleine Schäden selbst")
+  preferenceKey <- c("viel", "mittel", "wenig")
+  
+  addToList(field = ELFIELD$ich.risiko.praeferenz
+            , keys = preferenceName
+            , values = preferenceKey
+  )
 }
 
 getELENUM()

@@ -4,6 +4,11 @@ library(shiny)
 #
 shinyUI(bootstrapPage(
   
+  tags$head(
+    tags$link(rel="stylesheet", type="text/css", href="overview.css")
+   
+  ),
+  
   mainPanel(
     div(style="width:800px"
       , elTags$datasafe.float(task = "mortality", text = "Personen hinzufügen")

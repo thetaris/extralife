@@ -56,6 +56,7 @@ form <- tags$div(
 simpleField('title','Name:'),
 simpleField('person.geburtsdatum','Geburtsdatum:','date'),
 selectField('person.geschlecht','Geschlecht',ELENUM$person.geschlecht),
+selectField("ich.risiko.praeferenz", "Gewünschte Risikoabsicherung", ELENUM$ich.risiko.praeferenz),
 textareaField('adresse', 'Adresse:'),
 euroField('kauf.wert','Kaufpreis:'),
 simpleField('kauf.datum','Kaufdatum:','date'),

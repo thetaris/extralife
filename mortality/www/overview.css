@@ -1,0 +1,21 @@
+.nav-tabs>li>a{
+  font-size: 89%;
+  padding: 0 6px 0 5px;
+  line-height: 45px;
+  color: black;
+}
+.nav{
+  margin-bottom: 0;
+  margin-top : 20px;
+}
+.nav-tabs>.active>a{
+  background-color : #788288;
+}
+
+.nav-tabs>li.active>a{
+  color: white;
+}
+.nav-tabs>.active>a:hover{
+  color: white;
+  background-color : #788288;
+}
