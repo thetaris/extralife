@@ -31,24 +31,29 @@ if (length(docs)==0) {
   }
 }
 
-# Recommendation 1653: Krankenversicherung
-docs <- c(ELTYPE$Gesetzliche.Krankenversicherung, ELTYPE$Private.Krankenversicherung)
-recommend("Krankenversicherung angeben", hasAny(docs), term=docs)
-
 docs <- c(ELTYPE$Privathaftpflichtversicherung)
 recommend("Haftpflichtversicherung anlegen", hasAny(docs), term=docs)  
 
-docs <- ELTYPE$KFZ.Haftpflichtversicherung
-recommend("KFZ-Versicherung anlegen", "TERM", hasAny(docs), term=docs)
+docs <- c(ELTYPE$Gesetzliche.Krankenversicherung, ELTYPE$Private.Krankenversicherung)
+recommend("Krankenversicherung angeben", hasAny(docs), term=docs)
+
+docs <- ELTYPE$Berufsunfaehigkeitsversicherung
+recommend("Berufsunfähigkeitsversicherung anlegen", hasAny(docs), term=docs)
 
 docs <- ELTYPE$Lebensversicherung._
-recommend("Lebensversicherung", hasAny(docs), term = docs)
+recommend("Lebensversicherung anlegen", hasAny(docs), term = docs)
+
+docs <- ELTYPE$KFZ.Kaskoversicherung
+recommend("KFZ-Kaskoversicherung anglegen", hasAny(docs), term = docs)
+
+docs <- ELTYPE$KFZ.Haftpflichtversicherung
+recommend("KFZ-Haftpflichtversicherung anlegen", "TERM", hasAny(docs), term=docs)
 
 docs <- ELTYPE$Hausratversicherung
 recommend("Hausratsversicherung anlegen", hasAny(docs), term=docs)
 
-docs <- ELTYPE$Berufsunfaehigkeitsversicherung
-recommend("Berufsunfähigkeitsversicherung anlegen", hasAny(docs), term=docs)
+docs <- ELTYPE$Rechtsschutzversicherung
+recommend("Rechtsschutzversicherung anlegen", hasAny(docs), term=docs)
 
 if (!hasAny(ELTYPE$Risikolebensversicherung)) {
   for (child in getAll(ELTYPE$Kinder._)) {
