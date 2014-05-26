@@ -27,8 +27,9 @@ shinyServer(function(input, output, session) {
   
   dataObj = isolate(DGSData(session=session))
   
-  recom <- getEmpfehlungen(dataObj, list("variable"="viel"))  
+  recom <- getEmpfehlungen(dataObj)  
   
+  risk <- getRiskPreference(dataObj)
   
   output$main_plot <- renderTable({
     
@@ -70,7 +71,12 @@ shinyServer(function(input, output, session) {
     renderUI({recom[[no]]$infoHTML})
   } 
   
-  output$risikpreference <- renderUI({"ICH MÖCHTE MÖGLICHST VIEL ABSICHERN"})
+  output$risikpreference <- renderUI({
+    # read human readable description from risk preference key
+    res<-data.frame( 
+      sapply(ELENUM$ich.risiko.praeferenz, function(e) if (e$value == risk) e$key else NA)
+      )    
+    res[!is.na(res)]})
   
   output$mytable_privatehaftpflicht <- renderMyDataTable(1)
   output$mytable_krankheit <- renderMyDataTable(2)

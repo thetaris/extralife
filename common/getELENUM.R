@@ -10,6 +10,7 @@ getELENUM <- function() {
       enumName <- gsub('ü', 'ue', enumName)
       enumName <- gsub('ö', 'oe', enumName)
       enumName <- gsub('ß', 'ss', enumName)
+      enumName <- gsub(',', '.', enumName)
       
       keyValues <- list()
       keyValues$key <- keys[iterList]

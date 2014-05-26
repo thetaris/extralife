@@ -56,10 +56,22 @@ getFamilie <- function(dataObj){
   return(familie)
 }
 
-getEmpfehlungen <- function(dataObj, input){
+getRiskPreference<- function(dataObj){
+  risk <- tryCatch(
+    dataObj$get(requestedField = ELFIELD$ich.risiko.praeferenz, type = ELTYPE$Ich),
+    error="viel"
+  )
+  # not selected
+  if (is.na(risk) | is.null(risk)){
+    risk <- "viel"
+  }
+  return(risk)
+}
+
+getEmpfehlungen <- function(dataObj){
   #versicherungen, besitz, familie, input){
   # test for empty data and display message if empty using simpson test data
-  familie <- getFamilie(dataObj)
+  familie <- getFamilie(dataObj)  
   
   
   if (length(which(familie$rel==ELTYPE$Ich))==0) {
@@ -80,7 +92,14 @@ getEmpfehlungen <- function(dataObj, input){
     return(recom)
   }
   
+ 
+    
+  
   versicherungen <- getVersicherungen(dataObj)
+  
+  input<- list()
+  input$variable<- getRiskPreference(dataObj)
+  
   besitz <- getBesitz(dataObj)
 
   
