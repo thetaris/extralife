@@ -27,7 +27,7 @@ shinyServer(function(input, output, session) {
   
   dataObj = isolate(DGSData(session=session))
   
-  recom <- getEmpfehlungen(dataObj, list("variable"="wenig"))  
+  recom <- getEmpfehlungen(dataObj, list("variable"="viel"))  
   
   
   output$main_plot <- renderTable({
@@ -35,6 +35,8 @@ shinyServer(function(input, output, session) {
     table.title <-  sapply(recom, function(rec) {paste0("<div class = 'secondcolumn'>", HTML(rec$titel), "</div>") })
     
     exposure <- sapply(recom, function(rec) {as.numeric(rec$schaden)})
+    inOrder <- order(-exposure)
+    
     m <- sapply(exposure, formatDigits)
     
     table.status <- sapply(recom, function(rec) {   
@@ -47,6 +49,7 @@ shinyServer(function(input, output, session) {
                        
                        STATUS = table.status               
     )
+    mydf <- mydf[inOrder, ]
   }, sanitize.text.function = function(x) x, include.rownames=FALSE)
   
   
