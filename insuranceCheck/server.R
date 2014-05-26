@@ -39,9 +39,10 @@ shinyServer(function(input, output, session) {
     inOrder <- order(-exposure)
     
     m <- sapply(exposure, formatDigits)
-    
-    table.status <- sapply(recom, function(rec) {   
-      HTML(paste0(paste0("<div class=", rec$status, ">"), rec$absicherung, "</div>") )     
+    tabIndex <- 0    
+    table.status <- sapply(recom, function(rec) {
+      tabIndex <<- tabIndex + 1
+      as.character(tags$div(class=rec$status, "data-tab-index"=tabIndex, rec$absicherung))
     })
     
     mydf <- data.frame(RISIKO = table.title,                      
