@@ -62,7 +62,7 @@ getRiskPreference<- function(dataObj){
     error="viel"
   )
   # not selected
-  if (is.na(risk) | is.null(risk)){
+  if (is.null(risk) || is.na(risk) ){
     risk <- "viel"
   }
   return(risk)
@@ -80,7 +80,7 @@ getEmpfehlungen <- function(dataObj){
     besitz <- getBesitz(dataObj)
     familie <- getFamilie(dataObj)
     
-    recom <- getEmpfehlungen(dataObj, list("variable"="wenig"))  
+    recom <- getEmpfehlungen(dataObj)  
     
     for (iter in names(recom)){
       recom[[iter]]$absicherung <- "Gibt bitte Deine Daten ein."
@@ -90,10 +90,7 @@ getEmpfehlungen <- function(dataObj){
       #recom$haftpflicht$schaden <- 8
     }
     return(recom)
-  }
-  
- 
-    
+  }    
   
   versicherungen <- getVersicherungen(dataObj)
   
