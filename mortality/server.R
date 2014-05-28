@@ -5,10 +5,10 @@ library(rCharts)
 
 source("../common/INIT.R", chdir=T, encoding="UTF-8")
 
-source('prepareData.R')
-source('mortality_rCharts.R')
-source('life_phases_rCharts.R')
-source('demography_rCharts.R')
+source('prepareData.R', encoding="UTF-8")
+source('mortality_rCharts.R', encoding="UTF-8")
+source('life_phases_rCharts.R', encoding="UTF-8")
+source('demography_rCharts.R', encoding="UTF-8")
 
 
 # Define server logic required to generate and plot a random distribution
