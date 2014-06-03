@@ -10,51 +10,92 @@ isApplicable <- function(answers, indexQ){
   return(result)
 }
 
+nextQuestion<-function(answers, n=3){
+  allQuestions <- names(ELQuestions)
+  
+  result = list()
+  
+  for(iterNQ in c(1:3)){
+    # find element with highest prio in allQuestions
+    highestPrio = 0    
+    bestQ <- ""
+    for (iterQ in allQuestions){
+      if (ELQuestions[[iterQ]]$priority>highestPrio){
+        if (is.na(answers[[iterQ]])){
+          if (isApplicable(answers, iterQ)){
+            highestPrio <- ELQuestions[[iterQ]]$priority
+            bestQ <- iterQ
+          }
+        }
+      }
+    }
+    # remove element with highest prio from list of allQuestions
+    allQuestions <- allQuestions[allQuestions != bestQ]
+    # remember best element in question list
+    result <- append(result, bestQ)
+    
+  }
+  return(result)
+}
+
+
 n = length(ELQuestions)
 
 # requires that answers already exists
 # if not run : 
-# answers = data.frame(rbind(rep(NA,n))) 
-# colnames(answers) <- names(ELQuestions)  
 
+if ("answers" %in% ls()){
   newanswers = data.frame(rbind(rep(NA,n)))
   colnames(newanswers) <- names(ELQuestions)  
-  answers<-rbind(answers, newanswers)  
-  print(answers)  
+  answers<-rbind(answers, newanswers)    
+}else
+{
+  answers = data.frame(rbind(rep(NA,n))) 
+  colnames(answers) <- names(ELQuestions)
+}
 
-
-# if (is.null(answers)){
-#   answers = data.frame(rbind(rep(NA,n)))
-#   colnames(answers) <- names(ELQuestions)  
-# }else{
-# 
-# newanswers = data.frame(rbind(rep(0,n)))
-# colnames(newanswers) <- names(ELQuestions)
-# 
-# answers <- rbind(answers, newanswers)
-# }
+print(answers)  
 
 myRow = nrow(answers)
 
+indexQ <- "lebenszufrieden"
 
-for (indexQ in sample(c(1:n))){
-  if (isApplicable(answers[myRow,], indexQ)){
-  txt = sprintf("\nDIE GRAUE SEITE\n")
-  txt = sprintf("%s---------------\n\n", txt)
-  txt = sprintf("%sFrage: %s\n\n", txt, ELQuestions[[indexQ]]$Text)    
-  
-  ansEnum = ELATYPE[[ELQuestions[[indexQ]]$AType]]$value
-  for (iterAns in c(1:length(ansEnum))){
-    txt = sprintf("%s%i) %s\n", txt, iterAns, ansEnum[[iterAns]])  
-  }
-  txt = sprintf("%s\n", txt)
-  
-  print(cat(txt))
-  
-  ans = readline("Ihre Antwort: ")
-  answers[myRow, names(ELQuestions[indexQ])]<-ansEnum[[eval(parse(text=ans))]]
-  }else{
-    print(cat("\n Skipped: Question not applicable.\n\n"))
-  }
+while(indexQ!="q"){    
+    txt = sprintf("\nDIE GRAUE SEITE\n")
+    txt = sprintf("%s---------------\n\n", txt)
+    txt = sprintf("%sFrage: %s\n\n", txt, ELQuestions[[indexQ]]$Text)    
+    
+    ansEnum = ELATYPE[[ELQuestions[[indexQ]]$AType]]$value
+    for (iterAns in c(1:length(ansEnum))){
+      txt = sprintf("%s%i) %s\n", txt, iterAns, ansEnum[[iterAns]])  
+    }
+    txt = sprintf("%s\n", txt)
+    
+    print(cat(txt))
+    
+    ans = readline("Ihre Antwort: ")
+    answers[myRow, names(ELQuestions[indexQ])]<-ansEnum[[eval(parse(text=ans))]]
+    
+    print(cat(sprintf("\nAuswertung:\n\n")))
+    
+    txt<-sprintf("\nNächste Frage:\n")
+    
+    qEnum = nextQuestion(answers[myRow,])
+    if (length(qEnum)>0){
+      for (iterq in c(1:length(qEnum))){
+        txt = sprintf("%s%i) %s\n", txt, iterq, ELQuestions[[qEnum[[iterq]]]]$shortText)  
+      }
+      txt = sprintf("%s\n", txt)
+      print(cat(txt))
+      
+      ans = readline("gewünschte Frage (q zum Abbruch): ")
+      indexQ<-tryCatch(qEnum[[eval(parse(text=ans))]], error=function(e) return("q"))      
+    }else
+    {
+      # stop: no further questions available
+      indexQ <- "q"
+    }
 }
+
+
 print(answers)
