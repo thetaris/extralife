@@ -46,6 +46,13 @@ getAType <- function() {
                                               , "verwitwet"))
   addToList("anzKinder", "enum", list("keines", "1", "2", "3", "4 oder mehr"))
   addToList("alterKinder", "enum", list("0 bis 2", "3 bis 5", "6 bis 11", "12 bis 17", "18 oder älter"))
+  addToList("stimmt", "enum", list("Stimme überhaupt nicht überein."
+                                   , "Stimme nicht überein."
+                                   , "Stimme eher nicht überein."
+                                   , "Stimme weder noch überein."
+                                   , "Stimme etwas überein."
+                                   , "Stimme überein."
+                                   , "Stimme vollkommen überein."))
 }
 
 getAType()
@@ -64,12 +71,52 @@ getQuestions <- function() {
   }
   
   ELQuestions <<- list()
+  addToList("lebenszufriedenD1"
+            , "Mein Leben entspricht in den meisten Lebensbereichen meinen Idealvorstellungen."
+            , "Wie zufrieden (Idealvorstellungen)?"
+            , ELATYPE$stimmt$key
+            , ELACAT$Lebenszufriedenheit
+            , priority = 9999
+  )
+  
+  addToList("lebenszufriedenD2"
+            , "Meine Lebensbedingungen sind ausgezeichnet."
+            , "Wie zufrieden (Lebensbedingungen)?"
+            , ELATYPE$stimmt$key
+            , ELACAT$Lebenszufriedenheit
+            , priority = 9999
+  )
+  
+  addToList("lebenszufriedenD3"
+            , "Ich bin zufrieden mit meinem Leben."
+            , "Wie zufrieden (Leben)?"
+            , ELATYPE$stimmt$key
+            , ELACAT$Lebenszufriedenheit
+            , priority = 9999
+  )
+  
+  addToList("lebenszufriedenD4"
+            , "Bis jetzt habe ich die wichtigsten Dinge in meinem Leben erreicht."
+            , "Wie zufrieden (Erreichtes)?"
+            , ELATYPE$stimmt$key
+            , ELACAT$Lebenszufriedenheit
+            , priority = 9999
+  )
+
+  addToList("lebenszufriedenD5"
+            , "Wenn ich mein Leben noch einmal leben könnte, würde ich kaum etwas ändern."
+            , "Wie zufrieden (noch einmal)?"
+            , ELATYPE$stimmt$key
+            , ELACAT$Lebenszufriedenheit
+            , priority = 9999
+  )
+  
   addToList("lebenszufrieden"
             , "Wie zufrieden bist Du mit Deinem Leben?"
             , "Wie zufrieden?"
             , ELATYPE$zufrieden$key
             , ELACAT$Lebenszufriedenheit
-            , priority = 1000
+            , priority = -1 # do not show
   )
   
   addToList("krank1"
@@ -142,18 +189,19 @@ getQuestions <- function() {
             , "Alter ältestes Kind?"
             , ELATYPE$alterKinder$key
             , ELACAT$Biometrie
+            , list(anzKinder=list(ELA$"2", ELA$"3", ELA$"4 oder mehr"))
+            , priority = 1000            
+  )
+  
+  addToList("alterKinder2"
+            , "Wie alt ist Dein jüngstes Kind?"
+            , "Alter jüngstes Kind?"
+            , ELATYPE$alterKinder$key
+            , ELACAT$Biometrie
             , list(anzKinder=list(ELA$"1", ELA$"2", ELA$"3", ELA$"4 oder mehr"))
             , priority = 1000            
   )
   
-  addToList("alterKinder"
-            , "Wie alt ist Dein jüngstes Kind?"
-            , "Alter jüngstes Kinder?"
-            , ELATYPE$alterKinder$key
-            , ELACAT$Biometrie
-            , list(anzKinder=list(ELA$"2", ELA$"3", ELA$"4 oder mehr"))
-            , priority = 1000            
-  )
   
   
 }
