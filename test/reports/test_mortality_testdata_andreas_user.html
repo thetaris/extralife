@@ -1,0 +1,5811 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Test Mortality and Demography Report</title>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h1>Test Mortality and Demography Report</h1>
+
+<p><strong>Configuration</strong></p>
+
+<p>should be foldable</p>
+
+<pre><code class="r">str(ELtestDataFile)
+</code></pre>
+
+<pre><code> chr &quot;../test/data/testdata_andreas_user.json&quot;
+</code></pre>
+
+<pre><code class="r">require(rjson)
+str(suppressWarnings(fromJSON(file = ELtestDataFile)))
+</code></pre>
+
+<pre><code>List of 5
+ $ :List of 7
+  ..$ adresse            : chr &quot;Marianne-Brandt-Str. 5\n80807 M�nchen&quot;
+  ..$ kommentarfeld      : chr &quot;&quot;
+  ..$ person.geburtsdatum: chr &quot;1977-08-17&quot;
+  ..$ person.geschlecht  : chr &quot;&quot;
+  ..$ title              : chr &quot;Ich&quot;
+  ..$ type_id            : chr &quot;305&quot;
+  ..$ node_id            : chr &quot;1639&quot;
+ $ :List of 11
+  ..$ arbeitsvertrag.arbeitgeber: chr &quot;Thetaris GmbH&quot;
+  ..$ arbeitsvertrag.zeitanteil : chr &quot;100&quot;
+  ..$ einkommen.betrag.brutto   : chr &quot;4000&quot;
+  ..$ einkommen.betrag.ende     : chr &quot;&quot;
+  ..$ einkommen.betrag.frequenz : chr &quot;&quot;
+  ..$ einkommen.betrag.netto    : chr &quot;&quot;
+  ..$ einkommen.betrag.start    : chr &quot;2008-01-01&quot;
+  ..$ kommentarfeld             : chr &quot;&quot;
+  ..$ title                     : chr &quot;Arbeitsvertrag Thetaris&quot;
+  ..$ type_id                   : chr &quot;140&quot;
+  ..$ node_id                   : chr &quot;1640&quot;
+ $ :List of 11
+  ..$ kommentarfeld                     : chr &quot;&quot;
+  ..$ vertrag.nummer                    : chr &quot;&quot;
+  ..$ vertrag.zahlung.betrag.investition: chr &quot;300&quot;
+  ..$ vertrag.zahlung.frequenz          : chr &quot;&quot;
+  ..$ vertrag.zahlung.start             : chr &quot;&quot;
+  ..$ verttrag.zahlung.ende             : chr &quot;&quot;
+  ..$ zeitwert.betrag                   : chr &quot;50000&quot;
+  ..$ zeitwert.datum                    : chr &quot;&quot;
+  ..$ title                             : chr &quot;Hypothek Marianne-Brandt-Str.&quot;
+  ..$ type_id                           : chr &quot;161&quot;
+  ..$ node_id                           : chr &quot;1641&quot;
+ $ :List of 7
+  ..$ adresse            : chr &quot;&quot;
+  ..$ kommentarfeld      : chr &quot;&quot;
+  ..$ person.geburtsdatum: chr &quot;1982-11-08&quot;
+  ..$ person.geschlecht  : chr &quot;&quot;
+  ..$ title              : chr &quot;Anna&quot;
+  ..$ type_id            : chr &quot;295&quot;
+  ..$ node_id            : chr &quot;1642&quot;
+ $ :List of 7
+  ..$ adresse            : chr &quot;&quot;
+  ..$ kommentarfeld      : chr &quot;&quot;
+  ..$ person.geburtsdatum: chr &quot;2012-07-17&quot;
+  ..$ person.geschlecht  : chr &quot;&quot;
+  ..$ title              : chr &quot;Vanessa&quot;
+  ..$ type_id            : chr &quot;298&quot;
+  ..$ node_id            : chr &quot;1643&quot;
+</code></pre>
+
+<p><strong>Init</strong></p>
+
+<p>Include Header.
+<link rel='stylesheet' href=http://nvd3.org/src/nv.d3.css>
+<link rel='stylesheet' href=http://rawgithub.com/ramnathv/rCharts/master/inst/libraries/nvd3/css/rNVD3.css></p>
+
+<script type='text/javascript' src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
+
+<script type='text/javascript' src=http://d3js.org/d3.v2.min.js></script>
+
+<script type='text/javascript' src=http://nvd3.org/nv.d3.js></script>
+
+<script type='text/javascript' src=http://nvd3.org/lib/fisheye.js></script>
+
+<p><strong>Data transformation</strong></p>
+
+<pre><code>[1] &quot;../test/data/testdata_andreas_user.json&quot;
+</code></pre>
+
+<pre><code>&#39;data.frame&#39;:   3 obs. of  4 variables:
+ $ name     : chr  &quot;Vanessa&quot; &quot;Anna&quot; &quot;Ich&quot;
+ $ birthYear: num  2012 1982 1977
+ $ birthDay : chr  &quot;2012-07-17&quot; &quot;1982-11-08&quot; &quot;1977-08-17&quot;
+ $ sex      : chr  &quot;0&quot; &quot;0&quot; &quot;0&quot;
+</code></pre>
+
+<p><strong>Tab: life_phases</strong></p>
+
+<pre><code class="r">n1 &lt;- lebensphasenChart(data)
+n1$print(&quot;life_phases&quot;, include_assets = TRUE, cdn = TRUE)
+</code></pre>
+
+<p><link rel='stylesheet' href=http://nvd3.org/src/nv.d3.css></p>
+
+<script type='text/javascript' src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
+
+<script type='text/javascript' src=http://d3js.org/d3.v2.min.js></script>
+
+<script type='text/javascript' src=http://nvd3.org/nv.d3.js></script>
+
+<script type='text/javascript' src=http://nvd3.org/lib/fisheye.js></script>
+
+<div id='life_phases' class='rChart nvd3'></div>
+
+<script type='text/javascript'>
+ $(document).ready(function(){
+      drawlife_phases()
+    });
+    function drawlife_phases(){  
+      var opts = {
+ "dom": "life_phases",
+"width":    800,
+"height":    400,
+"x": "Name",
+"y": "Dauer",
+"group": "Lebensabschnitt",
+"type": "multiBarHorizontalChart",
+"id": "life_phases" 
+},
+        data = [
+ {
+ "Name": "Vanessa",
+"Lebensabschnitt": "Ausbildungsphase",
+"Dauer": 18.062 
+},
+{
+ "Name": "Vanessa",
+"Lebensabschnitt": "Arbeitsphase",
+"Dauer": 45.329 
+},
+{
+ "Name": "Vanessa",
+"Lebensabschnitt": "Rentenphase",
+"Dauer": 17.674 
+},
+{
+ "Name": "Anna",
+"Lebensabschnitt": "Ausbildungsphase",
+"Dauer":      0 
+},
+{
+ "Name": "Anna",
+"Lebensabschnitt": "Arbeitsphase",
+"Dauer": 33.063 
+},
+{
+ "Name": "Anna",
+"Lebensabschnitt": "Rentenphase",
+"Dauer": 18.002 
+},
+{
+ "Name": "Ich",
+"Lebensabschnitt": "Ausbildungsphase",
+"Dauer":      0 
+},
+{
+ "Name": "Ich",
+"Lebensabschnitt": "Arbeitsphase",
+"Dauer": 28.064 
+},
+{
+ "Name": "Ich",
+"Lebensabschnitt": "Rentenphase",
+"Dauer": 17.999 
+} 
+]
+  
+      var data = d3.nest()
+        .key(function(d){
+          return opts.group === undefined ? 'main' : d[opts.group]
+        })
+        .entries(data)
+      
+      nv.addGraph(function() {
+        var chart = nv.models[opts.type]()
+          .x(function(d) { return d[opts.x] })
+          .y(function(d) { return d[opts.y] })
+          .width(opts.width)
+          .height(opts.height)
+         
+        chart
+  .stacked("true")
+  .tooltip(function(key, x, y, e, graph){ return '<h3>'+ x + '</h3>' +
+                '<p>' + key + '</p>' + '<p>' + ((d3.time.format('%Y').parse(y).getTime()-(new Date()).getTime())/1000/60/60/24/365.24).toFixed(0)  
+          + ' Jahre</p>' ;})
+          
+        
+
+        
+        
+        chart.yAxis
+  .tickFormat(function(d) {return d3.time.format('%Y')( new Date( (new Date()).getTime() + d * 86400000*365.24 ));})
+  .axisLabel("Zeit in Jahren")
+      
+       d3.select("#" + opts.id)
+        .append('svg')
+        .datum(data)
+        .transition().duration(500)
+        .call(chart);
+
+       nv.utils.windowResize(chart.update);
+       return chart;
+      });
+    };
+</script>
+
+<p><strong>Tab: Demography 2013</strong></p>
+
+<pre><code class="r">n2 &lt;- demographyChart(2013, data$name, data$birthYear, gender_in = data$sex)
+n2$print(&quot;demography2013&quot;, include_assets = TRUE, cdn = TRUE)
+</code></pre>
+
+<p><link rel='stylesheet' href=http://nvd3.org/src/nv.d3.css></p>
+
+<script type='text/javascript' src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
+
+<script type='text/javascript' src=http://d3js.org/d3.v2.min.js></script>
+
+<script type='text/javascript' src=http://nvd3.org/nv.d3.js></script>
+
+<script type='text/javascript' src=http://nvd3.org/lib/fisheye.js></script>
+
+<div id='demography2013' class='rChart nvd3'></div>
+
+<script type='text/javascript'>
+ $(document).ready(function(){
+      drawdemography2013()
+    });
+    function drawdemography2013(){  
+      var opts = {
+ "dom": "demography2013",
+"width":    800,
+"height":    400,
+"x": "age",
+"y": "forecast",
+"group": "phase",
+"type": "multiBarHorizontalChart",
+"id": "demography2013" 
+},
+        data = [
+ {
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":    -20,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":     81,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":   -142,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":    450,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":   -461,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":    979,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":   -916,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":   1408,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":  -1715,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":   2200,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":  -2194,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":   2522,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":  -1926,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":   2071,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":  -2527,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":   2642,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":  -2877,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":   2883,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":  -3433,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":   3352,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":  -3562,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":   3419,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":  -2824,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":   2742,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":  -2359,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":   2313,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":  -2522,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":   2467,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":  -2536,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":   2450,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":  -2345,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":   2253,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":  -2053,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":   1956,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":  -1906,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":   1810,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":  -1768,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":   1677,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":  -1695,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":   1605,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+} 
+]
+  
+      var data = d3.nest()
+        .key(function(d){
+          return opts.group === undefined ? 'main' : d[opts.group]
+        })
+        .entries(data)
+      
+      nv.addGraph(function() {
+        var chart = nv.models[opts.type]()
+          .x(function(d) { return d[opts.x] })
+          .y(function(d) { return d[opts.y] })
+          .width(opts.width)
+          .height(opts.height)
+         
+        chart
+  .stacked(true)
+  .showControls(false)
+          
+        
+
+        
+        
+        chart.yAxis
+  .tickFormat(function(d) {if (d>0) {res = d/1000 + ' Mio. Frauen'} else {res = -d/1000 + ' Mio. Männer'} return res;})
+  .showMaxMin(false)
+      
+       d3.select("#" + opts.id)
+        .append('svg')
+        .datum(data)
+        .transition().duration(500)
+        .call(chart);
+
+       nv.utils.windowResize(chart.update);
+       return chart;
+      });
+    };
+</script>
+
+<p><strong>Tab: Demography 2060</strong></p>
+
+<pre><code class="r">n21 &lt;- demographyChart(2060, data$name, data$birthYear, gender_in = data$sex)
+n21$print(&quot;demography2060&quot;, include_assets = TRUE, cdn = TRUE)
+</code></pre>
+
+<p><link rel='stylesheet' href=http://nvd3.org/src/nv.d3.css></p>
+
+<script type='text/javascript' src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
+
+<script type='text/javascript' src=http://d3js.org/d3.v2.min.js></script>
+
+<script type='text/javascript' src=http://nvd3.org/nv.d3.js></script>
+
+<script type='text/javascript' src=http://nvd3.org/lib/fisheye.js></script>
+
+<div id='demography2060' class='rChart nvd3'></div>
+
+<script type='text/javascript'>
+ $(document).ready(function(){
+      drawdemography2060()
+    });
+    function drawdemography2060(){  
+      var opts = {
+ "dom": "demography2060",
+"width":    800,
+"height":    400,
+"x": "age",
+"y": "forecast",
+"group": "phase",
+"type": "multiBarHorizontalChart",
+"id": "demography2060" 
+},
+        data = [
+ {
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":   -365,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":    619,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":    100,
+"group": "95 - 100",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":   -787,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":   1220,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     95,
+"group": "90 - 95",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":  -1087,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":   1528,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     90,
+"group": "85 - 90",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":  -1535,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":   1910,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     85,
+"group": "80 - 85",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":  -1929,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":   2184,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     80,
+"group": "75 - 80",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":  -2238,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":   2368,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     75,
+"group": "70 - 75",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":  -2073,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":   2132,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     70,
+"group": "65 - 70",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":  -2100,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":   2113,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     65,
+"group": "60 - 65",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":  -1974,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":   1958,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     60,
+"group": "55 - 60",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":  -1917,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":   1883,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     55,
+"group": "50 - 55",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":  -1898,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":   1855,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     50,
+"group": "45 - 50",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":  -1907,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":   1858,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     45,
+"group": "40 - 45",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":  -1852,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":   1801,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     40,
+"group": "35 - 40",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":  -1733,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":   1684,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     35,
+"group": "30 - 35",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":  -1608,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":   1562,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     30,
+"group": "25 - 30",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":  -1469,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":   1420,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     25,
+"group": "20 - 25",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":  -1360,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":   1295,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     20,
+"group": "15 - 20",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":  -1317,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":   1246,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     15,
+"group": "10 - 15",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":  -1279,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":   1211,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":     10,
+"group": "5 - 10",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":  -1221,
+"phase": "Ausbildung",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":   1156,
+"phase": "Ausbildung",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Arbeit",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Ruhestand",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Vanessa",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Anna",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Anna",
+"gender": "w" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Ich",
+"gender": "m" 
+},
+{
+ "age":      5,
+"group": "0 - 5",
+"forecast":      0,
+"phase": "Ich",
+"gender": "w" 
+} 
+]
+  
+      var data = d3.nest()
+        .key(function(d){
+          return opts.group === undefined ? 'main' : d[opts.group]
+        })
+        .entries(data)
+      
+      nv.addGraph(function() {
+        var chart = nv.models[opts.type]()
+          .x(function(d) { return d[opts.x] })
+          .y(function(d) { return d[opts.y] })
+          .width(opts.width)
+          .height(opts.height)
+         
+        chart
+  .stacked(true)
+  .showControls(false)
+          
+        
+
+        
+        
+        chart.yAxis
+  .tickFormat(function(d) {if (d>0) {res = d/1000 + ' Mio. Frauen'} else {res = -d/1000 + ' Mio. Männer'} return res;})
+  .showMaxMin(false)
+      
+       d3.select("#" + opts.id)
+        .append('svg')
+        .datum(data)
+        .transition().duration(500)
+        .call(chart);
+
+       nv.utils.windowResize(chart.update);
+       return chart;
+      });
+    };
+</script>
+
+<p><strong>Tab: Mortality</strong></p>
+
+<pre><code class="r">tmpData = data[1, ]
+n3 &lt;- mortalityHistogram(as.Date(tmpData$birthDay), tmpData$sex, tmpData$name)
+n3$print(&quot;mortality&quot;, include_assets = TRUE, cdn = TRUE)
+</code></pre>
+
+<p><link rel='stylesheet' href=http://nvd3.org/src/nv.d3.css></p>
+
+<script type='text/javascript' src=http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
+
+<script type='text/javascript' src=http://d3js.org/d3.v2.min.js></script>
+
+<script type='text/javascript' src=http://nvd3.org/nv.d3.js></script>
+
+<script type='text/javascript' src=http://nvd3.org/lib/fisheye.js></script>
+
+<div id='mortality' class='rChart nvd3'></div>
+
+<script type='text/javascript'>
+ $(document).ready(function(){
+      drawmortality()
+    });
+    function drawmortality(){  
+      var opts = {
+ "dom": "mortality",
+"width":    800,
+"height":    400,
+"x": "plotYear",
+"y": "prob",
+"type": "multiBarChart",
+"group": "phase",
+"id": "mortality" 
+},
+        data = [
+ {
+ "plotYear": 2013,
+"phase": "Ausbildung",
+"prob": 0.99618 
+},
+{
+ "plotYear": 2014,
+"phase": "Ausbildung",
+"prob": 0.99591 
+},
+{
+ "plotYear": 2015,
+"phase": "Ausbildung",
+"prob": 0.99568 
+},
+{
+ "plotYear": 2016,
+"phase": "Ausbildung",
+"prob": 0.9955 
+},
+{
+ "plotYear": 2017,
+"phase": "Ausbildung",
+"prob": 0.99536 
+},
+{
+ "plotYear": 2018,
+"phase": "Ausbildung",
+"prob": 0.99524 
+},
+{
+ "plotYear": 2019,
+"phase": "Ausbildung",
+"prob": 0.99514 
+},
+{
+ "plotYear": 2020,
+"phase": "Ausbildung",
+"prob": 0.99506 
+},
+{
+ "plotYear": 2021,
+"phase": "Ausbildung",
+"prob": 0.99498 
+},
+{
+ "plotYear": 2022,
+"phase": "Ausbildung",
+"prob": 0.9949 
+},
+{
+ "plotYear": 2023,
+"phase": "Ausbildung",
+"prob": 0.99483 
+},
+{
+ "plotYear": 2024,
+"phase": "Ausbildung",
+"prob": 0.99474 
+},
+{
+ "plotYear": 2025,
+"phase": "Ausbildung",
+"prob": 0.99464 
+},
+{
+ "plotYear": 2026,
+"phase": "Ausbildung",
+"prob": 0.99451 
+},
+{
+ "plotYear": 2027,
+"phase": "Ausbildung",
+"prob": 0.99434 
+},
+{
+ "plotYear": 2028,
+"phase": "Ausbildung",
+"prob": 0.99412 
+},
+{
+ "plotYear": 2029,
+"phase": "Ausbildung",
+"prob": 0.99384 
+},
+{
+ "plotYear": 2030,
+"phase": "Ausbildung",
+"prob": 0.9935 
+},
+{
+ "plotYear": 2031,
+"phase": "Ausbildung",
+"prob": 0.9931 
+},
+{
+ "plotYear": 2032,
+"phase": "Ausbildung",
+"prob": 0.99267 
+},
+{
+ "plotYear": 2033,
+"phase": "Ausbildung",
+"prob": 0.99222 
+},
+{
+ "plotYear": 2034,
+"phase": "Ausbildung",
+"prob": 0.99176 
+},
+{
+ "plotYear": 2035,
+"phase": "Ausbildung",
+"prob": 0.99132 
+},
+{
+ "plotYear": 2036,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2037,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2038,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2039,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2040,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2041,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2042,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2043,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2044,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2045,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2046,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2047,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2048,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2049,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2050,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2051,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2052,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2053,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2054,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2055,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2056,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2057,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2058,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2059,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2060,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2061,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2062,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2063,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2064,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2065,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2066,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2067,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2068,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2069,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2070,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2071,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2072,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2073,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2074,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2075,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2076,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2077,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2078,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2079,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2080,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2081,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2082,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2083,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2084,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2085,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2086,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2087,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2088,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2089,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2090,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2091,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2092,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2093,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2094,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2095,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2096,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2097,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2098,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2099,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2100,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2101,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2102,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2103,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2104,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2105,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2106,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2107,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2108,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2109,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2110,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2111,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2112,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2113,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2114,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2115,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2116,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2117,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2118,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2119,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2120,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2121,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2122,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2123,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2124,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2125,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2126,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2127,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2128,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2129,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2130,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2131,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2132,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2133,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2134,
+"phase": "Ausbildung",
+"prob":      0 
+},
+{
+ "plotYear": 2013,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2014,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2015,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2016,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2017,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2018,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2019,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2020,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2021,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2022,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2023,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2024,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2025,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2026,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2027,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2028,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2029,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2030,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2031,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2032,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2033,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2034,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2035,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2036,
+"phase": "Arbeit",
+"prob": 0.99088 
+},
+{
+ "plotYear": 2037,
+"phase": "Arbeit",
+"prob": 0.99046 
+},
+{
+ "plotYear": 2038,
+"phase": "Arbeit",
+"prob": 0.99005 
+},
+{
+ "plotYear": 2039,
+"phase": "Arbeit",
+"prob": 0.98966 
+},
+{
+ "plotYear": 2040,
+"phase": "Arbeit",
+"prob": 0.98928 
+},
+{
+ "plotYear": 2041,
+"phase": "Arbeit",
+"prob": 0.9889 
+},
+{
+ "plotYear": 2042,
+"phase": "Arbeit",
+"prob": 0.98851 
+},
+{
+ "plotYear": 2043,
+"phase": "Arbeit",
+"prob": 0.9881 
+},
+{
+ "plotYear": 2044,
+"phase": "Arbeit",
+"prob": 0.98766 
+},
+{
+ "plotYear": 2045,
+"phase": "Arbeit",
+"prob": 0.98717 
+},
+{
+ "plotYear": 2046,
+"phase": "Arbeit",
+"prob": 0.98663 
+},
+{
+ "plotYear": 2047,
+"phase": "Arbeit",
+"prob": 0.98606 
+},
+{
+ "plotYear": 2048,
+"phase": "Arbeit",
+"prob": 0.98548 
+},
+{
+ "plotYear": 2049,
+"phase": "Arbeit",
+"prob": 0.98488 
+},
+{
+ "plotYear": 2050,
+"phase": "Arbeit",
+"prob": 0.98423 
+},
+{
+ "plotYear": 2051,
+"phase": "Arbeit",
+"prob": 0.98353 
+},
+{
+ "plotYear": 2052,
+"phase": "Arbeit",
+"prob": 0.98276 
+},
+{
+ "plotYear": 2053,
+"phase": "Arbeit",
+"prob": 0.98191 
+},
+{
+ "plotYear": 2054,
+"phase": "Arbeit",
+"prob": 0.98094 
+},
+{
+ "plotYear": 2055,
+"phase": "Arbeit",
+"prob": 0.97983 
+},
+{
+ "plotYear": 2056,
+"phase": "Arbeit",
+"prob": 0.97856 
+},
+{
+ "plotYear": 2057,
+"phase": "Arbeit",
+"prob": 0.97711 
+},
+{
+ "plotYear": 2058,
+"phase": "Arbeit",
+"prob": 0.97547 
+},
+{
+ "plotYear": 2059,
+"phase": "Arbeit",
+"prob": 0.97362 
+},
+{
+ "plotYear": 2060,
+"phase": "Arbeit",
+"prob": 0.9716 
+},
+{
+ "plotYear": 2061,
+"phase": "Arbeit",
+"prob": 0.96939 
+},
+{
+ "plotYear": 2062,
+"phase": "Arbeit",
+"prob": 0.96697 
+},
+{
+ "plotYear": 2063,
+"phase": "Arbeit",
+"prob": 0.96433 
+},
+{
+ "plotYear": 2064,
+"phase": "Arbeit",
+"prob": 0.96145 
+},
+{
+ "plotYear": 2065,
+"phase": "Arbeit",
+"prob": 0.95833 
+},
+{
+ "plotYear": 2066,
+"phase": "Arbeit",
+"prob": 0.95494 
+},
+{
+ "plotYear": 2067,
+"phase": "Arbeit",
+"prob": 0.95128 
+},
+{
+ "plotYear": 2068,
+"phase": "Arbeit",
+"prob": 0.94736 
+},
+{
+ "plotYear": 2069,
+"phase": "Arbeit",
+"prob": 0.94323 
+},
+{
+ "plotYear": 2070,
+"phase": "Arbeit",
+"prob": 0.93889 
+},
+{
+ "plotYear": 2071,
+"phase": "Arbeit",
+"prob": 0.93428 
+},
+{
+ "plotYear": 2072,
+"phase": "Arbeit",
+"prob": 0.92929 
+},
+{
+ "plotYear": 2073,
+"phase": "Arbeit",
+"prob": 0.92385 
+},
+{
+ "plotYear": 2074,
+"phase": "Arbeit",
+"prob": 0.91796 
+},
+{
+ "plotYear": 2075,
+"phase": "Arbeit",
+"prob": 0.91161 
+},
+{
+ "plotYear": 2076,
+"phase": "Arbeit",
+"prob": 0.90472 
+},
+{
+ "plotYear": 2077,
+"phase": "Arbeit",
+"prob": 0.89699 
+},
+{
+ "plotYear": 2078,
+"phase": "Arbeit",
+"prob": 0.88825 
+},
+{
+ "plotYear": 2079,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2080,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2081,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2082,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2083,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2084,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2085,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2086,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2087,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2088,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2089,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2090,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2091,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2092,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2093,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2094,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2095,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2096,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2097,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2098,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2099,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2100,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2101,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2102,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2103,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2104,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2105,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2106,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2107,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2108,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2109,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2110,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2111,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2112,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2113,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2114,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2115,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2116,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2117,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2118,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2119,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2120,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2121,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2122,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2123,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2124,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2125,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2126,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2127,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2128,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2129,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2130,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2131,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2132,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2133,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2134,
+"phase": "Arbeit",
+"prob":      0 
+},
+{
+ "plotYear": 2013,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2014,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2015,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2016,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2017,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2018,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2019,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2020,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2021,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2022,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2023,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2024,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2025,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2026,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2027,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2028,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2029,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2030,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2031,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2032,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2033,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2034,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2035,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2036,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2037,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2038,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2039,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2040,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2041,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2042,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2043,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2044,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2045,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2046,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2047,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2048,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2049,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2050,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2051,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2052,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2053,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2054,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2055,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2056,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2057,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2058,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2059,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2060,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2061,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2062,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2063,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2064,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2065,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2066,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2067,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2068,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2069,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2070,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2071,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2072,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2073,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2074,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2075,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2076,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2077,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2078,
+"phase": "Ruhestand",
+"prob":      0 
+},
+{
+ "plotYear": 2079,
+"phase": "Ruhestand",
+"prob": 0.87837 
+},
+{
+ "plotYear": 2080,
+"phase": "Ruhestand",
+"prob": 0.86719 
+},
+{
+ "plotYear": 2081,
+"phase": "Ruhestand",
+"prob": 0.85461 
+},
+{
+ "plotYear": 2082,
+"phase": "Ruhestand",
+"prob": 0.84052 
+},
+{
+ "plotYear": 2083,
+"phase": "Ruhestand",
+"prob": 0.82486 
+},
+{
+ "plotYear": 2084,
+"phase": "Ruhestand",
+"prob": 0.80758 
+},
+{
+ "plotYear": 2085,
+"phase": "Ruhestand",
+"prob": 0.78872 
+},
+{
+ "plotYear": 2086,
+"phase": "Ruhestand",
+"prob": 0.76817 
+},
+{
+ "plotYear": 2087,
+"phase": "Ruhestand",
+"prob": 0.74607 
+},
+{
+ "plotYear": 2088,
+"phase": "Ruhestand",
+"prob": 0.72234 
+},
+{
+ "plotYear": 2089,
+"phase": "Ruhestand",
+"prob": 0.69689 
+},
+{
+ "plotYear": 2090,
+"phase": "Ruhestand",
+"prob": 0.66961 
+},
+{
+ "plotYear": 2091,
+"phase": "Ruhestand",
+"prob": 0.64038 
+},
+{
+ "plotYear": 2092,
+"phase": "Ruhestand",
+"prob": 0.60911 
+},
+{
+ "plotYear": 2093,
+"phase": "Ruhestand",
+"prob": 0.57577 
+},
+{
+ "plotYear": 2094,
+"phase": "Ruhestand",
+"prob": 0.54043 
+},
+{
+ "plotYear": 2095,
+"phase": "Ruhestand",
+"prob": 0.50325 
+},
+{
+ "plotYear": 2096,
+"phase": "Ruhestand",
+"prob": 0.46451 
+},
+{
+ "plotYear": 2097,
+"phase": "Ruhestand",
+"prob": 0.42454 
+},
+{
+ "plotYear": 2098,
+"phase": "Ruhestand",
+"prob": 0.38372 
+},
+{
+ "plotYear": 2099,
+"phase": "Ruhestand",
+"prob": 0.34253 
+},
+{
+ "plotYear": 2100,
+"phase": "Ruhestand",
+"prob": 0.30156 
+},
+{
+ "plotYear": 2101,
+"phase": "Ruhestand",
+"prob": 0.26149 
+},
+{
+ "plotYear": 2102,
+"phase": "Ruhestand",
+"prob": 0.22303 
+},
+{
+ "plotYear": 2103,
+"phase": "Ruhestand",
+"prob": 0.18687 
+},
+{
+ "plotYear": 2104,
+"phase": "Ruhestand",
+"prob": 0.15364 
+},
+{
+ "plotYear": 2105,
+"phase": "Ruhestand",
+"prob": 0.12381 
+},
+{
+ "plotYear": 2106,
+"phase": "Ruhestand",
+"prob": 0.09777 
+},
+{
+ "plotYear": 2107,
+"phase": "Ruhestand",
+"prob": 0.075633 
+},
+{
+ "plotYear": 2108,
+"phase": "Ruhestand",
+"prob": 0.057276 
+},
+{
+ "plotYear": 2109,
+"phase": "Ruhestand",
+"prob": 0.042428 
+},
+{
+ "plotYear": 2110,
+"phase": "Ruhestand",
+"prob": 0.030717 
+},
+{
+ "plotYear": 2111,
+"phase": "Ruhestand",
+"prob": 0.021711 
+},
+{
+ "plotYear": 2112,
+"phase": "Ruhestand",
+"prob": 0.014967 
+},
+{
+ "plotYear": 2113,
+"phase": "Ruhestand",
+"prob": 0.010053 
+},
+{
+ "plotYear": 2114,
+"phase": "Ruhestand",
+"prob": 0.006571 
+},
+{
+ "plotYear": 2115,
+"phase": "Ruhestand",
+"prob": 0.004175 
+},
+{
+ "plotYear": 2116,
+"phase": "Ruhestand",
+"prob": 0.0025752 
+},
+{
+ "plotYear": 2117,
+"phase": "Ruhestand",
+"prob": 0.00154 
+},
+{
+ "plotYear": 2118,
+"phase": "Ruhestand",
+"prob": 0.0008915 
+},
+{
+ "plotYear": 2119,
+"phase": "Ruhestand",
+"prob": 0.00049885 
+},
+{
+ "plotYear": 2120,
+"phase": "Ruhestand",
+"prob": 0.00026935 
+},
+{
+ "plotYear": 2121,
+"phase": "Ruhestand",
+"prob": 0.00014009 
+},
+{
+ "plotYear": 2122,
+"phase": "Ruhestand",
+"prob": 7.0053e-05 
+},
+{
+ "plotYear": 2123,
+"phase": "Ruhestand",
+"prob": 3.3609e-05 
+},
+{
+ "plotYear": 2124,
+"phase": "Ruhestand",
+"prob": 1.5435e-05 
+},
+{
+ "plotYear": 2125,
+"phase": "Ruhestand",
+"prob": 6.77e-06 
+},
+{
+ "plotYear": 2126,
+"phase": "Ruhestand",
+"prob": 2.8284e-06 
+},
+{
+ "plotYear": 2127,
+"phase": "Ruhestand",
+"prob": 1.1224e-06 
+},
+{
+ "plotYear": 2128,
+"phase": "Ruhestand",
+"prob": 4.2177e-07 
+},
+{
+ "plotYear": 2129,
+"phase": "Ruhestand",
+"prob": 1.4959e-07 
+},
+{
+ "plotYear": 2130,
+"phase": "Ruhestand",
+"prob": 4.9894e-08 
+},
+{
+ "plotYear": 2131,
+"phase": "Ruhestand",
+"prob": 1.5589e-08 
+},
+{
+ "plotYear": 2132,
+"phase": "Ruhestand",
+"prob": 4.5432e-09 
+},
+{
+ "plotYear": 2133,
+"phase": "Ruhestand",
+"prob": 1.2293e-09 
+},
+{
+ "plotYear": 2134,
+"phase": "Ruhestand",
+"prob":      0 
+} 
+]
+  
+      var data = d3.nest()
+        .key(function(d){
+          return opts.group === undefined ? 'main' : d[opts.group]
+        })
+        .entries(data)
+      
+      nv.addGraph(function() {
+        var chart = nv.models[opts.type]()
+          .x(function(d) { return d[opts.x] })
+          .y(function(d) { return d[opts.y] })
+          .width(opts.width)
+          .height(opts.height)
+         
+        chart
+  .reduceXTicks("true")
+  .stacked("true")
+  .tooltip(function(key, x, y, e, graph){ return '<h3> Alter '+ (x - 2012) + '</h3>' +
+                '<p>' + x + '</p>' +'<p>' + key + '</p>' + '<p>' + y + '</p>' ;})
+          
+        
+
+        
+        
+        chart.yAxis
+  .tickFormat(function(d) {return (100*d).toFixed(0) + '%';})
+      
+       d3.select("#" + opts.id)
+        .append('svg')
+        .datum(data)
+        .transition().duration(500)
+        .call(chart);
+
+       nv.utils.windowResize(chart.update);
+       return chart;
+      });
+    };
+</script>
+
+<p>Done.</p>
+
+</body>
+
+</html>

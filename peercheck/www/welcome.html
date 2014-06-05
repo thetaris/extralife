@@ -1,15 +1,19 @@
 <html>
 <link rel="stylesheet" type="text/css" href="style.css"/>
 <meta charset="UTF-8">
+<%
+  userid = floor(runif(1,0,100000))
+  saveQuestion(userid,'userid',userid)
+%>
 <body>
   <h1>Anleitung zum glücklich sein</h1>
   <p>
     Finde heraus, was wirklich glücklich macht.
   </p>
   <p>
-    <form method="GET" action="http:question.html">
+    <form method="GET" action="http:startup.html">
       <div style="display:none">
-	<input name="userid" value="<%= floor(runif(1,0,100000)) %>"/></div>
+	<input name="userid" value="<%= userid %>"/></div>
       </div>
       <button type="sumbit">Los gehts</button>
     </form>

@@ -2,23 +2,40 @@
 <link rel="stylesheet" type="text/css" href="style.css"/>
 <meta charset="UTF-8">
 <%
-   userid = req$GET()$userid
+    userid = req$GET()$userid
+    questionid = req$GET()$questionid
+    if (!is.null(questionid) && nchar(questionid) > 0) {
+      value = req$GET()$answer
+      saveQuestion(userid, questionid, value)
+    }
+    nextq = nextQuestion(userid)
 %>
 <body>
   <h1>Anleitung zum glücklich sein</h1>
-  <p>
-    {{result}}
-  </p>
   <p>
     Wie gehts weiter?
   </p>
   <p>
     <form method="GET" action="http:question.html">
       <div style="display:none">
-    	<input name="userid" value="<%= userid %>">
-	    <input name="selection" value="1">
+        <input name="userid" value="<%= userid %>">
+	      <input name="questionid" value="<%= nextq[[1]] %>">
       </div>
-      <button type="submit">Frage 1</button>
+      <button type="submit"><%= ELQuestions[[nextq[[1]]]]$shortText %></button>
+    </form>
+    <form method="GET" action="http:question.html">
+      <div style="display:none">
+        <input name="userid" value="<%= userid %>">
+	      <input name="questionid" value="<%= nextq[[2]] %>">
+      </div>
+      <button type="submit"><%= ELQuestions[[nextq[[2]]]]$shortText %></button>
+    </form>
+    <form method="GET" action="http:question.html">
+      <div style="display:none">
+        <input name="userid" value="<%= userid %>">
+	      <input name="questionid" value="<%= nextq[[3]] %>">
+      </div>
+      <button type="submit"><%= ELQuestions[[nextq[[3]]]]$shortText %></button>
     </form>
   </p>
 </body>

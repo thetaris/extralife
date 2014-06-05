@@ -1,3 +1,5 @@
+require(XLConnect)
+
 getELACAT <- function(){
   allELACAT <- function(){
     return(c(    
@@ -11,48 +13,34 @@ getELACAT <- function(){
 }
 getELACAT()
 
-getAType <- function() {
-  addToList <- function(field, type, range){    
+getAType <- function() {  
+  ELA <<- list()
+  ELATYPE <<- list()
+  
+  excel.file <- file.path("FragenFormat.xlsx")
+  elements <- readWorksheetFromFile(excel.file, sheet=2)
+  
+  for (iterRow in (1:nrow(elements))){
+    field <- elements[iterRow, "field"]
     ELATYPE[[field]] <<- list()
-    ELATYPE[[field]]$type <<- type
-    ELATYPE[[field]]$value <<- range
+    ELATYPE[[field]]$type <<- elements[iterRow, "field"]
+    range <- tryCatch(
+      eval(parse(text=sprintf("list%s", elements[iterRow, "range"])))
+      , error=function(e) 
+        sprintf("Could not read %s as valid range (row %i of excel file)"
+                ,elements[iterRow, "range"], iterRow)) 
+    ELATYPE[[field]]$value<<-range
     ELATYPE[[field]]$key <<- field
+    
+    type <- elements[iterRow, "type"]
     
     if (type == "enum"){
       for (iterRange in range){
         ELA[[iterRange]] <<- iterRange
       }
     }
-  }  
+  }
   
-  ELA <<- list()
-  ELATYPE <<- list()
-  
-  addToList("jaNein",     "enum", list("Ja", "Nein")) 
-  addToList("wichtig",    "enum", list("sehr wichtig", "wichtig", "unwichtig", "sehr unwichtig"))
-  addToList("angemessen", "enum", list("zu hoch", "angemessen", "zu niedrig"))
-  addToList("gesetzlichPrivat", "enum", list("gesetzlich", "privat", "gar nicht"))
-  addToList("zufrieden",  "enum", list("sehr unzufrieden", "unzufrieden", "zufrieden", "sehr zufrieden"))
-  addToList("alter", "enum", sprintf("%i bis %i", seq(10, 80, 10), seq(19, 89, 10)) ) 
-  addToList("geschlecht",  "enum", list("Mann", "Frau"))
-  addToList("beziehungsstatus",  "enum", list("Single"
-                                              , "in einer Beziehung"
-                                              , "verlobt"
-                                              , "verheiratet"
-                                              , "in einer offenen Beziehung"
-                                              , "es ist kompliziert"
-                                              , "getrennt"
-                                              , "geschieden"
-                                              , "verwitwet"))
-  addToList("anzKinder", "enum", list("keines", "1", "2", "3", "4 oder mehr"))
-  addToList("alterKinder", "enum", list("0 bis 2", "3 bis 5", "6 bis 11", "12 bis 17", "18 oder älter"))
-  addToList("stimmt", "enum", list("Stimme überhaupt nicht überein."
-                                   , "Stimme nicht überein."
-                                   , "Stimme eher nicht überein."
-                                   , "Stimme weder noch überein."
-                                   , "Stimme etwas überein."
-                                   , "Stimme überein."
-                                   , "Stimme vollkommen überein."))
 }
 
 getAType()
@@ -60,149 +48,66 @@ getAType()
 
 
 getQuestions <- function() {
-  addToList <- function(ID, Text, shortText, ATypeKey, category, requiredAnswers = NULL, priority){
-    ELQuestions[[ID]] <<- list()
-    ELQuestions[[ID]]$Text <<- Text
-    ELQuestions[[ID]]$shortText <<- shortText
-    ELQuestions[[ID]]$AType <<- ATypeKey
-    ELQuestions[[ID]]$category <<- category
-    ELQuestions[[ID]]$requiredAnswers <<- requiredAnswers
-    ELQuestions[[ID]]$priority <<- priority
+  getElement<-function(row, field){
+    res <- elements[row, field]
+    if (is.null(res) || is.na(res)){
+      eTxt<-sprintf("Error: Could not find '%s' in row %i of Excel file.", field, row+1)
+      warning(eTxt)
+      return(eTxt)
+    }
+    res
   }
   
   ELQuestions <<- list()
-  addToList("lebenszufriedenD1"
-            , "Mein Leben entspricht in den meisten Lebensbereichen meinen Idealvorstellungen."
-            , "Wie zufrieden (Idealvorstellungen)?"
-            , ELATYPE$stimmt$key
-            , ELACAT$Lebenszufriedenheit
-            , priority = 9999
-  )
   
-  addToList("lebenszufriedenD2"
-            , "Meine Lebensbedingungen sind ausgezeichnet."
-            , "Wie zufrieden (Lebensbedingungen)?"
-            , ELATYPE$stimmt$key
-            , ELACAT$Lebenszufriedenheit
-            , priority = 9999
-  )
+  excel.file <- file.path("FragenFormat.xlsx")
+  elements <- readWorksheetFromFile(excel.file, sheet=1)
   
-  addToList("lebenszufriedenD3"
-            , "Ich bin zufrieden mit meinem Leben."
-            , "Wie zufrieden (Leben)?"
-            , ELATYPE$stimmt$key
-            , ELACAT$Lebenszufriedenheit
-            , priority = 9999
-  )
-  
-  addToList("lebenszufriedenD4"
-            , "Bis jetzt habe ich die wichtigsten Dinge in meinem Leben erreicht."
-            , "Wie zufrieden (Erreichtes)?"
-            , ELATYPE$stimmt$key
-            , ELACAT$Lebenszufriedenheit
-            , priority = 9999
-  )
-
-  addToList("lebenszufriedenD5"
-            , "Wenn ich mein Leben noch einmal leben könnte, würde ich kaum etwas ändern."
-            , "Wie zufrieden (noch einmal)?"
-            , ELATYPE$stimmt$key
-            , ELACAT$Lebenszufriedenheit
-            , priority = 9999
-  )
-  
-  addToList("lebenszufrieden"
-            , "Wie zufrieden bist Du mit Deinem Leben?"
-            , "Wie zufrieden?"
-            , ELATYPE$zufrieden$key
-            , ELACAT$Lebenszufriedenheit
-            , priority = -1 # do not show
-  )
-  
-  addToList("krank1"
-            , "Wie bist Du Krankenversichert?"
-            , "Wie krankenversichert?"
-            , ELATYPE$gesetzlichPrivat$key
-            , ELACAT$Krankenversicherung
-            , priority = 100
-            )
-  
-  addToList("krank2"
-            , "Dein Krankenversicherungsbeitrag ist"
-            , "Welchen Krankenversicherungbeitrag?"
-            , ELATYPE$angemessen$key
-            , ELACAT$Krankenversicherung
-            , list(krank1=list(ELA$privat, ELA$gesetzlich))
-            , priority = 100
-            )
-
-  addToList("krankVL"
-            , "Die Vorsorgeleistungen meiner Krankenkasse sind mir"
-            , "Ist Vorsorge wichtig?"
-            , ELATYPE$wichtig$key
-            , ELACAT$Krankenversicherung
-            , list(krank1=list(ELA$privat, ELA$gesetzlich))
-            , priority = 100
-            )
-  addToList("krankVL2"
-            , "Wie zufrieden bist Du mit den Vorsorgeleistungen Deiner Krankenkasse?"
-            , "Zufrieden mit Vorsorge?"
-            , ELATYPE$zufrieden$key
-            , ELACAT$Krankenversicherung
-            , list(krank1=list(ELA$privat, ELA$gesetzlich))
-            , priority = 100
-            )
-  addToList("alter"
-            , "Wie alt bist Du?"
-            , "Wie alt?"
-            , ELATYPE$alter$key
-            , ELACAT$Biometrie
-            , priority = 200
-            )
-  
-  addToList("geschlecht"
-            , "Bist du ein Mann oder eine Frau?"
-            , "Mann oder Frau?"
-            , ELATYPE$geschlecht$key
-            , ELACAT$Biometrie
-            , priority = 199
-  )
-  
-  addToList("beziehung"
-            , "Wie würdest Du deinen Beziehungsstatus am ehesten beschreiben?"
-            , "Beziehungsstatus?"
-            , ELATYPE$beziehungsstatus$key
-            , ELACAT$Biometrie
-            , priority = 100            
-  )
-  
-  addToList("anzKinder"
-            , "Wie viele Kinder hast Du?"
-            , "Anzahl Kinder?"
-            , ELATYPE$anzKinder$key
-            , ELACAT$Biometrie
-            , priority = 100            
-  )
-  
-  addToList("alterKinder"
-            , "Wie alt ist Dein ältestes Kind?"
-            , "Alter ältestes Kind?"
-            , ELATYPE$alterKinder$key
-            , ELACAT$Biometrie
-            , list(anzKinder=list(ELA$"2", ELA$"3", ELA$"4 oder mehr"))
-            , priority = 1000            
-  )
-  
-  addToList("alterKinder2"
-            , "Wie alt ist Dein jüngstes Kind?"
-            , "Alter jüngstes Kind?"
-            , ELATYPE$alterKinder$key
-            , ELACAT$Biometrie
-            , list(anzKinder=list(ELA$"1", ELA$"2", ELA$"3", ELA$"4 oder mehr"))
-            , priority = 1000            
-  )
-  
-  
+  for (iterRow in (1:nrow(elements))){
+    ID <- getElement(iterRow, "ID")
+    ELQuestions[[ID]] <<- list()
+    ELQuestions[[ID]]$Text <<- getElement(iterRow, "Text")
+    ELQuestions[[ID]]$shortText <<- getElement(iterRow, "shortText")
+    AType<-getElement(iterRow, "AType")
+    if (AType %in% names(ELATYPE)){
+      ELQuestions[[ID]]$AType <<- AType
+    }else {
+      eTxt <- sprintf("Error: Unknown AType '%s' (row %i). Please include in Excel list.", AType, iterRow+1)
+      ELQuestions[[ID]]$AType <<- eTxt
+      warning(eTxt)
+    }
+    
+    ELQuestions[[ID]]$category <<- getElement(iterRow, "category")
+    if (!is.na(elements[iterRow, "requiredAnswers.ID"])){
+      ELQuestions[[ID]]$requiredAnswers <<- list()
+      requiredAnswers.ID<<-getElement(iterRow, "requiredAnswers.ID")
+      if (requiredAnswers.ID %in% names(ELQuestions) ){              
+      requiredAnswers.Ans  <<- tryCatch(
+        eval(parse(text=sprintf("list%s", elements[iterRow, "requiredAnswers.Ans"])))
+        , error=function(e) {
+          eTxt<-sprintf("Error: Could not read '%s' as valid requiredAnswers.Ans"
+                        ,getElement(iterRow, "requiredAnswers.Ans"))
+          warning(eTxt)
+          eTxt
+          }) 
+      
+      if (prod(requiredAnswers.Ans %in% ELATYPE[[ELQuestions[[requiredAnswers.ID]]$AType]]$value )){
+        ELQuestions[[ID]]$requiredAnswers[requiredAnswers.ID] <<- list(requiredAnswers.Ans)
+      }else{
+        allowedStr <- paste(unlist(ELATYPE[[ELQuestions[[requiredAnswers.ID]]$AType]]$value), collapse=" ")
+        eTxt<-sprintf("Error: Question %s has unknown requiredAnswers.Ans in row %i of Excel file. Allowed values: %s",ID, iterRow+1, allowedStr)
+        warning(eTxt)
+        ELQuestions[[ID]]$requiredAnswers[requiredAnswers.ID] <<- eTxt
+      }
+      }else{
+        eTxt<-sprintf("Error: Question %s has unknown requiredAnswers.ID %s in row %i of Excel file.",ID, requiredAnswers.ID, iterRow+1)
+        warning(eTxt)
+        ELQuestions[[ID]]$requiredAnswers[requiredAnswers.ID] <<- eTxt
+      }
+    }
+    
+    ELQuestions[[ID]]$priority <<- getElement(iterRow, "priority")
+  }
   
 }
 getQuestions()
