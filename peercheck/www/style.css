@@ -1,0 +1,37 @@
+html {
+    background-color: white;
+}
+body {
+    font-family: Arial;
+    width:500px;
+    margin: auto;
+    padding: 10px;
+    background-color: lightgray;
+}
+h2 {
+    margin-bottom: 0.2ex;
+}
+button[type=submit] {
+    padding: 10px;
+    font-size: 12pt;
+}
+#submit-div {
+    text-align:center;
+}
+label:checked {
+    font-weight: bold;
+}
+
+.console div {
+    margin: 5px;
+    padding: 1px;
+}
+.console .output {
+    background-color: lightblue;
+}
+.console .error {
+    background-color: coral;
+}
+.console .input {
+    background-color: lightgreen;
+}

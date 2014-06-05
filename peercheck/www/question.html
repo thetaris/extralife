@@ -1,0 +1,26 @@
+<html>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<meta charset="UTF-8">
+<%
+   userid = req$GET()$userid
+   questionid = req$GET()$questionid
+%>
+<body>
+  <h1>Anleitung zum glücklich sein</h1>
+  <p>
+    <%= 
+       sprintf('next question for user %s', userid)
+    %>
+  </p>
+  <p>
+    <form method="GET" action="http:result.html">
+      <div style="display:none">
+	<input name="userid" value="<%= userid %>">
+	<input name="questionid" value="<%= questionid %>"/>
+      </div>
+      <input name="answer"/>
+      <button type="submit">Weiter</button>
+    </form>
+  </p>
+</body>
+</html>

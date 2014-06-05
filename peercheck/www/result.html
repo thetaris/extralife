@@ -1,0 +1,25 @@
+<html>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<meta charset="UTF-8">
+<%
+   userid = req$GET()$userid
+%>
+<body>
+  <h1>Anleitung zum glücklich sein</h1>
+  <p>
+    {{result}}
+  </p>
+  <p>
+    Wie gehts weiter?
+  </p>
+  <p>
+    <form method="GET" action="http:question.html">
+      <div style="display:none">
+    	<input name="userid" value="<%= userid %>">
+	    <input name="selection" value="1">
+      </div>
+      <button type="submit">Frage 1</button>
+    </form>
+  </p>
+</body>
+</html>
