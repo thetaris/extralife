@@ -1,4 +1,4 @@
-# require(Rook)
+require(Rook)
 require(brew)
 
 source('questions.R', encoding='UTF-8')

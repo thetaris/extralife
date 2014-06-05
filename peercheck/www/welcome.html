@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <%
   userid = floor(runif(1,0,100000))
-  answers[nrow(answers)+1,'userid']=userid
+  saveQuestion(userid,'userid',userid)
 %>
 <body>
   <h1>Anleitung zum glücklich sein</h1>

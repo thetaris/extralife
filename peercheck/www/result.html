@@ -6,10 +6,7 @@
     questionid = req$GET()$questionid
     if (!is.null(questionid) && nchar(questionid) > 0) {
       value = req$GET()$answer
-      assign("userid", userid, envir= .GlobalEnv)
-      assign("value", value, envir= .GlobalEnv)
-      assign("questionid", questionid, envir= .GlobalEnv)
-      with(.GlobalEnv, saveQuestion(userid, questionid, value))
+      saveQuestion(userid, questionid, value)
     }
     nextq = nextQuestion(userid)
 %>

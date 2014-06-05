@@ -58,14 +58,14 @@ getSatisfactionPctPerQ<-function(indexQ){
   return(res)
 }
 
-saveQuestion <- function(userid, questionid, value) {
+saveQuestion <<- function(userid, questionid, value) {
   if (!any(answers$userid == userid)) {
-    answers[nrow(answers)+1,'userid']=userid
+    answers[nrow(answers)+1,'userid'] <<- userid
   }
-  answers[answers$userid==userid,questionid] = value
+  answers[answers$userid==userid,questionid] <<- value
 }
 
-nextQuestion<-function(userid, n=3){
+nextQuestion <<- function(userid, n=3){
   allQuestions <- names(ELQuestions)
   
   if (!any(answers$userid == userid)) {
@@ -118,7 +118,7 @@ n = length(ELQuestions)
 #   
 #   answers<-rbind(answers, newanswers)    
 # }else
-answers = data.frame(rbind(rep(NA, n+1))) 
+answers <<- data.frame(rbind(rep(NA, n+1))) 
 colnames(answers) <- c('userid', names(ELQuestions))
 answers[1,'userid'] = 'testuser'
 
