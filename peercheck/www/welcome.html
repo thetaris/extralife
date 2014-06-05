@@ -1,5 +1,6 @@
 <html>
 <link rel="stylesheet" type="text/css" href="style.css"/>
+<meta charset="UTF-8">
 <body>
   <h1>Anleitung zum glücklich sein</h1>
   <p>
@@ -7,6 +8,9 @@
   </p>
   <p>
     <form method="GET" action="http:question.html">
+      <div style="display:none">
+	<input name="userid" value="<%= floor(runif(1,0,100000)) %>"/></div>
+      </div>
       <button type="sumbit">Los gehts</button>
     </form>
   </p>

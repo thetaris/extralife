@@ -1,7 +1,16 @@
-require(rjson)
-nextQuestion <- function(userid) {
-  list( 
-      question =   sprintf("What do you think about %f", rnorm(1)),
-      questionid = 1
-  );
-}
+require(Rook)
+require(brew)
+
+server <- Rhttpd$new()
+server$start(quiet=TRUE, port=9010)
+
+server$add(name="peercheck",
+      app=Builder$new(
+        Brewery$new(url="/",root="www"),
+        Redirect$new("/welcome.html")
+      )
+)
+
+server$browse('peercheck')
+
+
