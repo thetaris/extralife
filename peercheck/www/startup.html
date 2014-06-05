@@ -1,0 +1,27 @@
+<html>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<meta charset="UTF-8">
+<%
+   userid = req$GET()$userid
+   
+   question = sprintf('next question for user %s', userid)
+%>
+<body>
+  <h1>Anleitung zum glücklich sein</h1>
+  <p>
+    Wie zufrieden bist du mit der Gesamtsituation?
+  </p>
+  <p>
+    <form method="GET" action="http:result.html">
+      <div style="display:none">
+	        <input name="userid" value="<%= userid %>">
+      </div>
+      <select name="happiness">
+          <option value="1">Sehr</option>
+          <option value="2">Wenig</option>
+      </select>
+      <button type="submit">Weiter</button>
+    </form>
+  </p>
+</body>
+</html>
