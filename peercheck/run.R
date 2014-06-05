@@ -10,6 +10,7 @@ server$add(name="peercheck",
         Redirect$new("/welcome.html")
       )
 )
+server$add(app = File$new("plots"), name = "plots")
 
 server$browse('peercheck')
 
