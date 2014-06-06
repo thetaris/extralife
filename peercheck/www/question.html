@@ -18,16 +18,12 @@
           <input name="userid" value="<%= userid %>">
           <input name="questionid" value="<%= questionid %>">
       </div>
-      <div>
-        Instead of a text box here should be a select box with the choices: <%= choices %>.
-      </div>
-      <!--input name="answer"/-->
      
         <%
         
         for(i in choices){ %>
-             <input type="radio" name="answer" id = <%= i %> value = <%= i %> > 
-            <label for= <%= i %>>  <%= i %> </label> </br>
+             <input type="radio" name="answer" id="<%= i %>" value="<%= i %>"> 
+            <label for="<%= i %>"><%= i %></label> </br>
 
         
         <%}
