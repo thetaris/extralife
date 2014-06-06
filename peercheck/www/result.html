@@ -2,8 +2,23 @@
 <link rel="stylesheet" type="text/css" href="style.css"/>
 <meta charset="UTF-8">
 <%
-    userid = req$GET()$userid
-    questionid = req$GET()$questionid
+    userid <<- req$GET()$userid
+    questionid <<- req$GET()$questionid
+    
+    lebenszufriedenD1 <<- req$GET()$lebenszufriedenD1
+    lebenszufriedenD2 <<- req$GET()$lebenszufriedenD2
+    lebenszufriedenD3 <<- req$GET()$lebenszufriedenD3
+    lebenszufriedenD4 <<- req$GET()$lebenszufriedenD4
+    lebenszufriedenD5 <<- req$GET()$lebenszufriedenD5
+    
+    if (!is.null(lebenszufriedenD1)){
+      saveQuestion(userid, "lebenszufriedenD1", lebenszufriedenD1)
+      saveQuestion(userid, "lebenszufriedenD2", lebenszufriedenD1)
+      saveQuestion(userid, "lebenszufriedenD3", lebenszufriedenD1)
+      saveQuestion(userid, "lebenszufriedenD4", lebenszufriedenD1)
+      saveQuestion(userid, "lebenszufriedenD5", lebenszufriedenD1)
+    }
+    
     if (!is.null(questionid) && nchar(questionid) > 0) {
       value = req$GET()$answer
       saveQuestion(userid, questionid, value)
@@ -12,9 +27,37 @@
 %>
 <body>
   <h1>Anleitung zum glücklich sein</h1>
-  <p>
+  
+  <%=
+   {
+   score<-getSatisfaction(answers[answers$userid==userid,])
+   if (length(score)>0){
+      txt<- (sprintf("<h2>Auswertung:<h2> Ihr Zufriedenheitsindex: %i von 100 (%s)\n", getSatisfactionPct(score), getSatisfactionText(score)))
+      allScores<-sapply(c(1:nrow(answers)), function(index) return(getSatisfaction(answers[index,])))
+      allScoresTxt<-sapply(c(1:nrow(answers)), function(index) return(getSatisfactionText(getSatisfaction(answers[index,]))))
+      
+      txt = sprintf("%s<h2>Übersicht über die Antworten:</h2>",txt)
+      for (iterS in 1:6){       
+        sTxt<-getSatisfactionText(iterS*5)
+        txt <- sprintf("%s%40s : %5i<br/>", txt, sTxt, sum(allScoresTxt==sTxt))
+      }
+
+    
+  }else{
+    txt = "Übersicht über die Antworten:\n"
+    
+    res<-getSatisfactionPctPerQ(indexQ)
+    for (iterA in c(1:length(res))){
+      txt <- sprintf("%s\n%30s hat Glücksscore %i", txt, names(res)[iterA], res[[iterA]])
+    }
+
+  }
+  as.character(txt)
+  }  
+  %>
+  <h2>
     Wie gehts weiter?
-  </p>
+  </h2>
   <p>
     <form method="GET" action="http:question.html">
       <div style="display:none">

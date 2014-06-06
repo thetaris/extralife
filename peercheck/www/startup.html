@@ -8,20 +8,39 @@
 %>
 <body>
   <h1>Anleitung zum glücklich sein</h1>
-  <p>
-    Wie zufrieden bist du mit der Gesamtsituation?
-  </p>
-  <p>
-    <form method="GET" action="http:result.html">
-      <div style="display:none">
-	        <input name="userid" value="<%= userid %>">
-      </div>
-      <select name="happiness">
-          <option value="1">Sehr</option>
-          <option value="2">Wenig</option>
-      </select>
-      <button type="submit">Weiter</button>
-    </form>
-  </p>
+  <%={
+  res<-list()
+for (iterQ in names(ELQuestions)){
+  if (ELQuestions[[iterQ]]$priority==9999){
+    
+    qOptionsTags<- list()
+    qOptions <- ELATYPE[[ELQuestions[[iterQ]]$AType]]$value
+    for (iterO in qOptions){
+      qOptionsTags<-list(qOptionsTags, tags$option(iterO, value=iterO) )
+    }
+      
+    res<-list(res, tags$p( ELQuestions[[iterQ]]$Text ),
+             list(tags$div(
+                           tags$input(name="userid", value=userid)
+                           ,style="display:none"
+                           )
+                 ,tags$select(
+                     qOptionsTags
+                     ,name=iterQ
+                   )                 
+                 )
+                 )
+      
+  }  
+}
+    res<-tags$p( 
+        tags$form(list(res, tags$br(), tags$button("weiter", type="submit"))
+             ,method="GET"
+             ,action="http:result.html"
+             )
+             )
+res<-as.character(tags$p(res))
+  res}   
+  %>  
 </body>
 </html>

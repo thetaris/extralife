@@ -1,6 +1,4 @@
-source("questions.R", encoding="UTF-8")
-
-isApplicable <- function(answers, indexQ){
+isApplicable <<- function(answers, indexQ){
   requiredAnswers = ELQuestions[[indexQ]]$requiredAnswers
   
   result = T
@@ -10,7 +8,7 @@ isApplicable <- function(answers, indexQ){
   return(result)
 }
 
-getSatisfaction <- function(answers){
+getSatisfaction <<- function(answers){
   lebenszufrieden<-list()
   lebenszufrieden[["D1"]]<-answers["lebenszufriedenD1"]
   lebenszufrieden[["D2"]]<-answers["lebenszufriedenD2"]
@@ -26,7 +24,7 @@ getSatisfaction <- function(answers){
   return(score)  
 }
 
-getSatisfactionText<-function(score){
+getSatisfactionText<<-function(score){
   if (is.null(score) 
       || length(score)==0
       || is.na(score)) return(NULL)
@@ -38,11 +36,11 @@ getSatisfactionText<-function(score){
   return("überaus zufrieden")
 }
 
-getSatisfactionPct<-function(score){
+getSatisfactionPct<<-function(score){
   return( round( (score-5)/30 * 100 )  )
 }
 
-getSatisfactionPctPerQ<-function(indexQ){
+getSatisfactionPctPerQ<<-function(indexQ){
   res<-list()
   for (iterField in ELATYPE[[ELQuestions[[indexQ]]$AType]]$value){        
     tmpAns <- answers[which( answers[,indexQ]==iterField[[1]] ),]
