@@ -13,6 +13,23 @@ getELACAT <- function(){
 }
 getELACAT()
 
+transformIfWindows<<-function(res){
+  #######################################
+  # exception for windows: get rid of üäö etc.
+  if (Sys.info()[["sysname"]]=="Windows"){
+    res<-sapply(res, function(x){x <- gsub(' |/|-', '.', x)
+                                 x <- gsub('\\.*\\(.*\\)', '', x)
+                                 x <- gsub('\\.+', '.', x)
+                                 x <- gsub('ä', 'ae', x)
+                                 x <- gsub('ü', 'ue', x)
+                                 x <- gsub('ö', 'oe', x)
+                                 x <- gsub('ß', 'ss', x)}  )
+    
+  }
+  #######################################
+  res
+}
+
 getAType <- function() {  
   ELA <<- list()
   ELATYPE <<- list()
@@ -28,8 +45,11 @@ getAType <- function() {
       eval(parse(text=sprintf("list%s", elements[iterRow, "range"])))
       , error=function(e) 
         sprintf("Could not read %s as valid range (row %i of excel file)"
-                ,elements[iterRow, "range"], iterRow)) 
-    ELATYPE[[field]]$value<<-range
+                ,elements[iterRow, "range"], iterRow))
+    
+    range<-transformIfWindows(range)
+    
+    ELATYPE[[field]]$value<<-transformIfWindows(range)
     ELATYPE[[field]]$key <<- field
     
     type <- elements[iterRow, "type"]
@@ -48,14 +68,14 @@ getAType()
 
 
 getQuestions <- function() {
-  getElement<-function(row, field){
+  getElement<-function(row, field, throwError=T){
     res <- elements[row, field]
-    if (is.null(res) || is.na(res)){
+    if (throwError && (is.null(res) || is.na(res))){
       eTxt<-sprintf("Error: Could not find '%s' in row %i of Excel file.", field, row+1)
       warning(eTxt)
       return(eTxt)
     }
-    res
+    transformIfWindows(res)
   }
   
   ELQuestions <<- list()
@@ -78,27 +98,34 @@ getQuestions <- function() {
     }
     
     ELQuestions[[ID]]$category <<- getElement(iterRow, "category")
-    if (!is.na(elements[iterRow, "requiredAnswers.ID"])){
+    requiredAnswers.ID<<-getElement(iterRow, "requiredAnswers.ID", throwError=F)
+    
+    if (!is.na(requiredAnswers.ID)){
       ELQuestions[[ID]]$requiredAnswers <<- list()
-      requiredAnswers.ID<<-getElement(iterRow, "requiredAnswers.ID")
-      if (requiredAnswers.ID %in% names(ELQuestions) ){              
-      requiredAnswers.Ans  <<- tryCatch(
-        eval(parse(text=sprintf("list%s", elements[iterRow, "requiredAnswers.Ans"])))
-        , error=function(e) {
-          eTxt<-sprintf("Error: Could not read '%s' as valid requiredAnswers.Ans"
-                        ,getElement(iterRow, "requiredAnswers.Ans"))
-          warning(eTxt)
-          eTxt
-          }) 
       
-      if (prod(requiredAnswers.Ans %in% ELATYPE[[ELQuestions[[requiredAnswers.ID]]$AType]]$value )){
-        ELQuestions[[ID]]$requiredAnswers[requiredAnswers.ID] <<- list(requiredAnswers.Ans)
-      }else{
-        allowedStr <- paste(unlist(ELATYPE[[ELQuestions[[requiredAnswers.ID]]$AType]]$value), collapse=" ")
-        eTxt<-sprintf("Error: Question %s has unknown requiredAnswers.Ans in row %i of Excel file. Allowed values: %s",ID, iterRow+1, allowedStr)
-        warning(eTxt)
-        ELQuestions[[ID]]$requiredAnswers[requiredAnswers.ID] <<- eTxt
-      }
+      if (requiredAnswers.ID %in% names(ELQuestions) ){              
+        requiredAnswers.Ans  <- tryCatch(
+          eval(parse(text=sprintf("list%s", elements[iterRow, "requiredAnswers.Ans"])))
+          , error=function(e) {
+            eTxt<-sprintf("Error: Could not read '%s' as valid requiredAnswers.Ans"
+                          ,getElement(iterRow, "requiredAnswers.Ans"))
+            warning(eTxt)
+            eTxt
+          }) 
+        
+        requiredAnswers.Ans<-transformIfWindows(requiredAnswers.Ans)        
+        
+        possibleAnswers<-( ELATYPE[[ELQuestions[[requiredAnswers.ID]]$AType]]$value )
+        
+        if (prod(requiredAnswers.Ans %in% possibleAnswers )){
+          ELQuestions[[ID]]$requiredAnswers[requiredAnswers.ID] <<- list(requiredAnswers.Ans)
+        }else{
+          allowedStr <- paste(unlist(possibleAnswers)    , collapse=" ")
+          requiredStr<- paste(unlist(requiredAnswers.Ans), collapse=" ")
+          eTxt<-sprintf("Error: Question %s has unknown requiredAnswers.Ans (%s) in row %i of Excel file. Allowed values: %s",ID, requiredStr, iterRow+1, allowedStr)
+          warning(eTxt)
+          ELQuestions[[ID]]$requiredAnswers[requiredAnswers.ID] <<- eTxt
+        }
       }else{
         eTxt<-sprintf("Error: Question %s has unknown requiredAnswers.ID %s in row %i of Excel file.",ID, requiredAnswers.ID, iterRow+1)
         warning(eTxt)
