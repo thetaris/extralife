@@ -35,12 +35,12 @@
    if ((!is.null(lebenszufriedenD1))&&(length(score)>0)){
       txt<- (sprintf("<h2>Auswertung:<h2> Ihr Zufriedenheitsindex: %i von 100 (%s)\n", getSatisfactionPct(score), getSatisfactionText(score)))
       allScores<-sapply(c(1:nrow(answers)), function(index) return(getSatisfaction(answers[index,])))
-      allScoresTxt<-sapply(c(1:nrow(answers)), function(index) return(getSatisfactionText(getSatisfaction(answers[index,]))))
+      allScoresTxt<<-sapply(c(1:nrow(answers)), function(index) return(getSatisfactionText(getSatisfaction(answers[index,]))))
       
       txt = sprintf("%s<h2>Übersicht über die Antworten:</h2>",txt)
       for (iterS in 1:6){       
-        sTxt<-getSatisfactionText(iterS*5)
-        txt <- sprintf("%s%40s : %5i<br/>", txt, sTxt, sum(allScoresTxt==sTxt))
+        sTxt<<-getSatisfactionText(iterS*5)
+        txt <- sprintf("%s%40s : %5i<br/>", txt, sTxt, sum(unlist(allScoresTxt)==sTxt))
       }
 
     
