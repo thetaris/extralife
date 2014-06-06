@@ -1,0 +1,30 @@
+<html>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<meta charset="UTF-8">
+<%
+   answer = req$GET()$answer
+%>
+<body>
+  <h1>Chaos plot test</h1>
+  <p>
+    This plot depends on the answer: <%= answer %>
+  </p>
+  
+  <%
+  png(file.path(getwd(), "plot.png"))
+  plot(plot)
+  dev.off()
+   %>
+   <p>
+  <img src="../plots/plot.png" width="500" height ="400"/>
+  
+ 
+  </p>
+  <p>
+    <form method="GET" action="http:test.html">
+      <input name="answer"/>
+      <button type="submit">Weiter</button>
+    </form>
+  </p>
+</body>
+</html>

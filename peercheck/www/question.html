@@ -4,12 +4,13 @@
 <%
     userid = req$GET()$userid
     questionid = req$GET()$questionid
-    question = ELQuestions[[questionid]]$Text
+    question = ELQuestions[[questionid]]
+    choices = as.character(ELATYPE[[question$AType]]$value)
 %>
 <body>
   <h1>Anleitung zum glücklich sein</h1>
   <p>
-    <%= question %>
+    <%= question$Text %>
   </p>
   <p>
     <form method="GET" action="http:result.html">
@@ -17,7 +18,23 @@
           <input name="userid" value="<%= userid %>">
           <input name="questionid" value="<%= questionid %>">
       </div>
-      <input name="answer"/>
+      <div>
+        Instead of a text box here should be a select box with the choices: <%= choices %>.
+      </div>
+      <!--input name="answer"/-->
+     
+        <%
+        
+        for(i in choices){ %>
+        
+            <label for= <%= i %>>  <%= i %> </label>
+            <input type="radio" name="answer" id = <%= i %> >   <br>
+        
+        <%}
+        
+        %>
+        
+      
       <button type="submit">Weiter</button>
     </form>
   </p>
