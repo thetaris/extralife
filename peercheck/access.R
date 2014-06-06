@@ -25,15 +25,17 @@ getSatisfaction <<- function(answers){
 }
 
 getSatisfactionText<<-function(score){
+  ans<-list("extrem unzufrieden", "unzufrieden", "leicht unterdurchschnittlich zufrieden", "durchschnittlich zufrieden", "überdurchschnittlich zufrieden", "überaus zufrieden")
+  ans<-transformIfWindows(ans)
   if (is.null(score) 
       || length(score)==0
       || is.na(score)) return(NULL)
-  if (score<10) return("extrem unzufrieden")
-  if (score<15) return("unzufrieden")
-  if (score<20) return("leicht unterdurchschnittlich zufrieden")
-  if (score<25) return("durchschnittlich zufrieden")
-  if (score<30) return("überdurchschnittlich zufrieden")
-  return("überaus zufrieden")
+  if (score<10) return(ans[1])
+  if (score<15) return(ans[2])
+  if (score<20) return(ans[3])
+  if (score<25) return(ans[4])
+  if (score<30) return(ans[5])
+  return(ans[6])
 }
 
 getSatisfactionPct<<-function(score){
@@ -44,9 +46,8 @@ getSatisfactionPctPerQ<<-function(indexQ){
   res<-list()
   for (iterField in ELATYPE[[ELQuestions[[indexQ]]$AType]]$value){        
     tmpAns <- answers[which( answers[,indexQ]==iterField[[1]] ),]
-    tmp <- unlist( sapply(c(1:myRow), function(index) return(getSatisfaction(tmpAns))) )    
-    if (length(tmp)>0){
-      print(is.null(tmp))
+    tmp <- unlist( sapply(c(1:nrow(answers)), function(index) return(getSatisfactionPct(getSatisfaction(tmpAns)))) )    
+    if (length(tmp)>0){      
       res[[iterField[[1]]]] <- median(tmp)
     }else{
       res[[iterField[[1]]]] <- NA
