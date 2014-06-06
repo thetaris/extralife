@@ -45,13 +45,8 @@
 
     
   }else{
-    txt = "Übersicht über die Antworten:"
-    
-    res<-getSatisfactionPctPerQ(questionid)
-    for (iterA in c(1:length(res))){
-      txt <- sprintf("%s<br/>%30s hat Glücksscore %i<br/>", txt, names(res)[iterA], res[[iterA]])
-    }
-
+    txt <- c("Übersicht über die Antworten:", 
+      getSatisfactionHTML(questionid))
   }
   as.character(txt)
   }  
