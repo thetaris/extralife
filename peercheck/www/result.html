@@ -5,6 +5,7 @@
     userid <<- req$GET()$userid
     questionid <<- req$GET()$questionid
     
+    # comes from startup.html
     lebenszufriedenD1 <<- req$GET()$lebenszufriedenD1
     lebenszufriedenD2 <<- req$GET()$lebenszufriedenD2
     lebenszufriedenD3 <<- req$GET()$lebenszufriedenD3
@@ -19,6 +20,7 @@
       saveQuestion(userid, "lebenszufriedenD5", lebenszufriedenD1)
     }
     
+    # comes from question.html
     if (!is.null(questionid) && nchar(questionid) > 0) {
       value = req$GET()$answer
       saveQuestion(userid, questionid, value)

@@ -56,11 +56,20 @@ getSatisfactionPctPerQ<<-function(indexQ){
   return(res)
 }
 
+# load ELAnswers form disk if possible
+ELpeercheck <<- c()
 saveQuestion <<- function(userid, questionid, value) {
   if (!any(answers$userid == userid)) {
     answers[nrow(answers)+1,'userid'] <<- userid
   }
   answers[answers$userid==userid,questionid] <<- value
+  # append a row to ELpeercheck with values for: userid, Timestamp, questionid, value
+  now <- Sys.time()
+  ans <- data.frame(userid=userid, Timestamp = now,  questionid=questionid, value=value)
+  ELpeercheck <<- rbind(ELpeercheck, ans)
+  
+  # save ELpeercheck to disk
+  save(ELpeercheck, file ="../Rdata/ans.Rdata")
 }
 
 nextQuestion <<- function(userid, n=3){
