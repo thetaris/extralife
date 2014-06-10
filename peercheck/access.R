@@ -78,29 +78,26 @@ saveQuestion <<- function(userid, questionid, value) {
 }
 
 getAnswerRow<<-function(userid_in){
-  res<-rbind( as.character( ELpeercheck[ELpeercheck[,"userid"]==userid_in,"value"] ) )
-  colnames(res)<-as.character(ELpeercheck[ELpeercheck[,"userid"]==userid_in,"questionid"])
+  values<-as.character( ELpeercheck[ELpeercheck[,"userid"]==userid_in,"value"] ) 
+  questionids<-as.character(ELpeercheck[ELpeercheck[,"userid"]==userid_in,"questionid"])
   
   allQuestions<-names(ELQuestions)  
-  newQuestions<-allQuestions[!(allQuestions %in% colnames(res))]
   
+  newAnswers <- data.frame(rbind(rep(NA, length(allQuestions)+1)), stringsAsFactors=F)
+  colnames(newAnswers) <- c("userid", allQuestions)
   
-  n <- length(newQuestions)
-  newAnswers <- data.frame(rbind(rep(NA, n))) 
-  colnames(newAnswers) <- newQuestions
+  for (index in c(1:length(values)))
+    newAnswers[1, questionids[[index]] ] <- values[[index]] 
   
-  return(cbind(res, newAnswers))
+  return(newAnswers)
 }
 
-getAnswerTable<<-function(){
-  allQuestions<-names(ELQuestions)  
-  newAnswers <- data.frame(rbind(rep(NA, length(allQuestions)+1 ))) 
-  colnames(newAnswers)<-c("userid", allQuestions)
+getAnswerTable<<-function(){  
+  firstUser<- getUsers()[1]
   
-  for(user in unique(ELpeercheck[,"userid"]) )
-  {
-    newAnswers<-rbind(newAnswers, getAnswerRow(user))      
-  }
+  newAnswers <- NULL
+  
+  for(user in unique(ELpeercheck[,"userid"]) ){newAnswers<-rbind(newAnswers, getAnswerRow(user)) }
   
   return( newAnswers)
 }
@@ -127,7 +124,7 @@ nextQuestion <<- function(userid, n=3){
     for (iterQ in allQuestions){
       if (ELQuestions[[iterQ]]$priority>highestPrio){
         if (is.na(row[[iterQ]])){
-          if (isApplicable(row, iterQ)){
+          if (isApplicable(userid, iterQ)){
             highestPrio <- ELQuestions[[iterQ]]$priority
             bestQ <- iterQ
 #             if (highestPrio==9999){
