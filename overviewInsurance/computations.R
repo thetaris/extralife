@@ -371,6 +371,8 @@ getEmpfehlungen <- function(versicherungen, besitz, familie, input){
   )
   versicherungen$Rechtsstreit$linkCosmos$HTML= NULL
   
+  
+  
   return(versicherungen) 
 }
 
