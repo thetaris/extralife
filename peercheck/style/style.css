@@ -37,8 +37,10 @@ label:checked {
 }
 
 
-.ui-btn {
-    width: 400px !important;
+.ui-btn[type=submit] {
+    width: 300px !important;
+    position: relative;
+    left: 20%;
 }
 
 .ui-page {

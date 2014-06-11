@@ -31,16 +31,14 @@
     nextq <- nextQuestion(userid)
 %>
 <body>
-<!--div style="width:300px"-->
   <h1>Anleitung zum glücklich sein</h1>
-  
   <%=
    {
-   score<-getSatisfaction(answers[answers$userid==userid,])
+   score<-getSatisfaction(userid)
    if ((!is.null(lebenszufriedenD1))&&(length(score)>0)){
       txt<- (sprintf("<h2>Auswertung:<h2> Ihr Zufriedenheitsindex: %i von 100 (%s)\n", getSatisfactionPct(score), getSatisfactionText(score)))
-      allScores<-sapply(c(1:nrow(answers)), function(index) return(getSatisfaction(answers[index,])))
-      allScoresTxt<<-sapply(c(1:nrow(answers)), function(index) return(getSatisfactionText(getSatisfaction(answers[index,]))))
+      allScores<-sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
+      allScoresTxt<<-sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
       
       txt = sprintf("%s<h2>Übersicht über die Antworten:</h2>",txt)
       for (iterS in 1:6){       
@@ -82,6 +80,5 @@
       <button type="submit"><%= ELQuestions[[nextq[[3]]]]$shortText %></button>
     </form>
   </p>
-  <!--/div-->
 </body>
 </html>
