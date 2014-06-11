@@ -17,4 +17,6 @@ server$add(name="peercheck",
 )
 server$add(app = File$new("plots"), name = "plots")
 
+server$add(app = File$new("style"), name = "style")
+
 server$browse('peercheck')

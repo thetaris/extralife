@@ -4,7 +4,7 @@ html {
 body {
     font-family: Arial;
     width:500px;
-    margin: auto;
+    margin: auto !important;
     padding: 10px;
     background-color: lightgray;
 }
@@ -34,4 +34,13 @@ label:checked {
 }
 .console .input {
     background-color: lightgreen;
+}
+
+
+.ui-btn {
+    width: 400px !important;
+}
+
+.ui-page {
+  position: static !important;
 }
