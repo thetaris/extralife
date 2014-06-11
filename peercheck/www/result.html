@@ -31,16 +31,16 @@
     nextq <- nextQuestion(userid)
 %>
 <body>
-  <h1>Anleitung zum glücklich sein</h1>
+  <h1>Anleitung zum Glücklichsein</h1>
   <%=
    {
    score<-getSatisfaction(userid)
    if ((!is.null(lebenszufriedenD1))&&(length(score)>0)){
-      txt<- (sprintf("<h2>Auswertung:<h2> Ihr Zufriedenheitsindex: %i von 100 (%s)\n", getSatisfactionPct(score), getSatisfactionText(score)))
+      txt<- sprintf("<h2>Auswertung</h2>Du bist %s:<br/>%i von 100 Punkten.", getSatisfactionText(score), getSatisfactionPct(score))
       allScores<-sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
       allScoresTxt<<-sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
       
-      txt = sprintf("%s<h2>Übersicht über die Antworten:</h2>",txt)
+      txt = sprintf("%s<h2>Übersicht über die Antworten</h2>",txt)
       for (iterS in 1:6){       
         sTxt<<-getSatisfactionText(iterS*5)
         txt <- sprintf("%s%40s : %5i<br/>", txt, sTxt, sum(unlist(allScoresTxt)==sTxt))
@@ -48,7 +48,7 @@
 
     
   }else{
-    txt <- c("Übersicht über die Antworten:", 
+    txt <- c(sprintf('<h2>So glücklich sind die Antwortenden von<br/>"%s"</h2>', ELQuestions[[questionid]]$Text), 
       getSatisfactionHTML(questionid))
   }
   as.character(txt)
