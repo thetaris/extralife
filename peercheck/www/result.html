@@ -1,8 +1,12 @@
 <html>
-<link rel="stylesheet" type="text/css" href="style.css"/>
+
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../style/style.css"/>
+<link rel="stylesheet" type="text/css" href="../style/jquery.mobile-1.4.2.min.css"/>
+<script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
 <%
-    userid <<- req$GET()$userid
+    userid <- req$GET()$userid
     questionid <<- req$GET()$questionid
     
     # comes from startup.html
@@ -27,6 +31,7 @@
     nextq <- nextQuestion(userid)
 %>
 <body>
+<!--div style="width:300px"-->
   <h1>Anleitung zum glücklich sein</h1>
   
   <%=
@@ -77,5 +82,6 @@
       <button type="submit"><%= ELQuestions[[nextq[[3]]]]$shortText %></button>
     </form>
   </p>
+  <!--/div-->
 </body>
 </html>

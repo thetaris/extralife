@@ -52,25 +52,35 @@ getSatisfactionPctPerQ<<-function(indexQ){
     }else{
       res[[iterField[[1]]]] <- NA
     }
-      
+    
   }
   return(res)
 }
 
 # load ELAnswers form disk if possible
-ELpeercheck <<- c()
+# 
+ if(file.exists("Rdata/ans.csv")){
+   ELpeercheck <<- read.csv("Rdata/ans.csv", sep=",")
+ }else{
+   ELpeercheck <<- c()
+ }
+
+
 saveQuestion <<- function(userid, questionid, value) {
   if (!any(answers$userid == userid)) {
     answers[nrow(answers)+1,'userid'] <<- userid
   }
+  
   answers[answers$userid==userid,questionid] <<- value
   # append a row to ELpeercheck with values for: userid, Timestamp, questionid, value
   now <- Sys.time()
-  ans <- data.frame(userid=userid, Timestamp = now,  questionid=questionid, value=value)
+  ans <<- data.frame(userid=userid, Timestamp = format(now, "%Y_%m_%d_%H:%M:%S") ,  questionid=questionid, value=value)
   ELpeercheck <<- rbind(ELpeercheck, ans)
   
   # save ELpeercheck to disk
+  # just to compare
   save(ELpeercheck, file ="../Rdata/ans.Rdata")
+  write.csv(ELpeercheck, file ="../Rdata/ans.csv",row.names=FALSE)
 }
 
 nextQuestion <<- function(userid, n=3){
@@ -93,10 +103,10 @@ nextQuestion <<- function(userid, n=3){
           if (isApplicable(row, iterQ)){
             highestPrio <- ELQuestions[[iterQ]]$priority
             bestQ <- iterQ
-#             if (highestPrio==9999){
-#               result <- append(result, bestQ)
-#               return(result)
-#             }
+            #             if (highestPrio==9999){
+            #               result <- append(result, bestQ)
+            #               return(result)
+            #             }
           }
         }
       }

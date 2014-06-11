@@ -1,11 +1,15 @@
 <html>
-<link rel="stylesheet" type="text/css" href="style.css"/>
+<link rel="stylesheet" type="text/css" href="../style/style.css"/>
+<link rel="stylesheet" type="text/css" href="../style/jquery.mobile-1.4.2.min.css"/>
+<script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
 <meta charset="UTF-8">
 <%
   userid = floor(runif(1,0,100000))
   saveQuestion(userid,'userid',userid)
 %>
 <body>
+<!--div style="position:fixed;top:50%;left:50%;"-->
   <h1>Anleitung zum glücklich sein</h1>
   <p>
     Finde heraus, was wirklich glücklich macht.
@@ -18,5 +22,6 @@
       <button type="sumbit">Los gehts</button>
     </form>
   </p>
+<!--/div-->
 </body>
 </html>
