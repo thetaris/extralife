@@ -67,25 +67,34 @@ getSatisfactionPctPerQ<<-function(indexQ){
 
 # load ELAnswers form disk if possible
 # 
+<<<<<<< HEAD
  if(file.exists("ans.csv")){
    ELpeercheck <<- read.csv("ans.csv", sep=",")
+=======
+ if(file.exists("log.RData")){
+   #ELpeercheck <<- read.csv("ans.csv", sep=",")
+   # load the log.RData file and all the data are directly loaded to variable ELpeercheck
+   load("log.RData")
+>>>>>>> 83763cf666c0a7954e664184e449a3071d5393f4
  }else{
    ELpeercheck <<- c()
  }
 
-
 saveQuestion <<- function(userid, questionid, value) {
-
   # append a row to ELpeercheck with values for: userid, Timestamp, questionid, value
   now <- Sys.time()
-  ans <<- data.frame(userid=userid, Timestamp = format(now, "%Y_%m_%d_%H:%M:%S") ,  questionid=questionid, value=value)
+  ans <- data.frame(userid=userid, Timestamp = format(now, "%Y_%m_%d_%H:%M:%S") ,  questionid=questionid, value=value)
   ELpeercheck <<- rbind(ELpeercheck, ans)
-  
   # save ELpeercheck to disk
+<<<<<<< HEAD
   # just to compare
   save(ELpeercheck, file ="ans.Rdata")
   write.csv(ELpeercheck, file ="ans.csv",row.names=FALSE)
 
+=======
+  save(ELpeercheck, file ="../log.RData")
+  #write.csv(ELpeercheck, file ="../log.csv",row.names=FALSE)
+>>>>>>> 83763cf666c0a7954e664184e449a3071d5393f4
 }
 
 getAnswerRow<<-function(userid_in){
