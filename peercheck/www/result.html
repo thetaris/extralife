@@ -34,21 +34,31 @@
   <h1>Anleitung zum Glücklichsein</h1>
   <%=
    {
-   score<-getSatisfaction(userid)
+   score <- getSatisfaction(userid)
    if ((!is.null(lebenszufriedenD1))&&(length(score)>0)){
-      txt<- sprintf("<h2>Auswertung</h2>Du bist %s:<br/>%i von 100 Punkten.", getSatisfactionText(score), getSatisfactionPct(score))
-      allScores<-sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
-      allScoresTxt<<-sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
-      
-      txt = sprintf("%s<h2>Übersicht über die Antworten</h2>",txt)
-      for (iterS in 1:6){       
-        sTxt<<-getSatisfactionText(iterS*5)
-        txt <- sprintf("%s%40s : %5i<br/>", txt, sTxt, sum(unlist(allScoresTxt)==sTxt))
-      }
-
-    
-  }else{
-    txt <- c(sprintf('<h2>So glücklich sind die Antwortenden von<br/>"%s"</h2>', ELQuestions[[questionid]]$Text), 
+        allScores <- sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
+        allScoresTxt <<- sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
+        
+        txt <- tags$div(
+        tags$h2("Auswertung"),
+        sprintf("Du bist %s. (%i von 100 Punkten)",  getSatisfactionText(score), getSatisfactionPct(score)),
+        tags$div(style="text-align:center",
+          getEmoticonHTML(getSatisfactionPct(score)/100, size=150)),
+        tags$h2("Übersicht über die Antworten"),
+        
+        tags$table(width="100%",
+          lapply(6:1, function(iterS) {
+            sTxt <- getSatisfactionText(iterS*5)[[1]]
+            tags$tr(
+               tags$td(getEmoticonHTML((iterS-1)/5)),
+               tags$td(sTxt),
+               tags$td(sum(unlist(allScoresTxt)==sTxt))
+            )
+          }))
+        )
+  } else {
+    txt <- c(sprintf('<h2>So glücklich sind die Antwortenden von<br/>"%s"</h2>', 
+      ELQuestions[[questionid]]$Text), 
       getSatisfactionHTML(questionid))
   }
   as.character(txt)

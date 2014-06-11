@@ -1,8 +1,8 @@
-getEmoticonHTML <<- function(happiness) {
-  tags$embed(src=sprintf("http://liquidizer.org/emoticons/face.svg?size=50&a=%f&v=%f&p=1", happiness, happiness),
+getEmoticonHTML <<- function(happiness, size=50) {
+  tags$embed(src=sprintf("http://liquidizer.org/emoticons/face.svg?size=%d&a=%f&v=%f&p=1", size, happiness, happiness),
             style="position:relative",
-             width="50", 
-             height="50")
+             width=size, 
+             height=size)
 }
 
 getSatisfactionHTML <<- function(questionid){
