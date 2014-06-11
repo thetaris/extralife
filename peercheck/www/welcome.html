@@ -1,9 +1,11 @@
 <html>
+
+<meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="../style/style.css"/>
 <link rel="stylesheet" type="text/css" href="../style/jquery.mobile-1.4.2.min.css"/>
 <script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
-<meta charset="UTF-8">
+
 <%
   userid = floor(runif(1,0,100000))
   saveQuestion(userid,'userid',userid)
@@ -25,7 +27,7 @@ Du kannst helfen die Anleitung zum Glücklichsein freizulegen. Teile anonym dein
       <div style="display:none">
 	<input name="userid" value="<%= userid %>"/></div>
       </div>
-      <button type="sumbit">Los gehts</button>
+      <button type="submit">Los gehts</button>
     </form>
   </p>
 </body>

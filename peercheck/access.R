@@ -54,7 +54,7 @@ getSatisfactionPctPerQ<<-function(indexQ){
   answers<-getAnswerTable()
   for (iterField in ELATYPE[[ELQuestions[[indexQ]]$AType]]$value){        
     tmpAns <- answers[which( answers[,indexQ]==iterField[[1]] ),]
-    tmp <- unlist( sapply(c(1:nrow(answers)), function(index) return(getSatisfactionPct(getSatisfactionFromRow(tmpAns)))) )    
+    tmp <- unlist( sapply(c(1:nrow(tmpAns)), function(index) return(getSatisfactionPct(getSatisfactionFromRow(tmpAns[index,])))) )    
     if (length(tmp)>0){      
       res[[iterField[[1]]]] <- median(tmp)
     }else{
@@ -82,7 +82,6 @@ saveQuestion <<- function(userid, questionid, value) {
   ELpeercheck <<- rbind(ELpeercheck, ans)
   # save ELpeercheck to disk
   save(ELpeercheck, file ="../log.RData")
-  #write.csv(ELpeercheck, file ="../log.csv",row.names=FALSE)
 }
 
 getAnswerRow<<-function(userid_in){
