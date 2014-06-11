@@ -54,7 +54,7 @@ getSatisfactionPctPerQ<<-function(indexQ){
   answers<-getAnswerTable()
   for (iterField in ELATYPE[[ELQuestions[[indexQ]]$AType]]$value){        
     tmpAns <- answers[which( answers[,indexQ]==iterField[[1]] ),]
-    tmp <- unlist( sapply(c(1:nrow(answers)), function(index) return(getSatisfactionPct(getSatisfactionFromRow(tmpAns)))) )    
+    tmp <- unlist( sapply(c(1:nrow(tmpAns)), function(index) return(getSatisfactionPct(getSatisfactionFromRow(tmpAns[index,])))) )    
     if (length(tmp)>0){      
       res[[iterField[[1]]]] <- median(tmp)
     }else{
@@ -67,8 +67,8 @@ getSatisfactionPctPerQ<<-function(indexQ){
 
 # load ELAnswers form disk if possible
 # 
- if(file.exists("Rdata/ans.csv")){
-   ELpeercheck <<- read.csv("Rdata/ans.csv", sep=",")
+ if(file.exists("ans.csv")){
+   ELpeercheck <<- read.csv("ans.csv", sep=",")
  }else{
    ELpeercheck <<- c()
  }
@@ -83,8 +83,8 @@ saveQuestion <<- function(userid, questionid, value) {
   
   # save ELpeercheck to disk
   # just to compare
-  save(ELpeercheck, file ="../Rdata/ans.Rdata")
-  write.csv(ELpeercheck, file ="../Rdata/ans.csv",row.names=FALSE)
+  save(ELpeercheck, file ="ans.Rdata")
+  write.csv(ELpeercheck, file ="ans.csv",row.names=FALSE)
 
 }
 
