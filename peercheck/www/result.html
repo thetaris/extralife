@@ -1,15 +1,15 @@
 <%= getHeader() %>
 
 <%
-    userid <- req$GET()$userid
-    questionid <<- req$GET()$questionid
+    userid <- req$cookies()$userid
+    questionid <- req$GET()$questionid
     
     # comes from startup.html
-    lebenszufriedenD1 <<- req$GET()$lebenszufriedenD1
-    lebenszufriedenD2 <<- req$GET()$lebenszufriedenD2
-    lebenszufriedenD3 <<- req$GET()$lebenszufriedenD3
-    lebenszufriedenD4 <<- req$GET()$lebenszufriedenD4
-    lebenszufriedenD5 <<- req$GET()$lebenszufriedenD5
+    lebenszufriedenD1 <<- req$POST()$lebenszufriedenD1
+    lebenszufriedenD2 <<- req$POST()$lebenszufriedenD2
+    lebenszufriedenD3 <<- req$POST()$lebenszufriedenD3
+    lebenszufriedenD4 <<- req$POST()$lebenszufriedenD4
+    lebenszufriedenD5 <<- req$POST()$lebenszufriedenD5
     
     if (!is.null(lebenszufriedenD1)){
       saveQuestion(userid, "lebenszufriedenD1", lebenszufriedenD1)
@@ -19,8 +19,9 @@
       saveQuestion(userid, "lebenszufriedenD5", lebenszufriedenD5)
     }else{
     if (!is.null(questionid) && nchar(questionid) > 0) {
-      value = req$GET()$answer
-      saveQuestion(userid, questionid, value)
+      value = req$POST()$answer
+      if (!is.null(value))
+        saveQuestion(userid, questionid, value)
     }
     }
     nextq <- nextQuestion(userid)
@@ -30,7 +31,7 @@
   <%=
    {
    score <- getSatisfaction(userid)
-   if ((!is.null(lebenszufriedenD1))&&(length(score)>0)){
+   if (is.null(questionid)){
         allScores <- sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
         allScoresTxt <<- sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
         
@@ -64,26 +65,29 @@
     Finde heraus, was glücklich macht.
   </h2>
   <p>
+    <% if (is.null(userid)) { %>
+      <form method="GET" action="http:welcome.html">
+        <button type="submit"><%= ELQuestions[[nextq[[1]]]]$shortText %></button>
+      </form>
+    <% } else { %>    
     <form method="GET" action="http:question.html">
       <div style="display:none">
-        <input name="userid" value="<%= userid %>">
 	      <input name="questionid" value="<%= nextq[[1]] %>">
       </div>
       <button type="submit"><%= ELQuestions[[nextq[[1]]]]$shortText %></button>
     </form>
     <form method="GET" action="http:question.html">
       <div style="display:none">
-        <input name="userid" value="<%= userid %>">
 	      <input name="questionid" value="<%= nextq[[2]] %>">
       </div>
       <button type="submit"><%= ELQuestions[[nextq[[2]]]]$shortText %></button>
     </form>
     <form method="GET" action="http:question.html">
       <div style="display:none">
-        <input name="userid" value="<%= userid %>">
 	      <input name="questionid" value="<%= nextq[[3]] %>">
       </div>
       <button type="submit"><%= ELQuestions[[nextq[[3]]]]$shortText %></button>
     </form>
+    <% } %>
   </p>
 <%= getFooter() %>

@@ -1,7 +1,6 @@
 <%= getHeader() %>
 
 <%
-    userid = req$GET()$userid
     questionid = req$GET()$questionid
     question = ELQuestions[[questionid]]
     choices = as.character(ELATYPE[[question$AType]]$value)
@@ -12,11 +11,7 @@
     <%= question$Text %>
   </p>
   <p>
-    <form method="GET" action="http:result.html">
-      <div style="display:none">
-          <input name="userid" value="<%= userid %>">
-          <input name="questionid" value="<%= questionid %>">
-      </div>
+    <form method="POST" action="http:result.html?questionid=<%=questionid%>">
           <fieldset data-role ="controlgroup">
         <%
          

@@ -17,7 +17,7 @@ getSatisfactionHTML <<- function(questionid){
                     tags$td(tags$embed(src="http://liquidizer.org/emoticons/face.svg?size=50&view=sleeping", width=50, height=50))
                   else
                     tags$td(
-                      tags$div(style=sprintf('width:%f%%;background-color:gray;height:5px;float:left;margin-top:22px',score*0.9)),
+                      tags$div(style=sprintf('width:%f%%;background-color:gray;height:5px;float:left;margin-top:22px',score*0.8)),
                       getEmoticonHTML(score/100)
                     )
               )
