@@ -20,6 +20,7 @@ transformIfWindows<<-function(res){
     res<-sapply(res, function(x){x <- gsub(' |/|-', '.', x)
                                  x <- gsub('\\.*\\(.*\\)', '', x)
                                  x <- gsub('\\.+', '.', x)
+                                 x <- gsub('€', 'E', x)
                                  x <- gsub('ä', 'ae', x)
                                  x <- gsub('ü', 'ue', x)
                                  x <- gsub('ö', 'oe', x)
@@ -133,7 +134,7 @@ getQuestions <- function() {
       }
     }
     
-    ELQuestions[[ID]]$priority <<- getElement(iterRow, "priority")
+    ELQuestions[[ID]]$priority <<- as.numeric(getElement(iterRow, "priority"))
   }
   
 }
