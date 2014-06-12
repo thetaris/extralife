@@ -4,7 +4,7 @@
    question = sprintf('next question for user %s', userid)
 %>
   <h1>Anleitung zum Glücklichsein</h1>  
-  <form method="POST" action="result.html">
+  <form method="POST" action="http:result.html">
   <%
   questionids <- names(ELQuestions)[sapply(ELQuestions, function(q) q$priority==9999)]
   html <- lapply(questionids, function(iterQ) {
