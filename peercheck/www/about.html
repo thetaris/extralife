@@ -1,9 +1,4 @@
-<html>
-<meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="../style/style.css"/>
-<link rel="stylesheet" type="text/css" href="../style/jquery.mobile-1.4.2.min.css"/>
-<script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
+<%= getHeader() %>
 <%
   userid = req$cookies()$userid
   if (is.null(userid)) {
@@ -15,7 +10,7 @@
     saveQuestion(userid, "email", email)
   }
 %>
-<body>
+
   <h1>Anleitung zum Glücklich sein</h1>
   <div class="info-block">
       <h2>Wer betreibt diese Seite?</h2>
@@ -34,11 +29,15 @@
           <br>
           <button type="submit">Eintragen</button>
         </form>
+        <div class="renate-login">
+<p><a class="facebook-action-connect ext" href="https://www.facebook.com/dialog/oauth?client_id=441686259296852&amp;redirect_uri=https%3A//diegraueseite.de/fboauth/connect%3Fdestination%3Dnode%252F1508&amp;scope=email" rel="nofollow" target="_blank"><img alt="" src="https://diegraueseite.de/sites/all/themes/graueseite/omega-html5/css/img/facebooksingin_long.png"> </a></p>
+
+<p><a href="https://diegraueseite.de/gauth_user_login_submit" target="_blank"><img alt="google signin" src="https://diegraueseite.de/sites/all/themes/graueseite/omega-html5/css/img/googlesignin_long.png"></a></p>
+</div>
       <% } else { %>
         Danke! Wir informieren dich, wenn es Neuigkeiten gibt.
       <% } %>
   </div>
   
   
-</body>
-</html>
+<%= getFooter() %>
