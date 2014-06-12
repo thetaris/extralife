@@ -1,10 +1,8 @@
-<html>
-<link rel="stylesheet" type="text/css" href="../style/style.css"/>
-<link rel="stylesheet" type="text/css" href="../style/jquery.mobile-1.4.2.min.css"/>
-<script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
-<meta charset="UTF-8">
-<body>
+<%= getHeader() %>
+<%
+   userid = req$GET()$userid
+   question = sprintf('next question for user %s', userid)
+%>
   <h1>Anleitung zum Glücklichsein</h1>  
   <form method="POST" action="result.html">
   <%
@@ -31,5 +29,4 @@
   <br/>
   <button type="submit">Weiter</button>
   </form>
-</body>
-</html>
+<%= getFooter() %>

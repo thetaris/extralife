@@ -1,16 +1,7 @@
-<html>
+<%= getHeader() %>
 
-<meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="../style/style.css"/>
-<link rel="stylesheet" type="text/css" href="../style/jquery.mobile-1.4.2.min.css"/>
-<script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
 <%
     userid <- req$cookies()$userid
-    if (is.null(userid)) {
-      userid <- paste(sample(c(0:9, letters, LETTERS), 20, replace=TRUE), collapse="")
-      res$set_cookie(key="userid", value=userid)
-    }
     questionid <- req$GET()$questionid
     
     # comes from startup.html
@@ -35,12 +26,12 @@
     }
     nextq <- nextQuestion(userid)
 %>
-<body>
+
   <h1>Anleitung zum Glücklichsein</h1>
   <%=
    {
    score <- getSatisfaction(userid)
-   if ((!is.null(lebenszufriedenD1))&&(length(score)>0)){
+   if (is.null(questionid)){
         allScores <- sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
         allScoresTxt <<- sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
         
@@ -74,6 +65,11 @@
     Finde heraus, was glücklich macht.
   </h2>
   <p>
+    <% if (is.null(userid)) { %>
+      <form method="GET" action="http:welcome.html">
+        <button type="submit"><%= ELQuestions[[nextq[[1]]]]$shortText %></button>
+      </form>
+    <% } else { %>    
     <form method="GET" action="http:question.html">
       <div style="display:none">
 	      <input name="questionid" value="<%= nextq[[1]] %>">
@@ -92,6 +88,6 @@
       </div>
       <button type="submit"><%= ELQuestions[[nextq[[3]]]]$shortText %></button>
     </form>
+    <% } %>
   </p>
-</body>
-</html>
+<%= getFooter() %>
