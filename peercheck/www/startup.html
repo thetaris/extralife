@@ -10,6 +10,7 @@
    question = sprintf('next question for user %s', userid)
 %>
 <body>
+<div class="content"> 
   <h1>Anleitung zum Glücklichsein</h1>  
   <%={
   res<-list()
@@ -46,5 +47,11 @@ for (iterQ in names(ELQuestions)){
 res<-as.character(tags$p(res))
   res}   
   %>  
+  </div>
+  <div class='footer'>
+    @copy right 2014 info 
+ </div>
 </body>
+
+ 
 </html>

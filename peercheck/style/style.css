@@ -5,8 +5,7 @@ body {
     font-family: Arial;
     width:500px;
     margin: auto !important;
-    padding: 10px;
-    background-color: lightgray;
+    
 }
 h2 {
     margin-bottom: 0.2ex;
@@ -45,4 +44,12 @@ label:checked {
 
 .ui-page {
   position: static !important;
+  display:flex !important;
+  flex-direction:column;
+  min-height: 100% !important;
+}
+
+.content {
+  flex-grow: 1;
+    padding: 10px;
 }
