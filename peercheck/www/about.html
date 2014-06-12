@@ -1,0 +1,44 @@
+<html>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../style/style.css"/>
+<link rel="stylesheet" type="text/css" href="../style/jquery.mobile-1.4.2.min.css"/>
+<script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
+<%
+  userid = req$cookies()$userid
+  if (is.null(userid)) {
+    userid <- paste(sample(c(0:9, letters, LETTERS), 20, replace=TRUE), collapse="")
+    res$set_cookie(key="userid", value=userid)
+  }
+  email <- req$POST()$email
+  if (!is.null(email)) {
+    saveQuestion(userid, "email", email)
+  }
+%>
+<body>
+  <h1>Anleitung zum Glücklich sein</h1>
+  <div class="info-block">
+      <h2>Wer betreibt diese Seite?</h2>
+  </div>
+  <div class="info-block">
+      <h2>Was geschieht mit meinen Daten?</h2>
+  </div>
+  <div class="info-block">
+      <h2>Ich möchte informiert werden, wie es weiter geht</h2>
+      <% if (is.null(email)) { %>
+        <form method="POST" action="#">
+          <div style="display:none">
+          <input name="userid" value="<%= userid %>">
+          </div>
+            <label>Email Adresse: </label><input name="email" value="<%=email%>">
+          <br>
+          <button type="submit">Eintragen</button>
+        </form>
+      <% } else { %>
+        Danke! Wir informieren dich, wenn es Neuigkeiten gibt.
+      <% } %>
+  </div>
+  
+  
+</body>
+</html>
