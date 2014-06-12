@@ -4,30 +4,20 @@
 <script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
 <meta charset="UTF-8">
-<%
-   userid = req$GET()$userid
-   
-   question = sprintf('next question for user %s', userid)
-%>
 <body>
   <h1>Anleitung zum Glücklichsein</h1>  
-  <%={
-  res<-list()
-for (iterQ in names(ELQuestions)){
-  if (ELQuestions[[iterQ]]$priority==9999){
-    
-    qOptionsTags <- append(
-      list(tags$option("Bitte wählen", value="")),
-      lapply(ELATYPE[[ELQuestions[[iterQ]]$AType]]$value,
-        function(iterO) { tags$option(iterO, value=iterO) }
-    ))
+  <form method="POST" action="result.html">
+  <%
+  questionids <- names(ELQuestions)[sapply(ELQuestions, function(q) q$priority==9999)]
+  html <- lapply(questionids, function(iterQ) {
+      qOptionsTags <- append(
+        list(tags$option("Bitte wählen", value="")),
+        lapply(rev(ELATYPE[[ELQuestions[[iterQ]]$AType]]$value),
+          function(iterO) { tags$option(iterO, value=iterO) }
+      ))
       
-    res<-list(res, tags$p( ELQuestions[[iterQ]]$Text ),
-             list(tags$div(
-                           tags$input(name="userid", value=userid)
-                           ,style="display:none"
-                           )
-                 ,tags$select(
+      tags$p( ELQuestions[[iterQ]]$Text,
+             list(tags$select(
                      qOptionsTags
                      , name=iterQ
                      , required="required"
@@ -35,16 +25,11 @@ for (iterQ in names(ELQuestions)){
                  )
                  )
       
-  }  
-}
-    res<-tags$p( 
-        tags$form(list(res, tags$br(), tags$button("weiter", type="submit"))
-             ,method="GET"
-             ,action="http:result.html"
-             )
-             )
-res<-as.character(tags$p(res))
-  res}   
-  %>  
+  })  
+  cat(as.character(tags$div(html)))
+  %>
+  <br/>
+  <button type="submit">Weiter</button>
+  </form>
 </body>
 </html>

@@ -7,7 +7,16 @@
 <script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
 
 <%
-  userid = floor(runif(1,0,100000))
+  userid <- req$GET()$userid # allow userid overrides
+  if (!is.null(userid)) {
+    res$set_cookie(key="userid", value=userid)
+  } else {
+    userid <- req$cookies()$userid
+    if (is.null(userid)) {
+      userid <- paste(sample(c(0:9, letters, LETTERS), 20, replace=TRUE), collapse="")
+      res$set_cookie(key="userid", value=userid)
+    }
+  }
   saveQuestion(userid,'userid',userid)
 %>
 <body>
@@ -23,10 +32,7 @@ Du kannst helfen die Anleitung zum Glücklichsein freizulegen. Teile anonym dein
     Finde heraus, was wirklich glücklich macht.
   </p>
   <p>
-    <form method="GET" action="http:startup.html">
-      <div style="display:none">
-	<input name="userid" value="<%= userid %>"/></div>
-      </div>
+    <form method="POST" action="http:startup.html">
       <button type="submit">Los gehts</button>
     </form>
   </p>
