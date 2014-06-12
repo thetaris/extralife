@@ -60,3 +60,12 @@ label:checked {
   border : 1px solid gray;
   border-radius: 10px;
 }
+
+.footer {
+  background: url(DIE_GRAUE_SEITE_0.PNG) no-repeat;
+  background-color: white;
+  background-position: 0 0, right;
+  text-align: right;
+  height : 85px;
+   padding: 0 0 0 152px; 
+}
