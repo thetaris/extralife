@@ -1,10 +1,5 @@
-<html>
+<%= getHeader() %>
 
-<meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="../style/style.css"/>
-<link rel="stylesheet" type="text/css" href="../style/jquery.mobile-1.4.2.min.css"/>
-<script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
 <%
     userid <- req$GET()$userid
     questionid <<- req$GET()$questionid
@@ -30,7 +25,7 @@
     }
     nextq <- nextQuestion(userid)
 %>
-<body>
+
   <h1>Anleitung zum Glücklichsein</h1>
   <%=
    {
@@ -91,5 +86,4 @@
       <button type="submit"><%= ELQuestions[[nextq[[3]]]]$shortText %></button>
     </form>
   </p>
-</body>
-</html>
+<%= getFooter() %>

@@ -49,6 +49,18 @@ getSatisfactionPct<<-function(score){
   return( round( (score-5)/30 * 100 )  )
 }
 
+
+getHeader <<- function(){
+  theheader <- readLines("header.html")
+  return (paste(theheader, collapse=""))
+  
+}
+
+getFooter <<- function(){
+  thefooter <- readLines("footer.html")
+  return (paste(thefooter, collapse=""))
+}
+
 getSatisfactionPctPerQ<<-function(indexQ){
   res<-list()
   answers<-getAnswerTable()
@@ -67,13 +79,13 @@ getSatisfactionPctPerQ<<-function(indexQ){
 
 # load ELAnswers form disk if possible
 # 
- if(file.exists("log.RData")){
-   #ELpeercheck <<- read.csv("ans.csv", sep=",")
-   # load the log.RData file and all the data are directly loaded to variable ELpeercheck
-   load("log.RData")
- }else{
-   ELpeercheck <<- c()
- }
+if(file.exists("log.RData")){
+  #ELpeercheck <<- read.csv("ans.csv", sep=",")
+  # load the log.RData file and all the data are directly loaded to variable ELpeercheck
+  load("log.RData")
+}else{
+  ELpeercheck <<- c()
+}
 
 saveQuestion <<- function(userid, questionid, value) {
   # append a row to ELpeercheck with values for: userid, Timestamp, questionid, value

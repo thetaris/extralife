@@ -1,16 +1,11 @@
-<html>
-<link rel="stylesheet" type="text/css" href="../style/style.css"/>
-<link rel="stylesheet" type="text/css" href="../style/jquery.mobile-1.4.2.min.css"/>
-<script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
-<meta charset="UTF-8">
+<!-- start header -->
+
+<!-- end header -->
+<%= getHeader() %>
 <%
    userid = req$GET()$userid
-   
    question = sprintf('next question for user %s', userid)
 %>
-<body>
-<div class="content"> 
   <h1>Anleitung zum Glücklichsein</h1>  
   <%={
   res<-list()
@@ -47,11 +42,7 @@ for (iterQ in names(ELQuestions)){
 res<-as.character(tags$p(res))
   res}   
   %>  
-  </div>
-  <div class='footer'>
-    @copy right 2014 info 
- </div>
-</body>
+<%= getFooter() %>
+<!-- start footer -->
 
- 
-</html>
+<!-- end footer -->

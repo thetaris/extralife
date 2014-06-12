@@ -1,16 +1,8 @@
-<html>
-
-<meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="../style/style.css"/>
-<link rel="stylesheet" type="text/css" href="../style/jquery.mobile-1.4.2.min.css"/>
-<script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
-
+<%= getHeader() %>
 <%
   userid = floor(runif(1,0,100000))
   saveQuestion(userid,'userid',userid)
 %>
-<body>
 <center>
   <h1>Anleitung zum Glücklichsein</h1>
   <h2>Werde Teil der "Weisheit der Masse"</h2>
@@ -25,10 +17,8 @@ Du kannst helfen die Anleitung zum Glücklichsein freizulegen. Teile anonym dein
   <p>
     <form method="GET" action="http:startup.html">
       <div style="display:none">
-	<input name="userid" value="<%= userid %>"/></div>
-      </div>
+    	<input name="userid" value="<%= userid %>"/></div>
       <button type="submit">Los gehts</button>
     </form>
   </p>
-</body>
-</html>
+<%= getFooter() %>

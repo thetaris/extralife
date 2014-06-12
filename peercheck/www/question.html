@@ -1,10 +1,4 @@
-<html>
-
-<meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="../style/style.css"/>
-<link rel="stylesheet" type="text/css" href="../style/jquery.mobile-1.4.2.min.css"/>
-<script type="text/javascript" src="../style/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../style/jquery.mobile-1.4.2.min.js"></script>
+<%= getHeader() %>
 
 <%
     userid = req$GET()$userid
@@ -12,7 +6,7 @@
     question = ELQuestions[[questionid]]
     choices = as.character(ELATYPE[[question$AType]]$value)
 %>
-<body>
+
   <h1>Anleitung zum Glücklichsein</h1>
   <p>
     <%= question$Text %>
@@ -38,5 +32,4 @@
       <button type="submit">Weiter</button>
     </form>
   </p>
-</body>
-</html>
+<%= getFooter() %>
