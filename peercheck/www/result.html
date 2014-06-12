@@ -18,20 +18,19 @@
       saveQuestion(userid, "lebenszufriedenD4", lebenszufriedenD4)
       saveQuestion(userid, "lebenszufriedenD5", lebenszufriedenD5)
     }else{
-    if (!is.null(questionid) && nchar(questionid) > 0) {
+    if (!is.null(userid) && !is.null(questionid) && nchar(questionid) > 0) {
       value = req$POST()$answer
       if (!is.null(value))
         saveQuestion(userid, questionid, value)
     }
     }
-    nextq <- nextQuestion(userid)
 %>
 
   <h1>Anleitung zum Glücklichsein</h1>
   <%=
    {
-   score <- getSatisfaction(userid)
    if (is.null(questionid)){
+        score <- getSatisfaction(userid)
         allScores <- sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
         allScoresTxt <<- sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
         
@@ -65,11 +64,13 @@
     Finde heraus, was glücklich macht.
   </h2>
   <p>
-    <% if (is.null(userid)) { %>
+    <% if (is.null(userid)) {
+    %>
       <form method="GET" action="http:welcome.html">
-        <button type="submit"><%= ELQuestions[[nextq[[1]]]]$shortText %></button>
+        <button type="submit">Weiter</button>
       </form>
-    <% } else { %>    
+    <% } else { nextq <- nextQuestion(userid) 
+    %>    
     <form method="GET" action="http:question.html">
       <div style="display:none">
 	      <input name="questionid" value="<%= nextq[[1]] %>">
