@@ -144,7 +144,8 @@ nextQuestion <<- function(userid, n=3){
       if (ELQuestions[[iterQ]]$priority>highestPrio){
         if (is.na(row[[iterQ]])){
           if (isApplicable(userid, iterQ)){
-            highestPrio <- ELQuestions[[iterQ]]$priority
+            
+            highestPrio <- as.numeric(ELQuestions[[iterQ]]$priority)
             bestQ <- iterQ
             #             if (highestPrio==9999){
             #               result <- append(result, bestQ)
