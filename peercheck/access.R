@@ -61,9 +61,9 @@ getFooter <<- function(){
   return (paste(thefooter, collapse=""))
 }
 
-getSatisfactionPctPerQ<<-function(indexQ){
+getSatisfactionPctPerQ <<- function(indexQ){
   res<-list()
-  answers<-getAnswerTable()
+  answers <- getAnswerTable()
   for (iterField in ELATYPE[[ELQuestions[[indexQ]]$AType]]$value){        
     tmpAns <- answers[which( answers[,indexQ]==iterField[[1]] ),]
     tmp <- unlist( sapply(c(1:nrow(tmpAns)), function(index) return(getSatisfactionPct(getSatisfactionFromRow(tmpAns[index,])))) )    
@@ -111,14 +111,13 @@ getAnswerRow<<-function(userid_in){
   return(newAnswers)
 }
 
-getAnswerTable<<-function(){  
-  firstUser<- getUsers()[1]
-  
-  newAnswers <- NULL
-  
-  for(user in unique(ELpeercheck[,"userid"]) ){newAnswers<-rbind(newAnswers, getAnswerRow(user)) }
-  
-  return( newAnswers)
+getAnswerTable <<- function(){  
+  questions <- names(ELQuestions)
+  newAnswers <- Reduce(rbind,
+    lapply(unique(ELpeercheck[,"userid"]), function(user) {
+      getAnswerRow(user)[questions]
+  }), c())
+  return( data.frame(newAnswers))
 }
 
 getNumUsers<<-function(){
