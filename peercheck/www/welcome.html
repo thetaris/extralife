@@ -1,5 +1,6 @@
 <%= getHeader() %>
 <%
+  scheme = req$scheme()
   userid <- req$GET()$userid # allow userid overrides
   if (!is.null(userid)) {
     res$set_cookie(key="userid", value=userid)
@@ -24,7 +25,7 @@ Du kannst helfen die Anleitung zum Glücklichsein freizulegen. Teile anonym dein
     Finde heraus, was wirklich glücklich macht.
   </p>
   <p>
-    <form method="POST" action="http:startup.html">
+    <form method="POST"  action= "<%=scheme%>:startup.html" >
       <button type="submit">Los gehts</button>
     </form>
   </p>

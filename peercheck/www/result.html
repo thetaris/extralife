@@ -3,6 +3,7 @@
 <%
     userid <- req$cookies()$userid
     questionid <- req$GET()$questionid
+    scheme = req$scheme()
     
     # comes from startup.html
     lebenszufriedenD1 <<- req$POST()$lebenszufriedenD1
@@ -66,24 +67,24 @@
   <p>
     <% if (is.null(userid)) {
     %>
-      <form method="GET" action="http:welcome.html">
+      <form method="GET" action= "<%=scheme%>:welcome.html">
         <button type="submit">Weiter</button>
       </form>
     <% } else { nextq <- nextQuestion(userid) 
     %>    
-    <form method="GET" action="http:question.html">
+    <form method="GET" action= "<%=scheme%>:question.html">
       <div style="display:none">
 	      <input name="questionid" value="<%= nextq[[1]] %>">
       </div>
       <button type="submit"><%= ELQuestions[[nextq[[1]]]]$shortText %></button>
     </form>
-    <form method="GET" action="http:question.html">
+    <form method="GET" action= "<%=scheme%>:question.html">
       <div style="display:none">
 	      <input name="questionid" value="<%= nextq[[2]] %>">
       </div>
       <button type="submit"><%= ELQuestions[[nextq[[2]]]]$shortText %></button>
     </form>
-    <form method="GET" action="http:question.html">
+    <form method="GET" action= "<%=scheme%>:question.html">
       <div style="display:none">
 	      <input name="questionid" value="<%= nextq[[3]] %>">
       </div>
