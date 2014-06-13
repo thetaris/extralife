@@ -112,7 +112,7 @@ getAnswerRow<<-function(userid_in){
 }
 
 getAnswerTable <<- function(){  
-  questions <- names(ELQuestions)
+  questions <- names(ELQuestions) 
   newAnswers <- Reduce(rbind,
     lapply(unique(ELpeercheck[,"userid"]), function(user) {
       getAnswerRow(user)[questions]
