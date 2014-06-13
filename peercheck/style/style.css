@@ -1,11 +1,17 @@
 html {
-    background-color: white;
+    background-color: #EEE;
+}
+div.ui-page.ui-page-active {
+      background-color: white !important;
 }
 body {
     font-family: Arial;
     width:500px;
     margin: auto !important;
     
+}
+h1 {
+  text-align: center;
 }
 h2 {
     margin: 0.2ex;
@@ -25,16 +31,6 @@ label:checked {
     margin: 5px;
     padding: 1px;
 }
-.console .output {
-    background-color: lightblue;
-}
-.console .error {
-    background-color: coral;
-}
-.console .input {
-    background-color: lightgreen;
-}
-
 
 .ui-btn[type=submit] {
     width: 300px !important;
@@ -67,5 +63,9 @@ label:checked {
   background-position: 0 0, right;
   text-align: right;
   height : 85px;
-   padding: 0 0 0 152px; 
+  padding: 0 10px 0 0; 
+}
+.footer a {
+  text-decoration: none;
+  color: #1bcfe6 !important;
 }

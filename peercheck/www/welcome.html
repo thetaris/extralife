@@ -3,17 +3,9 @@
   userid <- req$GET()$userid # allow userid overrides
   if (!is.null(userid)) {
     res$set_cookie(key="userid", value=userid)
-  } else {
-    userid <- req$cookies()$userid
-    if (is.null(userid)) {
-      userid <- paste(sample(c(0:9, letters, LETTERS), 20, replace=TRUE), collapse="")
-      res$set_cookie(key="userid", value=userid)
-    }
   }
-  saveQuestion(userid,'userid',userid)
 %>
 <center>
-  <h1>Anleitung zum Glücklichsein</h1>
   <h2>Werde Teil der "Weisheit der Masse"</h2>
   <p><img src="../style/images/WeisheitDerMasse.PNG" width="300px" alt="Weisheit der Masse"></p>
 </center>
@@ -23,9 +15,17 @@ Du kannst helfen die Anleitung zum Glücklichsein freizulegen. Teile anonym dein
    <p> 
     Finde heraus, was wirklich glücklich macht.
   </p>
+  <% if (is.null(req$cookies()$userid)) { %>
   <p>
     <form method="POST" action="http:startup.html">
-      <button type="submit">Los gehts</button>
+      <button type="submit">Los geht's</button>
     </form>
   </p>
+  <% } else { %>
+  <p>
+    <form method="POST" action="http:result.html">
+      <button type="submit">Los geht's</button>
+    </form>
+  </p>
+  <% } %>
 <%= getFooter() %>

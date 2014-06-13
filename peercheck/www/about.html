@@ -10,33 +10,39 @@
     saveQuestion(userid, "email", email)
   }
 %>
-
-  <h1>Anleitung zum Glücklich sein</h1>
   <div class="info-block">
       <h2>Wer betreibt diese Seite?</h2>
+      Diese Seite ist Angebot der Seite "Die Graue Seite", ein Portal für die graue Seite des Lebens.
+      Wir planen und experimentieren mit den Möglichkeiten mehr Farbe ins Leben zu bringen.
+      <a href="https://diegraueseite.de/content/%C3%BCber-uns">Mehr über uns....</a>
   </div>
   <div class="info-block">
       <h2>Was geschieht mit meinen Daten?</h2>
+      Alle Daten werden nur anonym erfasst und anonym ausgewertet. Eine Auswertung findet nur
+      auf dem Portal "Die Graue Seite" statt. Es werden keine Daten an Dritte weitergegeben.
+      <a href="https://diegraueseite.de/datenschutz">Mehr zum Thema Datenschutz...</a>
   </div>
   <div class="info-block">
       <h2>Ich möchte informiert werden, wie es weiter geht</h2>
       <% if (is.null(email)) { %>
         <form method="POST" action="#">
-          <div style="display:none">
-          <input name="userid" value="<%= userid %>">
-          </div>
-            <label>Email Adresse: </label><input name="email" value="<%=email%>">
-          <br>
+          <label>Email Adresse: </label><input name="email" value="<%=email%>">
           <button type="submit">Eintragen</button>
         </form>
         <div class="renate-login">
-<p><a class="facebook-action-connect ext" href="https://www.facebook.com/dialog/oauth?client_id=441686259296852&amp;redirect_uri=https%3A//diegraueseite.de/fboauth/connect%3Fdestination%3Dnode%252F1508&amp;scope=email" rel="nofollow" target="_blank"><img alt="" src="https://diegraueseite.de/sites/all/themes/graueseite/omega-html5/css/img/facebooksingin_long.png"> </a></p>
+<a class="facebook-action-connect ext" href="https://www.facebook.com/dialog/oauth?client_id=441686259296852&amp;redirect_uri=https%3A//diegraueseite.de/fboauth/connect%3Fdestination%3Dnode%252F1508&amp;scope=email" rel="nofollow" target="_blank"><img alt="" src="https://diegraueseite.de/sites/all/themes/graueseite/omega-html5/css/img/facebooksingin_long.png"> </a>
 
-<p><a href="https://diegraueseite.de/gauth_user_login_submit" target="_blank"><img alt="google signin" src="https://diegraueseite.de/sites/all/themes/graueseite/omega-html5/css/img/googlesignin_long.png"></a></p>
+<a style="float:right" href="https://diegraueseite.de/gauth_user_login_submit" target="_blank"><img alt="google signin" src="https://diegraueseite.de/sites/all/themes/graueseite/omega-html5/css/img/googlesignin_long.png"></a>
 </div>
       <% } else { %>
         Danke! Wir informieren dich, wenn es Neuigkeiten gibt.
       <% } %>
+  </div>
+  <div class="info-block">
+      <h2>Ich möchte herausfinden was glücklich macht.</h2>
+      <form method="POST" action="http:welcome.html">
+          <button type="submit">Starten</button>
+      </form>
   </div>
   
   
