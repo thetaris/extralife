@@ -1,5 +1,6 @@
 <%= getHeader() %>
 <%
+  scheme = req$scheme()
   userid <- req$cookies()$userid
   if (!is.null(req$GET()$userid)) {
     userid <- NULL
@@ -18,13 +19,13 @@ Du kannst helfen die Anleitung zum Glücklichsein freizulegen. Teile anonym dein
   </p>
   <% if (is.null(userid)) { %>
   <p>
-    <form method="POST" action="http:startup.html">
+    <form method="POST"  action= "<%=scheme%>:startup.html" >
       <button type="submit">Los geht's</button>
     </form>
   </p>
   <% } else { %>
   <p>
-    <form method="POST" action="http:result.html">
+    <form method="POST" action="<%=scheme%>:result.html">
       <button type="submit">Los geht's</button>
     </form>
   </p>

@@ -4,12 +4,13 @@
     questionid = req$GET()$questionid
     question = ELQuestions[[questionid]]
     choices = as.character(ELATYPE[[question$AType]]$value)
+    scheme = req$scheme()
 %>
   <p>
     <%= question$Text %>
   </p>
   <p>
-    <form method="POST" action="http:result.html?questionid=<%=questionid%>">
+    <form method="POST" action="<%=scheme%>:result.html?questionid=<%=questionid%>" >
           <fieldset data-role ="controlgroup">
         <%
          
