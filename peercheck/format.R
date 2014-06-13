@@ -14,7 +14,7 @@ getSatisfactionHTML <<- function(questionid){
               tags$tr(
                   tags$td(width="30%", name),
                   if (is.na(score))
-                    tags$td(tags$embed(src="http://liquidizer.org/emoticons/face.svg?size=50&view=sleeping", width=50, height=50))
+                    tags$td(tags$embed(src="../style/emoticons/sleeping.svg", width=50, height=50))
                   else
                     tags$td(
                       tags$div(style=sprintf('width:%f%%;background-color:gray;height:5px;float:left;margin-top:22px',score*0.8)),
