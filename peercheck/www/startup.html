@@ -1,7 +1,4 @@
 <%= getHeader() %>
-<%
-   scheme = req$scheme()
-%>
   <form method="POST" action= "<%=scheme%>:result.html"/> 
   <%
   questionids <- names(ELQuestions)[sapply(ELQuestions, function(q) q$priority==9999)]

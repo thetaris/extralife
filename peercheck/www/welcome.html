@@ -1,6 +1,5 @@
 <%= getHeader() %>
 <%
-  scheme = req$scheme()
   userid <- req$cookies()$userid
   if (!is.null(req$GET()$userid)) {
     userid <- NULL

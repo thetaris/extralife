@@ -3,7 +3,6 @@
 <%
     userid <- req$cookies()$userid
     questionid <- req$GET()$questionid
-    scheme = req$scheme()
     
     # comes from startup.html
     lebenszufriedenD1 <<- req$POST()$lebenszufriedenD1

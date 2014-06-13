@@ -4,7 +4,6 @@
     questionid = req$GET()$questionid
     question = ELQuestions[[questionid]]
     choices = as.character(ELATYPE[[question$AType]]$value)
-    scheme = req$scheme()
 %>
   <p>
     <%= question$Text %>
