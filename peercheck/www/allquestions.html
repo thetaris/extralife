@@ -1,0 +1,27 @@
+<%= getHeader() %>
+
+<%
+    
+    allquestions =  names(ELQuestions)
+    tab = table(ELpeercheck$questionid)
+%>
+  
+  <p>
+        <table>
+        <%
+        for(i in allquestions){ %>
+          
+          <tr>
+            <td>
+              <a href="http:result.html?questionid=<%=i%>" > <%=ELQuestions[[i]]$shortText%> </a>
+              <td> <%= tab[names(tab)==i] %> </td>
+            </td>
+          </tr> 
+        
+        <%}
+        %>
+        </table>
+ 
+    
+  </p>
+<%= getFooter() %>
