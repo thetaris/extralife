@@ -1,8 +1,9 @@
 <%= getHeader() %>
 <%
-  userid <- req$GET()$userid # allow userid overrides
-  if (!is.null(userid)) {
-    res$set_cookie(key="userid", value=userid)
+  userid <- req$cookies()$userid
+  if (!is.null(req$GET()$userid)) {
+    userid <- NULL
+    res$set_cookie("userid", req$GET()$userid)
   }
 %>
 <center>
@@ -15,7 +16,7 @@ Du kannst helfen die Anleitung zum Glücklichsein freizulegen. Teile anonym dein
    <p> 
     Finde heraus, was wirklich glücklich macht.
   </p>
-  <% if (is.null(req$cookies()$userid)) { %>
+  <% if (is.null(userid)) { %>
   <p>
     <form method="POST" action="http:startup.html">
       <button type="submit">Los geht's</button>

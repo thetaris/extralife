@@ -1,5 +1,5 @@
 getEmoticonHTML <<- function(happiness, size=50) {
-  tags$embed(src=sprintf("http://liquidizer.org/emoticons/face.svg?size=%d&a=%f&v=%f&p=1", size, happiness, happiness),
+  tags$embed(src=sprintf("../style/emoticons/emoticon-%02.0f0.svg", floor(happiness*10.9999)),
             style="position:relative",
              width=size, 
              height=size)
