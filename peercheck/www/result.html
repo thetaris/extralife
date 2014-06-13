@@ -14,7 +14,8 @@
     if (!is.null(lebenszufriedenD1)){
       if (is.null(userid)) {
         userid <- paste(sample(c(0:9, letters, LETTERS), 20, replace=TRUE), collapse="")
-        res$set_cookie(key="userid", value=userid)
+        Utils$set_cookie_header(res$headers, "userid", req$GET()$userid,
+          expires=as.POSIXct(strptime('2020-10-10','%Y-%m-%d')))
       }
       saveQuestion(userid,'userid',userid)
       saveQuestion(userid, "lebenszufriedenD1", lebenszufriedenD1)
@@ -30,20 +31,22 @@
     }
     }
 %>
-  <%=
-   {
+  <%
    if (is.null(questionid)){
-        score <- getSatisfaction(userid)
-        allScores <- sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
-        allScoresTxt <- sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
-        
+        if (!is.null(userid)) {
+          score <- getSatisfaction(userid)
+          allScores <- sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
+          allScoresTxt <- sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
+          scoreHtml <- tags$div(
+            tags$h2("Auswertung"),
+            sprintf("Du bist %s. (%i von 100 Punkten)",  getSatisfactionText(score), getSatisfactionPct(score)),
+            tags$div(style="text-align:center",
+              getEmoticonHTML(getSatisfactionPct(score)/100, size=150))
+          )
+          cat(as.character(scoreHtml))
+        }     
         txt <- tags$div(
-        tags$h2("Auswertung"),
-        sprintf("Du bist %s. (%i von 100 Punkten)",  getSatisfactionText(score), getSatisfactionPct(score)),
-        tags$div(style="text-align:center",
-          getEmoticonHTML(getSatisfactionPct(score)/100, size=150)),
         tags$h2("Übersicht über die Antworten"),
-        
         tags$table(width="100%",
           tags$tr(tags$td(), tags$td("Zufriedenheit"), tags$td("# Personen")),
           lapply(6:1, function(iterS) {
@@ -55,13 +58,13 @@
             )
           }))
         )
+        cat(as.character(txt))
   } else {
-    txt <- c(sprintf('So glücklich sind die Antwortenden von "%s"', 
+    cat(as.character(
+      c(sprintf('So glücklich sind die Antwortenden von "%s"', 
       ELQuestions[[questionid]]$Text), 
-      getSatisfactionHTML(questionid))
+      getSatisfactionHTML(questionid))))
   }
-  as.character(txt)
-  }  
   %>
   <h2>
     Finde heraus, was glücklich macht.
