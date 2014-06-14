@@ -11,7 +11,7 @@ server <- Rhttpd$new()
 start <- function(){
   server$add(name="peercheck",
              app=Builder$new(
-               Brewery$new(url="/", root="www", scheme='http'),
+               Brewery$new(url="/", root="www", scheme='https'),
                Redirect$new("/welcome.html")
              )
   )

@@ -33,7 +33,7 @@
 %>
   <%
    if (is.null(questionid)){
-        if (!is.null(userid)) {
+        if (isValidUser(userid)) {
           score <- getSatisfaction(userid)
           allScores <- sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
           allScoresTxt <- sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
@@ -70,7 +70,7 @@
     Finde heraus, was glücklich macht.
   </h2>
   <p>
-    <% if (is.null(userid)) {
+    <% if (!isValidUser(userid)) {
     %>
       <form method="GET" action= "<%=scheme%>:welcome.html">
         <button type="submit">Weiter</button>

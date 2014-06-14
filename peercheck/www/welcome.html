@@ -16,7 +16,7 @@ Du kannst helfen die Anleitung zum Glücklichsein freizulegen. Teile anonym dein
    <p> 
     Finde heraus, was wirklich glücklich macht.
   </p>
-  <% if (is.null(userid)) { %>
+  <% if (!isValidUser(userid)) { %>
   <p>
     <form method="POST"  action= "<%=scheme%>:startup.html" >
       <button type="submit">Los geht's</button>
