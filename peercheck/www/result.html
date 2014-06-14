@@ -86,7 +86,7 @@
       </form>
     <% }
     
-    if(nchar(nextq)==0){%>
+    if(all(nchar(nextq)==0)) {%>
          <form method="GET" action= "<%=scheme%>:allquestions.html">
          <button type="submit">Weiter</button>
          </form>
