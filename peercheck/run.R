@@ -2,13 +2,14 @@ require(Rook)
 require(brew)
 require(shiny)
 
+if (file.exists('peercheck')) setwd("peercheck")
 source('questions.R', encoding='UTF-8')
 source('access.R', encoding='UTF-8')
 source('format.R', encoding='UTF-8')
 
 server <- Rhttpd$new()
 
-start <- function(){
+deploy <- function(){
   server$add(name="peercheck",
              app=Builder$new(
                Brewery$new(url="/", root="www"),
@@ -16,14 +17,18 @@ start <- function(){
              )
   )
   server$add(app = File$new("style"), name = "style")
-  server$start(quiet=TRUE, port=9010)
 }
 
-start()
-server$browse('peercheck')
+deploy()
+server$start(quiet=TRUE, port=9010)
 
-while (T) {
-  Sys.sleep(5);
-  start()
+if (Sys.info()['nodename']=='diegraueseite.de') {
+  cat('Started in server mode. Restarts every 5 seconds.')
+  while (T) {
+    Sys.sleep(5);
+    deploy()
+  }
+} else {
+  server$browse('peercheck')
 }
 
