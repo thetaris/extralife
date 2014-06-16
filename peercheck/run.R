@@ -2,6 +2,7 @@ require(Rook)
 require(brew)
 require(shiny)
 
+set.seed(Sys.time())
 if (file.exists('peercheck')) setwd("peercheck")
 source('questions.R', encoding='UTF-8')
 source('access.R', encoding='UTF-8')
@@ -21,14 +22,5 @@ deploy <- function(){
 
 deploy()
 server$start(quiet=TRUE, port=9010)
-
-if (Sys.info()['nodename']=='diegraueseite.de') {
-  cat('Started in server mode. Restarts every 5 seconds.')
-  while (T) {
-    Sys.sleep(5);
-    deploy()
-  }
-} else {
-  server$browse('peercheck')
-}
+server$browse('peercheck')
 
