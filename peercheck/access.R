@@ -10,6 +10,10 @@ isApplicable <<- function(userid, indexQ){
   return(result)
 }
 
+isValidUser <<- function(userid) {
+   !is.null(userid) && any(ELpeercheck$userid == userid)
+}
+
 getSatisfaction <<- function(userid){
   row<-getAnswerRow(userid)
   getSatisfactionFromRow(row)

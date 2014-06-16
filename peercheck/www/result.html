@@ -33,7 +33,7 @@
 %>
   <%
    if (is.null(questionid)){
-        if (!is.null(userid)) {
+        if (isValidUser(userid)) {
           score <- getSatisfaction(userid)
           allScores <- sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
           allScoresTxt <- sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
@@ -70,7 +70,7 @@
     Finde heraus, was glücklich macht.
   </h2>
   <p>
-    <% if (is.null(userid)) {
+    <% if (!isValidUser(userid)) {
     %>
       <form method="GET" action= "welcome.html" data-ajax="false">
         <button type="submit">Weiter</button>
@@ -86,7 +86,11 @@
       </form>
     <% }
     
+<<<<<<< HEAD
     if(all(nchar(nextq))==0){%>
+=======
+    if(all(nchar(nextq)==0)) {%>
+>>>>>>> ba7fe65c00f4babbda4358d816e3e849356e7b7b
          <form method="GET" action= "allquestions.html" data-ajax="false">
          <button type="submit">Weiter</button>
          </form>
