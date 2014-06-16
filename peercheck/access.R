@@ -94,7 +94,7 @@ if(file.exists("log.RData")){
 saveQuestion <<- function(userid, questionid, value) {
   # append a row to ELpeercheck with values for: userid, Timestamp, questionid, value
   now <- Sys.time()
-  ans <- data.frame(userid=userid, Timestamp = format(now, "%Y_%m_%d_%H:%M:%S") ,  questionid=questionid, value=value)
+  ans <- data.frame(userid=userid, Timestamp = format(now, "%Y-%m-%d_%H:%M:%S") ,  questionid=questionid, value=value)
   ELpeercheck <<- rbind(ELpeercheck, ans)
   # save ELpeercheck to disk
   save(ELpeercheck, file ="../log.RData")

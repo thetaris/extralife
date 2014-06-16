@@ -50,6 +50,14 @@ label:checked {
     padding: 10px;
 }
 
+tr[data-ismyvalue=TRUE] {
+   background-color: lightblue;
+}
+
+tr[data-ismyvalue=FALSE] {
+  
+}
+
 .info-block {
   margin : 10px;
   padding : 10px;
