@@ -72,13 +72,13 @@
   <p>
     <% if (is.null(userid)) {
     %>
-      <form method="GET" action= "<%=scheme%>:welcome.html">
+      <form method="GET" action= "welcome.html" data-ajax="false">
         <button type="submit">Weiter</button>
       </form>
     <% } else { 
       nextq <- nextQuestion(userid) 
       for (questionid in nextq[nchar(nextq)>0]) { %>
-      <form method="GET" action="<%=scheme%>:question.html">
+      <form method="GET" action="question.html" data-ajax="false">
         <div style="display:none">
   	      <input name="questionid" value="<%= questionid %>">
         </div>
@@ -86,8 +86,8 @@
       </form>
     <% }
     
-    if(nchar(nextq)==0){%>
-         <form method="GET" action= "<%=scheme%>:allquestions.html">
+    if(all(nchar(nextq))==0){%>
+         <form method="GET" action= "allquestions.html" data-ajax="false">
          <button type="submit">Weiter</button>
          </form>
     <%}

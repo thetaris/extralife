@@ -1,5 +1,5 @@
 <%= getHeader() %>
-  <form method="POST" action= "<%=scheme%>:result.html"/> 
+  <form method="POST" action= "result.html" data-ajax="false"/> 
   <%
   questionids <- names(ELQuestions)[sapply(ELQuestions, function(q) q$priority==9999)]
   html <- lapply(questionids, function(iterQ) {

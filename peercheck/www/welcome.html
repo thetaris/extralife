@@ -18,13 +18,13 @@ Du kannst helfen die Anleitung zum Glücklichsein freizulegen. Teile anonym dein
   </p>
   <% if (is.null(userid)) { %>
   <p>
-    <form method="POST"  action= "<%=scheme%>:startup.html" >
+    <form method="POST"  action= "startup.html" data-ajax="false" >
       <button type="submit">Los geht's</button>
     </form>
   </p>
   <% } else { %>
   <p>
-    <form method="POST" action="<%=scheme%>:result.html">
+    <form method="POST" action="result.html" data-ajax="false">
       <button type="submit">Los geht's</button>
     </form>
   </p>
