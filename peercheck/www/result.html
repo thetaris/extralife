@@ -3,7 +3,7 @@
 <%
     userid <- req$cookies()$userid
     questionid <- req$GET()$questionid
-    
+    value <- NULL 
     # comes from startup.html
     lebenszufriedenD1 <<- req$POST()$lebenszufriedenD1
     lebenszufriedenD2 <<- req$POST()$lebenszufriedenD2
@@ -14,7 +14,7 @@
     if (!is.null(lebenszufriedenD1)){
       if (is.null(userid)) {
         userid <- paste(sample(c(0:9, letters, LETTERS), 20, replace=TRUE), collapse="")
-        Utils$set_cookie_header(res$headers, "userid", req$GET()$userid,
+        Utils$set_cookie_header(res$headers, "userid", userid,
           expires=as.POSIXct(strptime('2020-10-10','%Y-%m-%d')))
       }
       saveQuestion(userid,'userid',userid)
@@ -24,7 +24,7 @@
       saveQuestion(userid, "lebenszufriedenD4", lebenszufriedenD4)
       saveQuestion(userid, "lebenszufriedenD5", lebenszufriedenD5)
     }else{
-    if (!is.null(userid) && !is.null(questionid) && nchar(questionid) > 0) {
+    if (!is.null(userid) && !is.null(questionid) && nchar(questionid) > 0 ) {
       value = req$POST()$answer
       if (!is.null(value))
         saveQuestion(userid, questionid, value)

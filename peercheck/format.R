@@ -7,7 +7,6 @@ getEmoticonHTML <<- function(happiness, size=50) {
 
 getSatisfactionHTML <<- function(questionid, value){
   res <- getSatisfactionPctPerQ(questionid)
-  tmp <<- value
   xml <- 
     tags$table(width="100%",
                lapply(names(res), function(name) {
