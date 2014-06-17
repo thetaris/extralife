@@ -23,13 +23,12 @@
       saveQuestion(userid, "lebenszufriedenD3", lebenszufriedenD3)
       saveQuestion(userid, "lebenszufriedenD4", lebenszufriedenD4)
       saveQuestion(userid, "lebenszufriedenD5", lebenszufriedenD5)
-    }else{
-    if (!is.null(userid) && !is.null(questionid) && nchar(questionid) > 0 ) {
+    }else if (!is.null(userid) && !is.null(questionid) && nchar(questionid) > 0 ) {
       value = req$POST()$answer
       if (!is.null(value))
         saveQuestion(userid, questionid, value)
     }
-    }
+    
 %>
   <%
    if (is.null(questionid)){
