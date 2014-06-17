@@ -5,11 +5,11 @@
     questionid <- req$GET()$questionid
     value <- NULL 
     # comes from startup.html
-    lebenszufriedenD1 <<- req$POST()$lebenszufriedenD1
-    lebenszufriedenD2 <<- req$POST()$lebenszufriedenD2
-    lebenszufriedenD3 <<- req$POST()$lebenszufriedenD3
-    lebenszufriedenD4 <<- req$POST()$lebenszufriedenD4
-    lebenszufriedenD5 <<- req$POST()$lebenszufriedenD5
+    lebenszufriedenD1 <- req$POST()$lebenszufriedenD1
+    lebenszufriedenD2 <- req$POST()$lebenszufriedenD2
+    lebenszufriedenD3 <- req$POST()$lebenszufriedenD3
+    lebenszufriedenD4 <- req$POST()$lebenszufriedenD4
+    lebenszufriedenD5 <- req$POST()$lebenszufriedenD5
     
     if (!is.null(lebenszufriedenD1)){
       if (is.null(userid)) {
