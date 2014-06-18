@@ -11,7 +11,7 @@ isApplicable <<- function(userid, indexQ){
 }
 
 isValidUser <<- function(userid) {
-   !is.null(userid) && any(ELpeercheck$userid == userid)
+   !is.null(userid) && nchar(userid) > 0 && any(ELpeercheck$userid == userid)
 }
 
 getSatisfaction <<- function(userid){

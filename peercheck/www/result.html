@@ -12,7 +12,7 @@
     lebenszufriedenD5 <- req$POST()$lebenszufriedenD5
     
     if (!is.null(lebenszufriedenD1)){
-      if (is.null(userid)) {
+      if (!isValidUser(userid)) {
         userid <- paste(sample(c(0:9, letters, LETTERS), 20, replace=TRUE), collapse="")
         Utils$set_cookie_header(res$headers, "userid", userid,
           expires=as.POSIXct(strptime('2020-10-10','%Y-%m-%d')))
