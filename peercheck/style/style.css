@@ -71,9 +71,16 @@ tr[data-ismyvalue=FALSE] {
   background-position: 0 0, right;
   text-align: right;
   height : 85px;
-  padding: 0 10px 0 0; 
+  padding: 25px 10px 0 0; 
 }
+
 .footer a {
   text-decoration: none;
   color: #1bcfe6 !important;
+   margin : 0 65px 0 0;
+}
+
+.fb-share-button
+.twitter-share-button{
+  text-align: right !important;
 }

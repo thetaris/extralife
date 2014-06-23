@@ -13,9 +13,40 @@
 				var s = document.getElementsByTagName('script')[0];
 				s.parentNode.insertBefore(ga, s);
 			})();
+      
+     
 		</script>
+    
+    <div id="fb-root"></div>
+    <script> 
+    (function(d, s, id) {
+       var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+       fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
+    
+    
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    
+    <script>
+
+      $(document).ready(function() {
+              var url = window.location.pathname + window.location.search;  
+              $('.fb-share-button').attr('data-href', url);
+       });
+
+    </script>
+    
   <div class="footer">
      <a href="about.html" data-ajax="false">Über uns...</a>
+     <div class="fb-share-button" data-href="https://diegraueseite.de/" data-type="button"></div>
+     <a href="https://twitter.com/share" class="twitter-share-button" data-text="check out this site:" data-lang="de" data-count="none">Twittern</a>
   </div>
+
+  
+
 </body>
 </html>
