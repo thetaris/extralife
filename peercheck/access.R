@@ -56,13 +56,13 @@ getSatisfactionPct<<-function(score){
 
 getHeader <<- function(){
   theheader <- readLines("header.html")
-  return (paste(theheader, collapse=""))
+  return (paste(theheader, collapse="\n"))
   
 }
 
 getFooter <<- function(){
   thefooter <- readLines("footer.html")
-  return (paste(thefooter, collapse=""))
+  return (paste(thefooter, collapse="\n"))
 }
 
 getSatisfactionPctPerQ <<- function(indexQ){

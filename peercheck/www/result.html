@@ -1,6 +1,7 @@
 <%= getHeader() %>
 
-<%
+<% 
+    
     userid <- req$cookies()$userid
     questionid <- req$GET()$questionid
     value <- NULL 
@@ -32,10 +33,10 @@
 %>
   <%
    if (is.null(questionid)){
+        allScoresTxt <- sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
         if (isValidUser(userid)) {
           score <- getSatisfaction(userid)
           allScores <- sapply(getUsers(), function(userid) return(getSatisfaction(userid)))
-          allScoresTxt <- sapply(getUsers(), function(userid) return(getSatisfactionText(getSatisfaction(userid))))
           scoreHtml <- tags$div(
             tags$h2("Auswertung"),
             sprintf("Du bist %s. (%i von 100 Punkten)",  getSatisfactionText(score), getSatisfactionPct(score)),
