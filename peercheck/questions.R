@@ -67,7 +67,6 @@ getAType <- function() {
 getAType()
 
 
-
 getQuestions <- function() {
   getElement<-function(row, field, throwError=T){
     res <- elements[row, field]
@@ -140,3 +139,31 @@ getQuestions <- function() {
 }
 getQuestions()
 
+getELGroups <- function() {  
+  ELGROUPS <<- list()
+  
+  excel.file <- file.path("FragenFormat.xlsx")
+  elements <- readWorksheetFromFile(excel.file, sheet=3)
+  
+  for (iRow in (1:nrow(elements))){
+    field <- elements[iRow, "ZufriedenheitID"]
+    ELGROUPS[[field]] <<- list()
+    
+    for (iCol in 1:10){      
+      question <- elements[iRow, sprintf("Frage%iID", iCol)]
+      if (!is.null(question) && !is.na(question)){
+        if (question %in% names(ELQuestions)){
+          ELGROUPS[[field]] <<- append(ELGROUPS[[field]], question)
+        } else{
+          eTxt<-sprintf("Error: Group %s has Question %s in row %i of Excel file.",field, question, iRow+1)
+          warning(eTxt)
+        }
+        
+      }
+      
+    }
+  }
+  
+}
+
+getELGroups()
