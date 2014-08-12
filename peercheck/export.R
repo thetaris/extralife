@@ -1,5 +1,5 @@
 library(rjson)
 download.file('https://docs.google.com/spreadsheets/d/1wQmcyGSXJIViYEXtYfXauo9aKfPrCbLYPhEA77v11ro/export?format=xlsx&id=1wQmcyGSXJIViYEXtYfXauo9aKfPrCbLYPhEA77v11ro', destfile="FragenFormat.xlsx", method="curl")
 source('questions.R', encoding='UTF-8')
-xstr <- toJSON(list(questions=ELQuestions, atypes=ELATYPE, groups=ELGROUPS))
+xstr <- toJSON(list(questions=ELQuestions, atypes=ELATYPE))
 writeChar(xstr, file('questions.json'))
